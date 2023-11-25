@@ -50,11 +50,10 @@ LIBS += $$top_builddir/components/$(OBJECTS_DIR)/libcomponents.a
 INCLUDEPATH += $$top_srcdir/components/
 INCLUDEPATH += $$top_srcdir/include
 
-TARGET = examples-exe
+TARGET = demo
 PRE_TARGETDEPS += $$top_builddir/components/$(OBJECTS_DIR)/libcomponents.a
 
-RESOURCES += \
-    examples.qrc
+RESOURCES += resources/resources.qrc
 
 FORMS += \
     avatarsettingsform.ui \

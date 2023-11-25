@@ -1,5 +1,7 @@
 TEMPLATE = lib
 CONFIG += staticlib
+RESOURCES += $$top_srcdir/resources/library/qtmaterialwidgets.qrc
+INCLUDEPATH += $$top_srcdir/include
 SOURCES = \
     qtmaterialavatar.cpp \
     lib/qtmaterialstyle.cpp \
@@ -125,6 +127,3 @@ HEADERS = \
     qtmateriallistitem_p.hpp \
     lib/defs.hpp \
     dlimpexp.hpp
-RESOURCES += \
-    resources.qrc
-INCLUDEPATH += $$top_srcdir/include

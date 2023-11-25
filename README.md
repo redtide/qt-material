@@ -17,7 +17,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/appbar.gif" />
+        <img src="demo/gif/appbar.gif" />
       </td>
     </tr>
     <tr>
@@ -30,7 +30,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/autocomplete.gif" />
+        <img src="demo/gif/autocomplete.gif" />
       </td>
     </tr>
     <tr>
@@ -43,7 +43,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/avatar.gif" />
+        <img src="demo/gif/avatar.gif" />
       </td>
     </tr>
     <tr>
@@ -56,7 +56,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/badge.gif" />
+        <img src="demo/gif/badge.gif" />
       </td>
     </tr>
     <tr>
@@ -69,7 +69,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/checkbox.gif" />
+        <img src="demo/gif/checkbox.gif" />
       </td>
     </tr>
     <tr>
@@ -82,7 +82,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/circularprogress.gif" />
+        <img src="demo/gif/circularprogress.gif" />
       </td>
     </tr>
     <tr>
@@ -95,7 +95,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/dialog.gif" />
+        <img src="demo/gif/dialog.gif" />
       </td>
     </tr>
     <tr>
@@ -108,7 +108,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2">
-        <img src="gifs/drawer.gif" />
+        <img src="demo/gif/drawer.gif" />
       </td>
     </tr>
     <tr>
@@ -121,7 +121,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/fab.gif" />
+        <img src="demo/gif/fab.gif" />
       </td>
     </tr>
     <tr>
@@ -134,7 +134,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/flatbutton.gif" />
+        <img src="demo/gif/flatbutton.gif" />
       </td>
     </tr>
     <tr>
@@ -147,7 +147,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/iconbutton.gif" />
+        <img src="demo/gif/iconbutton.gif" />
       </td>
     </tr>
     <tr>
@@ -160,7 +160,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/progress.gif" />
+        <img src="demo/gif/progress.gif" />
       </td>
     </tr>
     <tr>
@@ -173,7 +173,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/radiobutton.gif" />
+        <img src="demo/gif/radiobutton.gif" />
       </td>
     </tr>
     <tr>
@@ -186,7 +186,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/raisedbutton.gif" />
+        <img src="demo/gif/raisedbutton.gif" />
       </td>
     </tr>
     <tr>
@@ -199,7 +199,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/scrollbar.gif" />
+        <img src="demo/gif/scrollbar.gif" />
       </td>
     </tr>
     <tr>
@@ -212,7 +212,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/slider.gif" />
+        <img src="demo/gif/slider.gif" />
       </td>
     </tr>
     <tr>
@@ -225,7 +225,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/snackbar.gif" />
+        <img src="demo/gif/snackbar.gif" />
       </td>
     </tr>
     <tr>
@@ -238,7 +238,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/tabs.gif" />
+        <img src="demo/gif/tabs.gif" />
       </td>
     </tr>
     <tr>
@@ -251,7 +251,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/textfield.gif" />
+        <img src="demo/gif/textfield.gif" />
       </td>
     </tr>
     <tr>
@@ -264,7 +264,7 @@ YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <img src="gifs/toggle.gif" />
+        <img src="demo/gif/toggle.gif" />
       </td>
     </tr>
   </tbody>
