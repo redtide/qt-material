@@ -1,2 +1,2 @@
-#include "qtmaterialpaper.h"
-#include "qtmaterialpaper_p.h"
+#include "qtmaterialpaper.hpp"
+#include "qtmaterialpaper_p.hpp"

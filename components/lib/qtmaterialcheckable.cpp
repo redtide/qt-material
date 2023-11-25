@@ -1,5 +1,5 @@
-#include "lib/qtmaterialcheckable.h"
-#include "lib/qtmaterialcheckable_p.h"
+#include "lib/qtmaterialcheckable.hpp"
+#include "lib/qtmaterialcheckable_p.hpp"
 #include <QPainter>
 #include <QEvent>
 #include <QStateMachine>
@@ -7,10 +7,10 @@
 #include <QEventTransition>
 #include <QColor>
 #include <QCoreApplication>
-#include "lib/qtmaterialrippleoverlay.h"
-#include "lib/qtmaterialripple.h"
-#include "lib/qtmaterialstyle.h"
-#include "lib/qtmaterialcheckable_internal.h"
+#include "lib/qtmaterialrippleoverlay.hpp"
+#include "lib/qtmaterialripple.hpp"
+#include "lib/qtmaterialstyle.hpp"
+#include "lib/qtmaterialcheckable_internal.hpp"
 
 /*!
  *  \class QtMaterialCheckablePrivate

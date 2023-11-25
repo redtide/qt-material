@@ -1,8 +1,8 @@
-#include "radiobuttonsettingseditor.h"
+#include "radiobuttonsettingseditor.hpp"
 #include <QVBoxLayout>
 #include <QRadioButton>
 #include <QColorDialog>
-#include <qtmaterialradiobutton.h>
+#include <qtmaterialradiobutton.hpp>
 
 RadioButtonSettingsEditor::RadioButtonSettingsEditor(QWidget *parent)
     : QWidget(parent),

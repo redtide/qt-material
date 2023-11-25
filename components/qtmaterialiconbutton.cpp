@@ -1,9 +1,9 @@
-#include "qtmaterialiconbutton.h"
-#include "qtmaterialiconbutton_p.h"
+#include "qtmaterialiconbutton.hpp"
+#include "qtmaterialiconbutton_p.hpp"
 #include <QPainter>
 #include <QEvent>
-#include "lib/qtmaterialstyle.h"
-#include "lib/qtmaterialrippleoverlay.h"
+#include "lib/qtmaterialstyle.hpp"
+#include "lib/qtmaterialrippleoverlay.hpp"
 
 /*!
  *  \class QtMaterialIconButtonPrivate

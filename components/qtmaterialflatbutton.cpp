@@ -1,15 +1,15 @@
-#include "qtmaterialflatbutton.h"
-#include "qtmaterialflatbutton_p.h"
+#include "qtmaterialflatbutton.hpp"
+#include "qtmaterialflatbutton_p.hpp"
 #include <QPainter>
 #include <QMouseEvent>
 #include <QResizeEvent>
 #include <QBitmap>
 #include <QPainterPath>
 #include <QIcon>
-#include "lib/qtmaterialrippleoverlay.h"
-#include "lib/qtmaterialripple.h"
-#include "lib/qtmaterialstyle.h"
-#include "qtmaterialflatbutton_internal.h"
+#include "lib/qtmaterialrippleoverlay.hpp"
+#include "lib/qtmaterialripple.hpp"
+#include "lib/qtmaterialstyle.hpp"
+#include "qtmaterialflatbutton_internal.hpp"
 
 /*!
  *  \class QtMaterialFlatButtonPrivate

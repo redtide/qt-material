@@ -1,6 +1,6 @@
-#include "lib/qtmaterialrippleoverlay.h"
+#include "lib/qtmaterialrippleoverlay.hpp"
 #include <QPainter>
-#include "lib/qtmaterialripple.h"
+#include "lib/qtmaterialripple.hpp"
 
 /*!
  *  \class QtMaterialRippleOverlay

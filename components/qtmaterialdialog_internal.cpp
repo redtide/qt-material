@@ -1,9 +1,9 @@
-#include "qtmaterialdialog_internal.h"
+#include "qtmaterialdialog_internal.hpp"
 #include <QPainter>
 #include <QPixmap>
 #include <QEvent>
 #include <QtWidgets/QStackedLayout>
-#include "qtmaterialdialog.h"
+#include "qtmaterialdialog.hpp"
 
 /*!
  *  \class QtMaterialDialogProxy

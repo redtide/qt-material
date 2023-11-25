@@ -1,7 +1,7 @@
-#include "qtmaterialbadge.h"
-#include "qtmaterialbadge_p.h"
+#include "qtmaterialbadge.hpp"
+#include "qtmaterialbadge_p.hpp"
 #include <QPainter>
-#include "lib/qtmaterialstyle.h"
+#include "lib/qtmaterialstyle.hpp"
 
 /*!
  *  \class QtMaterialBadgePrivate

@@ -1,6 +1,6 @@
-#include "lib/qtmaterialstyle.h"
+#include "lib/qtmaterialstyle.hpp"
 #include <QFontDatabase>
-#include "lib/qtmaterialtheme.h"
+#include "lib/qtmaterialtheme.hpp"
 
 /*!
  *  \class QtMaterialStylePrivate

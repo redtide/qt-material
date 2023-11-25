@@ -1,10 +1,10 @@
-#include "qtmaterialfab.h"
-#include "qtmaterialfab_p.h"
+#include "qtmaterialfab.hpp"
+#include "qtmaterialfab_p.hpp"
 #include <QtWidgets/QGraphicsDropShadowEffect>
 #include <QState>
 #include <QEvent>
 #include <QPainter>
-#include "lib/qtmaterialrippleoverlay.h"
+#include "lib/qtmaterialrippleoverlay.hpp"
 
 /*!
  *  \class QtMaterialFloatingActionButtonPrivate

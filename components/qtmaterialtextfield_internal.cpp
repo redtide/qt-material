@@ -1,8 +1,8 @@
-#include "qtmaterialtextfield_internal.h"
+#include "qtmaterialtextfield_internal.hpp"
 #include <QPropertyAnimation>
 #include <QEventTransition>
 #include <QPainter>
-#include "qtmaterialtextfield.h"
+#include "qtmaterialtextfield.hpp"
 
 /*!
  *  \class QtMaterialTextFieldStateMachine

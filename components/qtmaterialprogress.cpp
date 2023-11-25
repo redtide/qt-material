@@ -1,10 +1,10 @@
-#include "qtmaterialprogress.h"
-#include "qtmaterialprogress_p.h"
+#include "qtmaterialprogress.hpp"
+#include "qtmaterialprogress_p.hpp"
 #include <QPropertyAnimation>
 #include <QPainter>
 #include <QPainterPath>
-#include "qtmaterialprogress_internal.h"
-#include "lib/qtmaterialstyle.h"
+#include "qtmaterialprogress_internal.hpp"
+#include "lib/qtmaterialstyle.hpp"
 
 /*!
  *  \class QtMaterialProgressPrivate

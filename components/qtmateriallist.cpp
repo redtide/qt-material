@@ -1,2 +1,2 @@
-#include "qtmateriallist.h"
-#include "qtmateriallist_p.h"
+#include "qtmateriallist.hpp"
+#include "qtmateriallist_p.hpp"

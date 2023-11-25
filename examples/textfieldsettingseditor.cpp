@@ -1,7 +1,7 @@
-#include "textfieldsettingseditor.h"
+#include "textfieldsettingseditor.hpp"
 #include <QVBoxLayout>
 #include <QColorDialog>
-#include <qtmaterialtextfield.h>
+#include <qtmaterialtextfield.hpp>
 
 TextFieldSettingsEditor::TextFieldSettingsEditor(QWidget *parent)
     : QWidget(parent),

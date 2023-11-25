@@ -1,8 +1,8 @@
-#include "qtmaterialavatar.h"
-#include "qtmaterialavatar_p.h"
+#include "qtmaterialavatar.hpp"
+#include "qtmaterialavatar_p.hpp"
 #include <QPainter>
 #include <QPainterPath>
-#include "lib/qtmaterialstyle.h"
+#include "lib/qtmaterialstyle.hpp"
 
 /*!
  *  \class QtMaterialAvatarPrivate

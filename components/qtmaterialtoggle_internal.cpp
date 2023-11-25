@@ -1,9 +1,9 @@
-#include "qtmaterialtoggle_internal.h"
+#include "qtmaterialtoggle_internal.hpp"
 #include <QPainter>
 #include <QEvent>
 #include <QtWidgets/QGraphicsDropShadowEffect>
-#include "qtmaterialtoggle.h"
-#include "lib/qtmaterialripple.h"
+#include "qtmaterialtoggle.hpp"
+#include "lib/qtmaterialripple.hpp"
 
 /*!
  *  \class QtMaterialToggleRippleOverlay

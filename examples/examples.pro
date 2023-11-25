@@ -24,30 +24,32 @@ SOURCES = mainwindow.cpp \
     appbarsettingseditor.cpp \
     autocompletesettingseditor.cpp \
     menusettingseditor.cpp
-HEADERS = mainwindow.h \
-    avatarsettingseditor.h \
-    badgesettingseditor.h \
-    checkboxsettingseditor.h \
-    fabsettingseditor.h \
-    raisedbuttonsettingseditor.h \
-    flatbuttonsettingseditor.h \
-    iconbuttonsettingseditor.h \
-    progresssettingseditor.h \
-    circularprogresssettingseditor.h \
-    slidersettingseditor.h \
-    radiobuttonsettingseditor.h \
-    togglesettingseditor.h \
-    textfieldsettingseditor.h \
-    tabssettingseditor.h \
-    snackbarsettingseditor.h \
-    dialogsettingseditor.h \
-    drawersettingseditor.h \
-    scrollbarsettingseditor.h \
-    appbarsettingseditor.h \
-    autocompletesettingseditor.h \
-    menusettingseditor.h
+HEADERS = mainwindow.hpp \
+    avatarsettingseditor.hpp \
+    badgesettingseditor.hpp \
+    checkboxsettingseditor.hpp \
+    fabsettingseditor.hpp \
+    raisedbuttonsettingseditor.hpp \
+    flatbuttonsettingseditor.hpp \
+    iconbuttonsettingseditor.hpp \
+    progresssettingseditor.hpp \
+    circularprogresssettingseditor.hpp \
+    slidersettingseditor.hpp \
+    radiobuttonsettingseditor.hpp \
+    togglesettingseditor.hpp \
+    textfieldsettingseditor.hpp \
+    tabssettingseditor.hpp \
+    snackbarsettingseditor.hpp \
+    dialogsettingseditor.hpp \
+    drawersettingseditor.hpp \
+    scrollbarsettingseditor.hpp \
+    appbarsettingseditor.hpp \
+    autocompletesettingseditor.hpp \
+    menusettingseditor.hpp
 LIBS += $$top_builddir/components/$(OBJECTS_DIR)/libcomponents.a
 INCLUDEPATH += $$top_srcdir/components/
+INCLUDEPATH += $$top_srcdir/include
+
 TARGET = examples-exe
 PRE_TARGETDEPS += $$top_builddir/components/$(OBJECTS_DIR)/libcomponents.a
 

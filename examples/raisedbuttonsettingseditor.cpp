@@ -1,5 +1,5 @@
-#include "raisedbuttonsettingseditor.h"
-#include <qtmaterialraisedbutton.h>
+#include "raisedbuttonsettingseditor.hpp"
+#include <qtmaterialraisedbutton.hpp>
 
 RaisedButtonSettingsEditor::RaisedButtonSettingsEditor(QWidget *parent)
     : FlatButtonSettingsEditor(new QtMaterialRaisedButton("Rise up"), parent)

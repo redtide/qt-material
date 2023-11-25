@@ -1,11 +1,11 @@
-#include "qtmaterialtoggle.h"
-#include "qtmaterialtoggle_p.h"
+#include "qtmaterialtoggle.hpp"
+#include "qtmaterialtoggle_p.hpp"
 #include <QtWidgets/QApplication>
 #include <QStateMachine>
 #include <QSignalTransition>
 #include <QPropertyAnimation>
-#include "qtmaterialtoggle_internal.h"
-#include "lib/qtmaterialstyle.h"
+#include "qtmaterialtoggle_internal.hpp"
+#include "lib/qtmaterialstyle.hpp"
 
 /*!
  *  \class QtMaterialTogglePrivate

@@ -1,13 +1,13 @@
-#include "qtmaterialslider_internal.h"
+#include "qtmaterialslider_internal.hpp"
 #include <QState>
 #include <QAbstractTransition>
 #include <QSignalTransition>
 #include <QEventTransition>
 #include <QPropertyAnimation>
 #include <QPainter>
-#include "qtmaterialslider.h"
-#include "lib/qtmaterialstyle.h"
-#include "lib/qtmaterialstatetransition.h"
+#include "qtmaterialslider.hpp"
+#include "lib/qtmaterialstyle.hpp"
+#include "lib/qtmaterialstatetransition.hpp"
 
 /*!
  *  \class QtMaterialSliderStateMachine

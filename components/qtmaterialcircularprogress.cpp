@@ -1,11 +1,11 @@
-#include "qtmaterialcircularprogress.h"
-#include "qtmaterialcircularprogress_p.h"
+#include "qtmaterialcircularprogress.hpp"
+#include "qtmaterialcircularprogress_p.hpp"
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 #include <QPainter>
 #include <QPainterPath>
-#include "qtmaterialcircularprogress_internal.h"
-#include "lib/qtmaterialstyle.h"
+#include "qtmaterialcircularprogress_internal.hpp"
+#include "lib/qtmaterialstyle.hpp"
 
 /*!
  *  \class QtMaterialCircularProgressPrivate

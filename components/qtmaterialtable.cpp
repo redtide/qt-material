@@ -1,2 +1,2 @@
-#include "qtmaterialtable.h"
-#include "qtmaterialtable_p.h"
+#include "qtmaterialtable.hpp"
+#include "qtmaterialtable_p.hpp"

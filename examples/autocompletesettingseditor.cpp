@@ -1,7 +1,7 @@
-#include "autocompletesettingseditor.h"
+#include "autocompletesettingseditor.hpp"
 #include <QVBoxLayout>
 #include <QDebug>
-#include <qtmaterialautocomplete.h>
+#include <qtmaterialautocomplete.hpp>
 
 AutoCompleteSettingsEditor::AutoCompleteSettingsEditor(QWidget *parent)
     : QWidget(parent),

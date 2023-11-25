@@ -1,5 +1,5 @@
-#include "qtmaterialmenu.h"
-#include "qtmaterialmenu_p.h"
+#include "qtmaterialmenu.hpp"
+#include "qtmaterialmenu_p.hpp"
 
 QtMaterialMenu::QtMaterialMenu(QWidget *parent)
     : QWidget(parent)

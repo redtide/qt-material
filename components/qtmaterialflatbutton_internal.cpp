@@ -1,10 +1,10 @@
-#include "qtmaterialflatbutton_internal.h"
+#include "qtmaterialflatbutton_internal.hpp"
 #include <QEventTransition>
 #include <QPropertyAnimation>
 #include <QFocusEvent>
 #include <QSequentialAnimationGroup>
-#include "qtmaterialflatbutton.h"
-#include "lib/qtmaterialstatetransition.h"
+#include "qtmaterialflatbutton.hpp"
+#include "lib/qtmaterialstatetransition.hpp"
 
 /*!
  *  \class QtMaterialFlatButtonStateMachine

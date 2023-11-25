@@ -1,7 +1,7 @@
-#include "tabssettingseditor.h"
+#include "tabssettingseditor.hpp"
 #include <QVBoxLayout>
 #include <QColorDialog>
-#include <qtmaterialtabs.h>
+#include <qtmaterialtabs.hpp>
 
 TabsSettingsEditor::TabsSettingsEditor(QWidget *parent)
     : QWidget(parent),

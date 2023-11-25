@@ -1,7 +1,7 @@
-#include "progresssettingseditor.h"
+#include "progresssettingseditor.hpp"
 #include <QColorDialog>
-#include <qtmaterialprogress.h>
-#include <lib/qtmaterialtheme.h>
+#include <qtmaterialprogress.hpp>
+#include <lib/qtmaterialtheme.hpp>
 
 ProgressSettingsEditor::ProgressSettingsEditor(QWidget *parent)
     : QWidget(parent),

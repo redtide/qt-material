@@ -1,7 +1,7 @@
-#include "menusettingseditor.h"
+#include "menusettingseditor.hpp"
 #include <QVBoxLayout>
 #include <QDebug>
-#include <qtmaterialmenu.h>
+#include <qtmaterialmenu.hpp>
 
 MenuSettingsEditor::MenuSettingsEditor(QWidget *parent)
     : QWidget(parent),

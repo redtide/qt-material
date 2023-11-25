@@ -1,9 +1,9 @@
-#include "qtmaterialtextfield.h"
-#include "qtmaterialtextfield_p.h"
+#include "qtmaterialtextfield.hpp"
+#include "qtmaterialtextfield_p.hpp"
 #include <QtWidgets/QApplication>
 #include <QPainter>
-#include "qtmaterialtextfield_internal.h"
-#include "lib/qtmaterialstyle.h"
+#include "qtmaterialtextfield_internal.hpp"
+#include "lib/qtmaterialstyle.hpp"
 #include <QDebug>
 
 /*!

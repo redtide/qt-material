@@ -1,8 +1,8 @@
-#include "dialogsettingseditor.h"
+#include "dialogsettingseditor.hpp"
 #include <QVBoxLayout>
 #include <QColorDialog>
-#include <qtmaterialdialog.h>
-#include <qtmaterialflatbutton.h>
+#include <qtmaterialdialog.hpp>
+#include <qtmaterialflatbutton.hpp>
 
 DialogSettingsEditor::DialogSettingsEditor(QWidget *parent)
     : QWidget(parent),

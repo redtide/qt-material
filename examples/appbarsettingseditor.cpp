@@ -1,9 +1,9 @@
-#include "appbarsettingseditor.h"
+#include "appbarsettingseditor.hpp"
 #include <QtWidgets/QVBoxLayout>
 #include <QColorDialog>
-#include <qtmaterialappbar.h>
-#include <qtmaterialiconbutton.h>
-#include <lib/qtmaterialtheme.h>
+#include <qtmaterialappbar.hpp>
+#include <qtmaterialiconbutton.hpp>
+#include <lib/qtmaterialtheme.hpp>
 
 AppBarSettingsEditor::AppBarSettingsEditor(QWidget *parent)
     : QWidget(parent),

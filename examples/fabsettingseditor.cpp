@@ -1,8 +1,8 @@
-#include "fabsettingseditor.h"
+#include "fabsettingseditor.hpp"
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QColorDialog>
-#include <qtmaterialfab.h>
+#include <qtmaterialfab.hpp>
 
 FloatingActionButtonSettingsEditor::FloatingActionButtonSettingsEditor(QWidget *parent)
     : QWidget(parent),

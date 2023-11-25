@@ -1,10 +1,10 @@
-#include "qtmaterialslider.h"
-#include "qtmaterialslider_p.h"
+#include "qtmaterialslider.hpp"
+#include "qtmaterialslider_p.hpp"
 #include <QtWidgets/QApplication>
 #include <QMouseEvent>
-#include "qtmaterialslider_internal.h"
-#include "lib/qtmaterialstyle.h"
-#include "lib/qtmaterialstatetransitionevent.h"
+#include "qtmaterialslider_internal.hpp"
+#include "lib/qtmaterialstyle.hpp"
+#include "lib/qtmaterialstatetransitionevent.hpp"
 
 /*!
  *  \class QtMaterialSliderPrivate

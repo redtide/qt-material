@@ -1,10 +1,10 @@
-#include "qtmaterialdrawer_internal.h"
+#include "qtmaterialdrawer_internal.hpp"
 #include <QState>
 #include <QPainter>
 #include <QtWidgets/QLayout>
 #include <QSignalTransition>
 #include <QPropertyAnimation>
-#include "qtmaterialdrawer.h"
+#include "qtmaterialdrawer.hpp"
 
 /*!
  *  \class QtMaterialDrawerStateMachine

@@ -1,5 +1,5 @@
-#include "qtmaterialdrawer.h"
-#include "qtmaterialdrawer_p.h"
+#include "qtmaterialdrawer.hpp"
+#include "qtmaterialdrawer_p.hpp"
 #include <QPainter>
 #include <QEvent>
 #include <QDebug>
@@ -8,7 +8,7 @@
 #include <QtWidgets/QLayout>
 #include <QLinearGradient>
 #include <QtWidgets/QVBoxLayout>
-#include "qtmaterialdrawer_internal.h"
+#include "qtmaterialdrawer_internal.hpp"
 
 /*!
  *  \class QtMaterialDrawerPrivate

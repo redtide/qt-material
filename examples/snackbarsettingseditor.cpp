@@ -1,7 +1,7 @@
-#include "snackbarsettingseditor.h"
+#include "snackbarsettingseditor.hpp"
 #include <QVBoxLayout>
 #include <QColorDialog>
-#include <qtmaterialsnackbar.h>
+#include <qtmaterialsnackbar.hpp>
 
 SnackbarSettingsEditor::SnackbarSettingsEditor(QWidget *parent)
     : QWidget(parent),

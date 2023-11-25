@@ -1,4 +1,4 @@
-#include "lib/qtmaterialstatetransition.h"
+#include "lib/qtmaterialstatetransition.hpp"
 
 QtMaterialStateTransition::QtMaterialStateTransition(QtMaterialStateTransitionType type)
     : m_type(type)

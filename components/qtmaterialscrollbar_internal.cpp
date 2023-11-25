@@ -1,4 +1,4 @@
-#include "qtmaterialscrollbar_internal.h"
+#include "qtmaterialscrollbar_internal.hpp"
 #include <QPropertyAnimation>
 #include <QEventTransition>
 

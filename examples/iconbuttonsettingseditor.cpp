@@ -1,7 +1,7 @@
-#include "iconbuttonsettingseditor.h"
+#include "iconbuttonsettingseditor.hpp"
 #include <QColorDialog>
-#include <qtmaterialiconbutton.h>
-#include <lib/qtmaterialtheme.h>
+#include <qtmaterialiconbutton.hpp>
+#include <lib/qtmaterialtheme.hpp>
 
 IconButtonSettingsEditor::IconButtonSettingsEditor(QWidget *parent)
     : QWidget(parent),

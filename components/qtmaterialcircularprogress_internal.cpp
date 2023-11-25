@@ -1,4 +1,4 @@
-#include "qtmaterialcircularprogress_internal.h"
+#include "qtmaterialcircularprogress_internal.hpp"
 
 /*!
  *  \class QtMaterialCircularProgressDelegate

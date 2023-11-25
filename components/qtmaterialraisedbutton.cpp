@@ -1,5 +1,5 @@
-#include "qtmaterialraisedbutton.h"
-#include "qtmaterialraisedbutton_p.h"
+#include "qtmaterialraisedbutton.hpp"
+#include "qtmaterialraisedbutton_p.hpp"
 #include <QStateMachine>
 #include <QtWidgets/QGraphicsDropShadowEffect>
 #include <QPropertyAnimation>

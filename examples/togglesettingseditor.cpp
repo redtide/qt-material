@@ -1,6 +1,6 @@
-#include "togglesettingseditor.h"
+#include "togglesettingseditor.hpp"
 #include <QColorDialog>
-#include <qtmaterialtoggle.h>
+#include <qtmaterialtoggle.hpp>
 
 ToggleSettingsEditor::ToggleSettingsEditor(QWidget *parent)
     : QWidget(parent),

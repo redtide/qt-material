@@ -1,10 +1,10 @@
-#include "qtmaterialscrollbar.h"
-#include "qtmaterialscrollbar_p.h"
+#include "qtmaterialscrollbar.hpp"
+#include "qtmaterialscrollbar_p.hpp"
 #include <QPainter>
 #include <QPainterPath>
 #include <QDebug>
-#include "qtmaterialscrollbar_internal.h"
-#include "lib/qtmaterialstyle.h"
+#include "qtmaterialscrollbar_internal.hpp"
+#include "lib/qtmaterialstyle.hpp"
 
 /*!
  *  \class QtMaterialScrollBarPrivate
