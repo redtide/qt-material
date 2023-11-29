@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/material">
+        <file alias="appbar">appbar.png</file>
+        <file alias="autocomplete">textedit.png</file>
+        <file alias="avatar">avatar.png</file>
+        <file alias="badge">badge.png</file>
+        <file alias="checkbox">checkbox.png</file>
+        <file alias="circularprogress">circularprogress.png</file>
+        <file alias="dialog">dialog.png</file>
+        <file alias="drawer">drawer.png</file>
+        <file alias="fab">fab.png</file>
+        <file alias="flatbutton">flatbutton.png</file>
+        <file alias="iconbutton">iconbutton.png</file>
+        <file alias="progress">progress.png</file>
+        <file alias="radiobutton">radiobutton.png</file>
+        <file alias="raisedbutton">raisedbutton.png</file>
+        <file alias="slider">slider.png</file>
+        <file alias="scrollbar">scrollbar.png</file>
+        <file alias="snackbar">snackbar.png</file>
+        <file alias="textfield">textedit.png</file>
+        <file alias="tablayout">tablayout.png</file>
+        <file alias="switch">switch.png</file>
+    </qresource>
+</RCC>
