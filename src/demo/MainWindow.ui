@@ -33,100 +33,180 @@
        <property name="text">
         <string notr="true">AppBar</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/appbar</normaloff>:/material/appbar</iconset>
+       </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">AutoComplete</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/autocomplete</normaloff>:/material/autocomplete</iconset>
        </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">Avatar</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/avatar</normaloff>:/material/avatar</iconset>
+       </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">Badge</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/badge</normaloff>:/material/badge</iconset>
        </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">CheckBox</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/checkbox</normaloff>:/material/checkbox</iconset>
+       </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">CircularProgress</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/circularprogress</normaloff>:/material/circularprogress</iconset>
        </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">Dialog</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/dialog</normaloff>:/material/dialog</iconset>
+       </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">Drawer</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/drawer</normaloff>:/material/drawer</iconset>
        </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">FloatingActionButton</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/fab</normaloff>:/material/fab</iconset>
+       </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">FlatButton</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/flatbutton</normaloff>:/material/flatbutton</iconset>
        </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">IconButton</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/iconbutton</normaloff>:/material/iconbutton</iconset>
+       </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">Progress</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/progress</normaloff>:/material/progress</iconset>
        </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">RadioButton</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/radiobutton</normaloff>:/material/radiobutton</iconset>
+       </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">RaisedButton</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/raisedbutton</normaloff>:/material/raisedbutton</iconset>
        </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">ScrollBar</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/scrollbar</normaloff>:/material/scrollbar</iconset>
+       </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">Slider</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/slider</normaloff>:/material/slider</iconset>
        </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">Snackbar</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/snackbar</normaloff>:/material/snackbar</iconset>
+       </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">Switch</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/switch</normaloff>:/material/switch</iconset>
        </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">Tabs</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/tablayout</normaloff>:/material/tablayout</iconset>
+       </property>
       </item>
       <item>
        <property name="text">
         <string notr="true">TextField</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/material/textfield</normaloff>:/material/textfield</iconset>
        </property>
       </item>
      </widget>
@@ -137,6 +217,8 @@
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -26,13 +26,6 @@
 #include <QtWidgets/QStackedWidget>
 #include <QStyleHints>
 
-static void addListItem(Ui::MainWindow* ui, const QString& label)
-{
-    ui->list->addItem(label);
-    ui->list->setMinimumWidth(ui->list->sizeHintForColumn(0));
-    ui->list->setMaximumWidth(ui->list->sizeHintForColumn(0));
-}
-
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui_(new Ui::MainWindow)

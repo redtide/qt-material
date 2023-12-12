@@ -4,4 +4,26 @@
         <file>images/sikh.jpg</file>
         <file alias="appicon">images/logo.svg</file>
     </qresource>
+    <qresource prefix="/material">
+        <file alias="appbar">../../../resources/designer/appbar.png</file>
+        <file alias="autocomplete">../../../resources/designer/textedit.png</file>
+        <file alias="avatar">../../../resources/designer/avatar.png</file>
+        <file alias="badge">../../../resources/designer/badge.png</file>
+        <file alias="checkbox">../../../resources/designer/checkbox.png</file>
+        <file alias="circularprogress">../../../resources/designer/circularprogress.png</file>
+        <file alias="dialog">../../../resources/designer/dialog.png</file>
+        <file alias="drawer">../../../resources/designer/drawer.png</file>
+        <file alias="fab">../../../resources/designer/fab.png</file>
+        <file alias="flatbutton">../../../resources/designer/flatbutton.png</file>
+        <file alias="iconbutton">../../../resources/designer/iconbutton.png</file>
+        <file alias="progress">../../../resources/designer/progress.png</file>
+        <file alias="radiobutton">../../../resources/designer/radiobutton.png</file>
+        <file alias="raisedbutton">../../../resources/designer/raisedbutton.png</file>
+        <file alias="slider">../../../resources/designer/slider.png</file>
+        <file alias="scrollbar">../../../resources/designer/scrollbar.png</file>
+        <file alias="snackbar">../../../resources/designer/snackbar.png</file>
+        <file alias="textfield">../../../resources/designer/textedit.png</file>
+        <file alias="tablayout">../../../resources/designer/tablayout.png</file>
+        <file alias="switch">../../../resources/designer/switch.png</file>
+    </qresource>
 </RCC>
