@@ -17,9 +17,12 @@ FABSettings::FABSettings(QWidget *parent)
 
     connect(ui_->chkDisabled,         &QCheckBox::toggled, this, &FABSettings::updateWidget);
     connect(ui_->chkMini,             &QCheckBox::toggled, this, &FABSettings::updateWidget);
-    connect(ui_->cbxButtonRole,       &QComboBox::currentIndexChanged, this, &FABSettings::updateWidget);
-    connect(ui_->cbxCorner,           &QComboBox::currentIndexChanged, this, &FABSettings::updateWidget);
-    connect(ui_->cbxRippleStyle,      &QComboBox::currentIndexChanged, this, &FABSettings::updateWidget);
+    connect(ui_->cbxButtonRole,       QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, &FABSettings::updateWidget);
+    connect(ui_->cbxCorner,           QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, &FABSettings::updateWidget);
+    connect(ui_->cbxRippleStyle,      QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, &FABSettings::updateWidget);
     connect(ui_->sbxHorizontalOffset, QOverload<int>::of(&QSpinBox::valueChanged),
             this, &FABSettings::updateWidget);
     connect(ui_->sbxVerticalOffset,   QOverload<int>::of(&QSpinBox::valueChanged),
