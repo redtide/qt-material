@@ -3,7 +3,7 @@
 [![Language]]()
 [![CI]](https://github.com/redtide/qt-material-widgets/actions/workflows/build.yml)
 
-*** Work in progress ***
+**Work in progress**
 
 This project' development is not yet complete and API needs to be defined, but quite usable.
 Contributions are welcome.
@@ -29,7 +29,7 @@ There are several changes compared to the [original repository]:
 ## Features
 
 - Qt5/6 support
-- Qt Designer plugin
+- Qt Designer plugin, thanks to [xuannt88] for the initial work
 - Light/Dark color scheme
 
 ## Dependencies
@@ -69,3 +69,4 @@ Licensed under the [BSD-3-Clause] license.
 [CI]:                  https://github.com/redtide/sddm-conf/actions/workflows/build.yml/badge.svg
 [Language]:            https://img.shields.io/badge/language-c++-brightgreen.svg
 [original repository]: https://github.com/laserpants/qt-material-widgets/
+[xuannt88]:            https://github.com/xuannt88/qt-material-widgets/
