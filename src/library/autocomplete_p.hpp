@@ -17,17 +17,17 @@ class MaterialAutoCompletePrivate : public MaterialTextFieldPrivate
     Q_DECLARE_PUBLIC(MaterialAutoComplete)
 
 public:
-    MaterialAutoCompletePrivate(MaterialAutoComplete *q);
+    MaterialAutoCompletePrivate(MaterialAutoComplete* q);
     virtual ~MaterialAutoCompletePrivate();
 
     void init();
 
-    QWidget                          *menu;
-    QWidget                          *frame;
-    MaterialAutoCompleteStateMachine *stateMachine;
-    QVBoxLayout                      *menuLayout;
-    QStringList                      dataSource;
-    int                              maxWidth;
+    MaterialAutoCompleteStateMachine* stateMachine;
+    QWidget*     menu;
+    QWidget*     frame;
+    QVBoxLayout* menuLayout;
+    QStringList  dataSource;
+    int          maxWidth;
 };
 
 #endif // MATERIAL_AUTOCOMPLETE_P_H

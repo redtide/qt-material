@@ -1,0 +1,33 @@
+set(PROJECT_HEADERS
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/appbar.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/autocomplete.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/avatar.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/badge.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/checkable.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/checkbox.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/circularprogress.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/defs.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/dialog.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/dlimpexp.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/drawer.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/fab.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/flatbutton.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/iconbutton.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/overlaywidget.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/progress.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/radiobutton.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/raisedbutton.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/resources.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/ripple.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/rippleoverlay.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/scrollbar.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/slider.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/snackbar.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/style.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/switch.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/tablayout.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/tabs.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/textfield.hpp
+)
+source_group("" FILES ${PROJECT_HEADERS})
+add_custom_target(include SOURCES ${PROJECT_HEADERS})

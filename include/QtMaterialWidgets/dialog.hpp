@@ -16,6 +16,9 @@ class QT_MATERIAL_EXPORT MaterialDialog : public MaterialOverlayWidget
 {
     Q_OBJECT
 
+    Q_DISABLE_COPY(MaterialDialog)
+    Q_DECLARE_PRIVATE(MaterialDialog)
+
 public:
     explicit MaterialDialog(QWidget* parent = nullptr);
     ~MaterialDialog();
@@ -28,13 +31,10 @@ public Q_SLOTS:
     void hideDialog();
 
 protected:
+    bool event(QEvent* event) override;
     void paintEvent(QPaintEvent *event) override;
 
     const QScopedPointer<MaterialDialogPrivate> d_ptr;
-
-private:
-    Q_DISABLE_COPY(MaterialDialog)
-    Q_DECLARE_PRIVATE(MaterialDialog)
 };
 
 #endif // MATERIAL_DIALOG_H

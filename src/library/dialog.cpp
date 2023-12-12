@@ -1,6 +1,8 @@
 #include "dialog_internal.hpp"
 #include "dialog_p.hpp"
 #include "statetransition.hpp"
+#include "defaults.hpp"
+#include "palette-helper.hpp"
 
 #include <QtMaterialWidgets/dialog.hpp>
 
@@ -13,12 +15,7 @@
 #include <QtWidgets/QStackedLayout>
 #include <QtWidgets/QGraphicsDropShadowEffect>
 
-/*!
- *  \class MaterialDialogPrivate
- *  \internal
- */
-
-MaterialDialogPrivate::MaterialDialogPrivate(MaterialDialog *q)
+MaterialDialogPrivate::MaterialDialogPrivate(MaterialDialog* q)
     : q_ptr(q)
 {
 }
@@ -31,22 +28,24 @@ void MaterialDialogPrivate::init()
 {
     Q_Q(MaterialDialog);
 
+    material::updatePalette(q);
+
     dialogWindow = new MaterialDialogWindow(q);
     proxyStack   = new QStackedLayout;
     stateMachine = new QStateMachine(q);
     proxy        = new MaterialDialogProxy(dialogWindow, proxyStack, q);
 
-    QVBoxLayout *layout = new QVBoxLayout;
+    QVBoxLayout* layout = new QVBoxLayout;
     q->setLayout(layout);
 
-    QWidget *widget = new QWidget;
+    QWidget* widget = new QWidget;
     widget->setLayout(proxyStack);
-    widget->setMinimumWidth(400);
+    widget->setMinimumWidth(material::defaults::dialog::minimumWidth);
 
-    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
-    effect->setColor(QColor(0, 0, 0, 200));
-    effect->setBlurRadius(64);
-    effect->setOffset(0, 13);
+    QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect;
+    effect->setColor(material::defaults::dialog::effect::color);
+    effect->setBlurRadius(material::defaults::dialog::effect::blurRadius);
+    effect->setOffset(material::defaults::dialog::effect::offset);
     widget->setGraphicsEffect(effect);
 
     layout->addWidget(widget);
@@ -58,14 +57,14 @@ void MaterialDialogPrivate::init()
 
     q->setAttribute(Qt::WA_TransparentForMouseEvents);
 
-    QState *hiddenState = new QState;
-    QState *visibleState = new QState;
+    QState* hiddenState = new QState;
+    QState* visibleState = new QState;
 
     stateMachine->addState(hiddenState);
     stateMachine->addState(visibleState);
     stateMachine->setInitialState(hiddenState);
 
-    MaterialStateTransition *transition;
+    MaterialStateTransition* transition;
 
     transition = new MaterialStateTransition(DialogShowTransition);
     transition->setTargetState(visibleState);
@@ -82,7 +81,7 @@ void MaterialDialogPrivate::init()
     hiddenState->assignProperty(effect, "color", QColor(0, 0, 0, 0));
     hiddenState->assignProperty(dialogWindow, "offset", 200);
 
-    QPropertyAnimation *animation;
+    QPropertyAnimation* animation;
 
     animation = new QPropertyAnimation(proxy, "opacity", q);
     animation->setDuration(280);
@@ -106,13 +105,9 @@ void MaterialDialogPrivate::init()
     QCoreApplication::processEvents();
 }
 
-/*!
- *  \class MaterialDialog
- */
-
-MaterialDialog::MaterialDialog(QWidget *parent)
-    : MaterialOverlayWidget(parent),
-      d_ptr(new MaterialDialogPrivate(this))
+MaterialDialog::MaterialDialog(QWidget* parent)
+    : MaterialOverlayWidget(parent)
+    , d_ptr(new MaterialDialogPrivate(this))
 {
     d_func()->init();
 }
@@ -121,14 +116,14 @@ MaterialDialog::~MaterialDialog()
 {
 }
 
-QLayout *MaterialDialog::windowLayout() const
+QLayout* MaterialDialog::windowLayout() const
 {
     Q_D(const MaterialDialog);
 
     return d->dialogWindow->layout();
 }
 
-void MaterialDialog::setWindowLayout(QLayout *layout)
+void MaterialDialog::setWindowLayout(QLayout* layout)
 {
     Q_D(MaterialDialog);
 
@@ -152,14 +147,20 @@ void MaterialDialog::hideDialog()
     d->proxyStack->setCurrentIndex(1);
 }
 
-void MaterialDialog::paintEvent(QPaintEvent *event)
+bool MaterialDialog::event(QEvent* event)
 {
-    Q_UNUSED(event)
+    if (event->type() == QEvent::ThemeChange) {
+        material::updatePalette(this);
+        return true;
+    }
+    return MaterialOverlayWidget::event(event);
+}
 
+void MaterialDialog::paintEvent(QPaintEvent*)
+{
     Q_D(MaterialDialog);
 
     QPainter painter(this);
-
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::black);

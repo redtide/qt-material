@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SnackbarSettings</class>
+ <widget class="QWidget" name="SnackbarSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QPushButton" name="showSnackbarButton">
+     <property name="text">
+      <string>Show snackbar</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="MaterialSnackbar" name="snackbar"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MaterialSnackbar</class>
+   <extends>QWidget</extends>
+   <header location="global">QtMaterialWidgets/snackbar.hpp</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

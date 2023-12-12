@@ -45,13 +45,6 @@ namespace Material
     };
     Q_ENUM_NS(ProgressType)
 
-    enum AvatarType {
-        ImageAvatar,
-        IconAvatar,
-        LetterAvatar
-    };
-    Q_ENUM_NS(AvatarType)
-
     enum Color {
         red50,
         red100,

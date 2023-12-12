@@ -1,42 +1,86 @@
-#ifndef MATERIAL_STYLE_H
-#define MATERIAL_STYLE_H
+#pragma once
 
-// FIXME: This should be included in cpp but gives build error if not here
-#include "private/style_p.hpp"
 #include "dlimpexp.hpp"
 
-#include <QScopedPointer>
-#include <QtWidgets/QCommonStyle>
+#include <QProxyStyle>
 
-class MaterialStylePrivate;
-class MaterialTheme;
+namespace Material {
+extern bool isDark();
+extern void updatePalette(QWidget* widget);
+}
 
-class QT_MATERIAL_EXPORT MaterialStyle : public QCommonStyle
+using ParentStyle = QProxyStyle;
+
+class QT_MATERIAL_EXPORT MaterialStyle : public ParentStyle
 {
     Q_OBJECT
 
 public:
-    inline static MaterialStyle &instance();
-
-    void setTheme(MaterialTheme *theme);
-    QColor themeColor(const QString &key) const;
-
-protected:
-    const QScopedPointer<MaterialStylePrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(MaterialStyle)
-
     MaterialStyle();
 
-    MaterialStyle(MaterialStyle const &);
-    void operator=(MaterialStyle const &);
+    QPalette standardPalette() const override;
+
+    void drawPrimitive(PrimitiveElement    pe,
+                       const QStyleOption* option,
+                       QPainter*           painter,
+                       const QWidget*      widget = nullptr) const override;
+
+    void drawControl(ControlElement      ce,
+                     const QStyleOption* option,
+                     QPainter*           painter,
+                     const QWidget*      widget = nullptr) const override;
+
+    void drawComplexControl(ComplexControl             cc,
+                            const QStyleOptionComplex* option,
+                            QPainter*                  painter,
+                            const QWidget*             widget = nullptr) const override;
+
+    SubControl hitTestComplexControl(ComplexControl             cc,
+                                     const QStyleOptionComplex* option,
+                                     const QPoint&              point,
+                                     const QWidget*             widget = nullptr) const override;
+
+    QRect subControlRect(ComplexControl             cc,
+                         const QStyleOptionComplex* option,
+                         SubControl                 subControl,
+                         const QWidget*             widget = nullptr) const override;
+
+    QRect subElementRect(SubElement          se,
+                         const QStyleOption* option,
+                         const QWidget*      widget = nullptr) const override;
+
+    QSize sizeFromContents(ContentsType        contentsType,
+                           const QStyleOption* option,
+                           const QSize&        contentsSize,
+                           const QWidget*      widget = nullptr) const override;
+
+    int pixelMetric(PixelMetric         pm,
+                    const QStyleOption* option = nullptr,
+                    const QWidget*      widget = nullptr) const override;
+
+    int styleHint(StyleHint           sh,
+                  const QStyleOption* option = nullptr,
+                  const QWidget*      widget = nullptr,
+                  QStyleHintReturn*   styleHintReturn = nullptr) const override;
+
+    QIcon standardIcon(StandardPixmap      sp,
+                       const QStyleOption* option = nullptr,
+                       const QWidget*      widget = nullptr) const override;
+
+    QPixmap standardPixmap(StandardPixmap      sp,
+                           const QStyleOption* option = nullptr,
+                           const QWidget*      widget = nullptr) const override;
+
+    QPixmap generatedIconPixmap(QIcon::Mode         iconMode,
+                                const QPixmap&      pixmap,
+                                const QStyleOption* option) const override;
+    void polish(QPalette& palette) override;
+    void polish(QApplication* app) override;
+    void unpolish(QApplication *app) override;
+
+    void polish(QWidget* widget) override;
+    void unpolish(QWidget* widget) override;
+
+private:
+    mutable QPalette standardPalette_;
 };
-
-inline MaterialStyle &MaterialStyle::instance()
-{
-    static MaterialStyle instance;
-    return instance;
-}
-
-#endif // MATERIAL_STYLE_H

@@ -8,12 +8,7 @@
 #include <QState>
 #include <QStateMachine>
 
-/*!
- *  \class MaterialRadioButtonPrivate
- *  \internal
- */
-
-MaterialRadioButtonPrivate::MaterialRadioButtonPrivate(MaterialRadioButton *q)
+MaterialRadioButtonPrivate::MaterialRadioButtonPrivate(MaterialRadioButton* q)
     : MaterialCheckablePrivate(q)
 {
 }
@@ -51,11 +46,9 @@ void MaterialRadioButtonPrivate::init()
 
     checkedIcon->setIconSize(0);
 
-    //
-
-    checkedState->assignProperty(checkedIcon, "color", q->checkedColor());
-    checkedState->assignProperty(uncheckedIcon, "color", q->uncheckedColor());
-    uncheckedState->assignProperty(uncheckedIcon, "color", q->uncheckedColor());
+    checkedState->assignProperty(checkedIcon, "color", q->palette().color(QPalette::ButtonText));
+    checkedState->assignProperty(uncheckedIcon, "color", q->palette().color(QPalette::Button));
+    uncheckedState->assignProperty(uncheckedIcon, "color", q->palette().color(QPalette::Button));
 
     QPropertyAnimation *animation;
 
@@ -76,10 +69,6 @@ void MaterialRadioButtonPrivate::init()
     stateMachine->addDefaultAnimation(animation);
 }
 
-/*!
- *  \class MaterialRadioButton
- */
-
 MaterialRadioButton::MaterialRadioButton(QWidget *parent)
     : MaterialCheckable(*new MaterialRadioButtonPrivate(this), parent)
 {
@@ -96,7 +85,7 @@ void MaterialRadioButton::setupProperties()
 
     Q_D(MaterialRadioButton);
 
-    d->checkedState->assignProperty(d->checkedIcon, "color", checkedColor());
-    d->checkedState->assignProperty(d->uncheckedIcon, "color", uncheckedColor());
-    d->uncheckedState->assignProperty(d->uncheckedIcon, "color", uncheckedColor());
+    d->checkedState->assignProperty(d->checkedIcon, "color", palette().color(QPalette::ButtonText));
+    d->checkedState->assignProperty(d->uncheckedIcon, "color", palette().color(QPalette::Button));
+    d->uncheckedState->assignProperty(d->uncheckedIcon, "color", palette().color(QPalette::Button));
 }

@@ -1,317 +1,71 @@
-# Qt Material Design Desktop Widgets [![Language](https://img.shields.io/badge/language-c++-brightgreen.svg)]() [![Join the chat at https://gitter.im/qt-material-widgets/Lobby](https://badges.gitter.im/qt-material-widgets/Lobby.svg)](https://gitter.im/qt-material-widgets/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# Material Widgets for Qt
 
-YouTube video preview [available here](http://www.youtube.com/watch?v=21UMeNVBPU4).
+[![Language]]()
+[![CI]](https://github.com/redtide/qt-material-widgets/actions/workflows/build.yml)
 
-<table>
-  <tbody>
-    <tr>
-      <td colspan="2" align="center"></td>
-    </tr>
-    <tr>
-      <td>
-        App Bar
-      </td>
-      <td>
-        <code>QtMaterialAppBar</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/appbar.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Auto Complete
-      </td>
-      <td>
-        <code>QtMaterialAutoComplete</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/autocomplete.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Avatar
-      </td>
-      <td>
-        <code>QtMaterialAvatar</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/avatar.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Badge
-      </td>
-      <td>
-        <code>QtMaterialBadge</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/badge.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Check Box
-      </td>
-      <td>
-        <code>QtMaterialCheckBox</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/checkbox.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Circular Progress
-      </td>
-      <td>
-        <code>QtMaterialCircularProgress</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/circularprogress.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Dialog
-      </td>
-      <td>
-        <code>QtMaterialDialog</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/dialog.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Drawer
-      </td>
-      <td>
-        <code>QtMaterialDrawer</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <img src="images/drawer.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        FAB
-      </td>
-      <td>
-        <code>QtMaterialFloatingActionButton</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/fab.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Flat Button
-      </td>
-      <td>
-        <code>QtMaterialFlatButton</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/flatbutton.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Icon Button
-      </td>
-      <td>
-        <code>QtMaterialIconButton</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/iconbutton.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Progress
-      </td>
-      <td>
-        <code>QtMaterialProgress</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/progress.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Radio Button
-      </td>
-      <td>
-        <code>QtMaterialRadioButton</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/radiobutton.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Raised Button
-      </td>
-      <td>
-        <code>QtMaterialRaisedButton</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/raisedbutton.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Scroll Bar
-      </td>
-      <td>
-        <code>QtMaterialScrollBar</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/scrollbar.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Slider
-      </td>
-      <td>
-        <code>QtMaterialSlider</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/slider.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Snackbar
-      </td>
-      <td>
-        <code>QtMaterialSnackBar</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/snackbar.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Tabs
-      </td>
-      <td>
-        <code>QtMaterialTabs</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/tabs.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Text Field
-      </td>
-      <td>
-        <code>QtMaterialTextField</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/textfield.gif" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Toggle
-      </td>
-      <td>
-        <code>QtMaterialToggle</code>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <img src="images/toggle.gif" />
-      </td>
-    </tr>
-  </tbody>
-</table>
+*** Work in progress ***
 
-#### Implemented components
+This project' development is not yet complete and API needs to be defined, but quite usable.
+Contributions are welcome.
 
-- [x] App Bar
-- [x] Auto Complete
-- [x] Avatar
-- [x] Badge
-- [x] Check Box
-- [x] Circular Progress
-- [x] Dialog
-- [x] Drawer
-- [x] Floating Action Button
-- [x] Flat Button
-- [x] Icon Button
-- [x] Progress
-- [x] Radio Button
-- [x] Raised Button
-- [x] Scroll Bar
-- [x] Slider
-- [x] Snackbar
-- [x] Tabs
-- [x] Text Field
-- [x] Toggle
+## Overview
 
-#### Work in progress
+Material Widgets for Qt is a C++ widgets library that can be used on any supported operating system,
+including Android, where usually only QML gives a native appearance.
 
-- [ ] Divider
-- [ ] List
-- [ ] List Item
-- [ ] Menu
-- [ ] Paper
-- [ ] Snackbar Layout
-- [ ] Table
+## Changes
 
-#### Not implemented 
+There are several changes compared to the [original repository]:
 
-- [ ] Card
-- [ ] Chips
-- [ ] Discrete Slider
-- [ ] Grid List
-- [ ] Icon Menu
-- [ ] Search Field
-- [ ] Select Field
-- [ ] Stepper
-- [ ] Subheaders
-- [ ] Toolbar
+- API changes, with some removals (see below).
+- Changed the directory structure, headers are separated from implementation files.
+- Material 3.
+- Removed all color getters/setters; this version is meant to work via QStyle and palettes,
+  not using stylesheets nor setting colors directly per widget.
+  Custom colors should be prepared in a custom palette instead.
+  The style is not ready, so the palette is fixed to light / dark defaults.
+- Code style.
+
+## Features
+
+- Qt5/6 support
+- Qt Designer plugin
+- Light/Dark color scheme
+
+## Dependencies
+
+### Runtime
+
+- Qt5/6 base
+
+### Qt6 only
+
+- qt6-scxml (QStateMachine)
+
+### Build
+
+- CMake
+- Qt Linguist Tools
+- Git (optional, to pull latest VCS checkouts)
+
+## Build
+
+`CMAKE_BUILD_TYPE` is usually set to `Release`, though `None` might be a valid [alternative].<br>
+`CMAKE_INSTALL_PREFIX` has to be set to `/usr` on most operating systems.<br>
+Using `sudo make install` is discouraged, instead use the system package manager where possible.
+
+```bash
+cmake -B build -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr -W no-dev
+cmake --build build --verbose
+DESTDIR="$(pwd)/package" cmake --install build
+```
+
+## License
+
+Licensed under the [BSD-3-Clause] license.
+
+[alternative]:         https://wiki.archlinux.org/title/CMake_package_guidelines#Fixing_the_automatic_optimization_flag_override
+[BSD-3-Clause]:        COPYING
+[CI]:                  https://github.com/redtide/sddm-conf/actions/workflows/build.yml/badge.svg
+[Language]:            https://img.shields.io/badge/language-c++-brightgreen.svg
+[original repository]: https://github.com/laserpants/qt-material-widgets/

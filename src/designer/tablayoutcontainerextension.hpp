@@ -15,13 +15,19 @@ class QMWTabLayoutContainerExtension: public QObject, public QDesignerContainerE
 
 public:
     explicit QMWTabLayoutContainerExtension(MaterialTabLayout* widget, QObject* parent);
-    void     addWidget(QWidget* widget)               override;
+
     int      count()                                  const override;
+    QWidget* widget(int index)                        const override;
+
     int      currentIndex()                           const override;
+    void     setCurrentIndex(int index)               override;
+#if QT_VERSION >= 0x060000
+    bool     canAddWidget()                           const override;
+    bool     canRemove(int index)                     const override;
+#endif
+    void     addWidget(QWidget* widget)               override;
     void     insertWidget(int index, QWidget* widget) override;
     void     remove(int index)                        override;
-    void     setCurrentIndex(int index)               override;
-    QWidget* widget(int index)                        const override;
 
 private:
     MaterialTabLayout* tablayout_;

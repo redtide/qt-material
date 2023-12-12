@@ -1,70 +1,55 @@
 #include "autocomplete_internal.hpp"
 
-#include <QDebug>
 #include <QPropertyAnimation>
 #include <QSignalTransition>
 #include <QtWidgets/QGraphicsOpacityEffect>
 
-/*!
- *  \class MaterialAutoCompleteStateMachine
- *  \internal
- */
-
-/*!
- *  \internal
- */
-MaterialAutoCompleteStateMachine::MaterialAutoCompleteStateMachine(QWidget *menu)
-    : QStateMachine(menu),
-      m_menu(menu),
-      m_closedState(new QState),
-      m_openState(new QState),
-      m_closingState(new QState)
+MaterialAutoCompleteStateMachine::MaterialAutoCompleteStateMachine(QWidget* menu)
+    : QStateMachine(menu)
+    , closedState_(new QState)
+    , openState_(new QState)
+    , closingState_(new QState)
 {
-    Q_ASSERT(menu);
+    addState(closedState_);
+    addState(openState_);
+    addState(closingState_);
+    setInitialState(closedState_);
 
-    addState(m_closedState);
-    addState(m_openState);
-    addState(m_closingState);
-    setInitialState(m_closedState);
-
-    QSignalTransition *transition;
+    QSignalTransition* transition;
 
     transition = new QSignalTransition(this, SIGNAL(shouldOpen()));
-    transition->setTargetState(m_openState);
-    m_closedState->addTransition(transition);
+    transition->setTargetState(openState_);
+    closedState_->addTransition(transition);
 
     transition = new QSignalTransition(this, SIGNAL(shouldClose()));
-    transition->setTargetState(m_closedState);
-    m_openState->addTransition(transition);
+    transition->setTargetState(closedState_);
+    openState_->addTransition(transition);
 
     transition = new QSignalTransition(this, SIGNAL(shouldFade()));
-    transition->setTargetState(m_closingState);
-    m_openState->addTransition(transition);
+    transition->setTargetState(closingState_);
+    openState_->addTransition(transition);
 
-    m_closedState->assignProperty(menu, "visible", false);
-    m_openState->assignProperty(menu, "visible", true);
+    closedState_->assignProperty(menu, "visible", false);
+    openState_->assignProperty(menu, "visible", true);
 
-    QGraphicsOpacityEffect *effect = new QGraphicsOpacityEffect;
+    QGraphicsOpacityEffect* effect = new QGraphicsOpacityEffect;
     menu->setGraphicsEffect(effect);
 
-    m_openState->assignProperty(effect, "opacity", 1);
-    m_closingState->assignProperty(effect, "opacity", 0);
-    m_closedState->assignProperty(effect, "opacity", 0);
+    openState_->assignProperty(effect, "opacity", 1);
+    closingState_->assignProperty(effect, "opacity", 0);
+    closedState_->assignProperty(effect, "opacity", 0);
 
-    QPropertyAnimation *animation;
+    QPropertyAnimation* animation;
 
     animation = new QPropertyAnimation(effect, "opacity", this);
     animation->setDuration(240);
     addDefaultAnimation(animation);
 
     transition = new QSignalTransition(animation, SIGNAL(finished()));
-    transition->setTargetState(m_closedState);
-    m_closingState->addTransition(transition);
+    transition->setTargetState(closedState_);
+    closingState_->addTransition(transition);
 }
 
-/*!
- *  \internal
- */
 MaterialAutoCompleteStateMachine::~MaterialAutoCompleteStateMachine()
 {
 }

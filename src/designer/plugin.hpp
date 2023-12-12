@@ -2,8 +2,9 @@
 
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
+#include <QIcon>
+
 QT_BEGIN_NAMESPACE
-class QIcon;
 class QWidget;
 QT_END_NAMESPACE
 
@@ -218,32 +219,9 @@ class QMWCustomWidgetCollectionInterface
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetCollectionInterface")
 
 public:
-    QMWCustomWidgetCollectionInterface(QObject *parent = nullptr)
-        : QObject(parent)
-    {
-        plugins_ += new QMWAppBarInterface();
-        plugins_ += new QMWAutoCompleteInterface();
-        plugins_ += new QMWAvatarInterface();
-        plugins_ += new QMWBadgeInterface();
-        plugins_ += new QMWCheckBoxInterface();
-        plugins_ += new QMWCircularProgressInterface();
-        plugins_ += new QMWDialogInterface();
-        plugins_ += new QMWDrawerInterface();
-        plugins_ += new QMWFabInterface();
-        plugins_ += new QMWFlatButtonInterface();
-        plugins_ += new QMWIconButtonInterface();
-        plugins_ += new QMWProgressInterface();
-        plugins_ += new QMWRadioButtonInterface();
-        plugins_ += new QMWRaisedButtonInterface();
-//      plugins_ += new QMWScrollBarInterface();
-        plugins_ += new QMWSliderInterface();
-        plugins_ += new QMWSnackbarInterface();
-        plugins_ += new QMWSwitchInterface();
-        plugins_ += new QMWTextFieldInterface();
-        plugins_ += new QMWTabLayoutInterface();
-    }
-    ~QMWCustomWidgetCollectionInterface() override { qDeleteAll(plugins_); }
-    QList<QDesignerCustomWidgetInterface*> customWidgets() const { return plugins_; }
+    QMWCustomWidgetCollectionInterface(QObject *parent = nullptr);
+    ~QMWCustomWidgetCollectionInterface() override;
+    QList<QDesignerCustomWidgetInterface*> customWidgets() const;
 
 private:
     QList<QDesignerCustomWidgetInterface*> plugins_;

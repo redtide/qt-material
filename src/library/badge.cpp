@@ -1,75 +1,73 @@
 #include "badge_p.hpp"
 
-#include <QtMaterialWidgets/style.hpp>
 #include <QtMaterialWidgets/badge.hpp>
+#include "palette-helper.hpp"
 
+#include <QEvent>
 #include <QPainter>
 
-/*!
- *  \class MaterialBadgePrivate
- *  \internal
- */
-
-/*!
- *  \internal
- */
-MaterialBadgePrivate::MaterialBadgePrivate(MaterialBadge *q)
+MaterialBadgePrivate::MaterialBadgePrivate(MaterialBadge* q)
     : q_ptr(q)
 {
 }
 
-/*!
- *  \internal
- */
 MaterialBadgePrivate::~MaterialBadgePrivate()
 {
 }
 
-/*!
- *  \internal
- */
 void MaterialBadgePrivate::init()
 {
     Q_Q(MaterialBadge);
 
-    x              = 0;
-    y              = 0;
-    padding        = 10;
-    useThemeColors = true;
+    namespace md = material;
+    namespace dark = md::palette_system::dark;
+    namespace light = md::palette_system::light;
+
+    md::updatePalette(q);
+
+    QPalette palette = q->palette();
+
+    if (md::isDark()) {
+        palette.setColor(QPalette::Button, md::fromRgba(light::error));
+        palette.setColor(QPalette::ButtonText, md::fromRgba(light::on_error));
+    } else {
+        palette.setColor(QPalette::Button, md::fromRgba(light::error));
+        palette.setColor(QPalette::ButtonText, md::fromRgba(light::on_error));
+    }
+    q->setPalette(palette);
+
+    x       = 0;
+    y       = 0;
+    padding = 10;
 
     q->setAttribute(Qt::WA_TransparentForMouseEvents);
 
     QFont font(q->font());
-    font.setPointSizeF(10);
-    font.setStyleName("Bold");
+    font.setPointSizeF(10.f);
+    font.setWeight(QFont::Bold);
     q->setFont(font);
-
-    q->setText("+1");
+    q->setText("1");
 }
 
-/*!
- *  \class MaterialBadge
- */
-
-MaterialBadge::MaterialBadge(QWidget *parent)
-    : MaterialOverlayWidget(parent),
-      d_ptr(new MaterialBadgePrivate(this))
+MaterialBadge::MaterialBadge(QWidget* parent)
+    : MaterialOverlayWidget(parent)
+    , d_ptr(new MaterialBadgePrivate(this))
 {
     d_func()->init();
 }
 
-MaterialBadge::MaterialBadge(const QIcon &icon, QWidget *parent)
-    : MaterialOverlayWidget(parent),
-      d_ptr(new MaterialBadgePrivate(this))
+MaterialBadge::MaterialBadge(const QIcon& icon, QWidget* parent)
+    : MaterialOverlayWidget(parent)
+    , d_ptr(new MaterialBadgePrivate(this))
 {
     d_func()->init();
 
     setIcon(icon);
 }
 
-MaterialBadge::MaterialBadge(const QString &text, QWidget *parent)
-    : MaterialOverlayWidget(parent),
-      d_ptr(new MaterialBadgePrivate(this))
+MaterialBadge::MaterialBadge(const QString& text, QWidget* parent)
+    : MaterialOverlayWidget(parent)
+    , d_ptr(new MaterialBadgePrivate(this))
 {
     d_func()->init();
 
@@ -78,67 +76,6 @@ MaterialBadge::MaterialBadge(const QString &text, QWidget *parent)
 
 MaterialBadge::~MaterialBadge()
 {
-}
-
-void MaterialBadge::setUseThemeColors(bool value)
-{
-    Q_D(MaterialBadge);
-
-    if (d->useThemeColors == value) {
-        return;
-    }
-
-    d->useThemeColors = value;
-    update();
-}
-
-bool MaterialBadge::useThemeColors() const
-{
-    Q_D(const MaterialBadge);
-
-    return d->useThemeColors;
-}
-
-void MaterialBadge::setTextColor(const QColor &color)
-{
-    Q_D(MaterialBadge);
-
-    d->textColor = color;
-    d->useThemeColors = false;
-
-    update();
-}
-
-QColor MaterialBadge::textColor() const
-{
-    Q_D(const MaterialBadge);
-
-    if (d->useThemeColors || !d->textColor.isValid()) {
-        return MaterialStyle::instance().themeColor("canvas");
-    } else {
-        return d->textColor;
-    }
-}
-
-void MaterialBadge::setBackgroundColor(const QColor &color)
-{
-    Q_D(MaterialBadge);
-
-    d->backgroundColor = color;
-    d->useThemeColors = false;
-
-    update();
-}
-
-QColor MaterialBadge::backgroundColor() const
-{
-    Q_D(const MaterialBadge);
-
-    if (d->useThemeColors || !d->backgroundColor.isValid()) {
-        return MaterialStyle::instance().themeColor("accent1");
-    } else {
-        return d->backgroundColor;
-    }
 }
 
 void MaterialBadge::setRelativePosition(const QPointF &pos)
@@ -192,13 +129,10 @@ qreal MaterialBadge::relativeYPosition() const
     return d->y;
 }
 
-/*!
- *  \reimp
- */
 QSize MaterialBadge::sizeHint() const
 {
     const int s = getDiameter();
-    return QSize(s+4, s+4);
+    return QSize(s + 4, s + 4);
 }
 
 void MaterialBadge::setIcon(const QIcon &icon)
@@ -222,9 +156,8 @@ void MaterialBadge::setText(const QString &text)
 
     d->text = text;
 
-    if (!d->icon.isNull()) {
+    if (!d->icon.isNull())
         d->icon = QIcon();
-    }
 
     d->size = fontMetrics().size(Qt::TextShowMnemonic, text);
 
@@ -238,24 +171,27 @@ QString MaterialBadge::text() const
     return d->text;
 }
 
-/*!
- *  \reimp
- */
-void MaterialBadge::paintEvent(QPaintEvent *event)
+bool MaterialBadge::event(QEvent* event)
 {
-    Q_UNUSED(event)
+    if (event->type() == QEvent::ThemeChange) {
+        material::updatePalette(this);
+        return true;
+    }
+    return MaterialOverlayWidget::event(event);
+}
 
+void MaterialBadge::paintEvent(QPaintEvent*)
+{
     Q_D(MaterialBadge);
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-
     painter.translate(d->x, d->y);
 
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
-    brush.setColor(isEnabled() ? backgroundColor()
-                               : MaterialStyle::instance().themeColor("disabled"));
+    brush.setColor(isEnabled() ? palette().color(QPalette::Button)
+                               : palette().color(QPalette::Disabled, QPalette::Button));
     painter.setBrush(brush);
     painter.setPen(Qt::NoPen);
 
@@ -267,7 +203,7 @@ void MaterialBadge::paintEvent(QPaintEvent *event)
     if (d->icon.isNull())
     {
         painter.drawEllipse(r);
-        painter.setPen(textColor());
+        painter.setPen(palette().color(QPalette::ButtonText));
         painter.setBrush(Qt::NoBrush);
         painter.drawText(r.translated(0, -0.5), Qt::AlignCenter, d->text);
     }
@@ -279,7 +215,8 @@ void MaterialBadge::paintEvent(QPaintEvent *event)
         QPixmap pixmap = icon().pixmap(16, 16);
         QPainter icon(&pixmap);
         icon.setCompositionMode(QPainter::CompositionMode_SourceIn);
-        icon.fillRect(pixmap.rect(), textColor());
+        icon.fillRect(pixmap.rect(), palette().color(QPalette::ButtonText));
+
         painter.drawPixmap(q.toRect(), pixmap);
     }
 }
@@ -288,9 +225,8 @@ int MaterialBadge::getDiameter() const
 {
     Q_D(const MaterialBadge);
 
-    if (d->icon.isNull()) {
+    if (d->icon.isNull())
         return qMax(d->size.width(), d->size.height()) + d->padding;
-    } else {
-        return 24;
-    }
+
+    return 24;
 }

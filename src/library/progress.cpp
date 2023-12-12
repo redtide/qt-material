@@ -2,16 +2,12 @@
 #include "progress_p.hpp"
 
 #include <QtMaterialWidgets/progress.hpp>
-#include <QtMaterialWidgets/style.hpp>
+#include "palette-helper.hpp"
 
+#include <QEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPropertyAnimation>
-
-/*!
- *  \class MaterialProgressPrivate
- *  \internal
- */
 
 MaterialProgressPrivate::MaterialProgressPrivate(MaterialProgress *q)
     : q_ptr(q)
@@ -26,31 +22,25 @@ void MaterialProgressPrivate::init()
 {
     Q_Q(MaterialProgress);
 
-    delegate       = new MaterialProgressDelegate(q);
-    progressType   = Material::IndeterminateProgress;
-    useThemeColors = true;
+    material::updatePalette(q);
+
+    delegate     = new MaterialProgressDelegate(q);
+    progressType = Material::IndeterminateProgress;
 
     QPropertyAnimation *animation;
-
     animation = new QPropertyAnimation(q);
     animation->setPropertyName("offset");
     animation->setTargetObject(delegate);
     animation->setStartValue(0);
     animation->setEndValue(1);
     animation->setDuration(1000);
-
     animation->setLoopCount(-1);
-
     animation->start();
 }
 
-/*!
- *  \class MaterialProgress
- */
-
 MaterialProgress::MaterialProgress(QWidget *parent)
-    : QProgressBar(parent),
-      d_ptr(new MaterialProgressPrivate(this))
+    : QProgressBar(parent)
+    , d_ptr(new MaterialProgressPrivate(this))
 {
     d_func()->init();
 }
@@ -74,74 +64,17 @@ Material::ProgressType MaterialProgress::progressType() const
     return d->progressType;
 }
 
-void MaterialProgress::setUseThemeColors(bool state)
+bool MaterialProgress::event(QEvent* event)
 {
-    Q_D(MaterialProgress);
-
-    if (d->useThemeColors == state) {
-        return;
+    if (event->type() == QEvent::ThemeChange) {
+        material::updatePalette(this);
+        return true;
     }
-
-    d->useThemeColors = state;
-    update();
+    return QProgressBar::event(event);
 }
 
-bool MaterialProgress::useThemeColors() const
+void MaterialProgress::paintEvent(QPaintEvent*)
 {
-    Q_D(const MaterialProgress);
-
-    return d->useThemeColors;
-}
-
-void MaterialProgress::setProgressColor(const QColor &color)
-{
-    Q_D(MaterialProgress);
-
-    d->progressColor = color;
-    d->useThemeColors = false;
-
-    update();
-}
-
-QColor MaterialProgress::progressColor() const
-{
-    Q_D(const MaterialProgress);
-
-    if (d->useThemeColors || !d->progressColor.isValid()) {
-        return MaterialStyle::instance().themeColor("primary1");
-    } else {
-        return d->progressColor;
-    }
-}
-
-void MaterialProgress::setBackgroundColor(const QColor &color)
-{
-    Q_D(MaterialProgress);
-
-    d->backgroundColor = color;
-    d->useThemeColors = false;
-
-    update();
-}
-
-QColor MaterialProgress::backgroundColor() const
-{
-    Q_D(const MaterialProgress);
-
-    if (d->useThemeColors || !d->backgroundColor.isValid()) {
-        return MaterialStyle::instance().themeColor("border");
-    } else {
-        return d->backgroundColor;
-    }
-}
-
-/*!
- *  \reimp
- */
-void MaterialProgress::paintEvent(QPaintEvent *event)
-{
-    Q_UNUSED(event)
-
     Q_D(MaterialProgress);
 
     QPainter painter(this);
@@ -149,26 +82,26 @@ void MaterialProgress::paintEvent(QPaintEvent *event)
 
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
-    brush.setColor(isEnabled() ? backgroundColor()
-                               : MaterialStyle::instance().themeColor("disabled"));
+    brush.setColor(isEnabled()
+        ? palette().color(QPalette::Window)
+        : palette().color(QPalette::Disabled, QPalette::Window));
     painter.setBrush(brush);
     painter.setPen(Qt::NoPen);
 
     QPainterPath path;
     path.addRoundedRect(0, height()/2-3, width(), 6, 3, 3);
     painter.setClipPath(path);
-
     painter.drawRect(0, 0, width(), height());
 
     if (isEnabled())
     {
-        brush.setColor(progressColor());
+        brush.setColor(palette().color(QPalette::Button));
         painter.setBrush(brush);
 
         if (Material::IndeterminateProgress == d->progressType) {
-            painter.drawRect(d->delegate->offset()*width()*2-width(), 0, width(), height());
+            painter.drawRect(d->delegate->offset() * width() * 2 - width(), 0, width(), height());
         } else {
-            qreal p = static_cast<qreal>(width())*(value()-minimum())/(maximum()-minimum());
+            qreal p = static_cast<qreal>(width()) * (value()-minimum()) / (maximum() - minimum());
             painter.drawRect(0, 0, p, height());
         }
     }

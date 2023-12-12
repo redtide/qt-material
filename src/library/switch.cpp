@@ -1,20 +1,15 @@
 #include "switch_internal.hpp"
 #include "switch_p.hpp"
 
-#include <QtMaterialWidgets/style.hpp>
 #include <QtMaterialWidgets/switch.hpp>
+#include "palette-helper.hpp"
 
 #include <QPropertyAnimation>
 #include <QSignalTransition>
 #include <QStateMachine>
 #include <QtWidgets/QApplication>
 
-/*!
- *  \class MaterialSwitchPrivate
- *  \internal
- */
-
-MaterialSwitchPrivate::MaterialSwitchPrivate(MaterialSwitch *q)
+MaterialSwitchPrivate::MaterialSwitchPrivate(MaterialSwitch* q)
     : q_ptr(q)
 {
 }
@@ -27,6 +22,8 @@ void MaterialSwitchPrivate::init()
 {
     Q_Q(MaterialSwitch);
 
+    material::updatePalette(q);
+
     track          = new MaterialSwitchTrack(q);
     thumb          = new MaterialSwitchThumb(q);
     rippleOverlay  = new MaterialSwitchRippleOverlay(thumb, track, q);
@@ -34,7 +31,6 @@ void MaterialSwitchPrivate::init()
     offState       = new QState;
     onState        = new QState;
     orientation    = Qt::Horizontal;
-    useThemeColors = true;
 
     q->setCheckable(true);
     q->setChecked(false);
@@ -47,8 +43,8 @@ void MaterialSwitchPrivate::init()
     offState->assignProperty(thumb, "shift", 0);
     onState->assignProperty(thumb, "shift", 1);
 
-    QSignalTransition *transition;
-    QPropertyAnimation *animation;
+    QSignalTransition* transition;
+    QPropertyAnimation* animation;
 
     //
 
@@ -115,28 +111,23 @@ void MaterialSwitchPrivate::setupProperties()
     if (q->isEnabled()) {
         const qreal shift = thumb->shift();
         if (qFuzzyCompare(shift, 1)) {
-            thumb->setThumbColor(q->activeColor());
-            track->setTrackColor(q->activeColor().lighter(110));
-        } else if (qFuzzyCompare(1+shift, 1)) {
-            thumb->setThumbColor(q->inactiveColor());
-            track->setTrackColor(q->trackColor());
+            thumb->setThumbColor(q->palette().color(QPalette::Button));
+            track->setTrackColor(q->palette().color(QPalette::Button).lighter(110));
+        } else if (qFuzzyCompare(1 + shift, 1)) {
+            thumb->setThumbColor(q->palette().color(QPalette::Button).darker());
+            track->setTrackColor(q->palette().color(QPalette::WindowText));
         }
     }
+    offState->assignProperty(track, "trackColor", q->palette().color(QPalette::Button).lighter(110));
+    onState->assignProperty(track, "trackColor", q->palette().color(QPalette::Button).lighter(110));
 
-    offState->assignProperty(track, "trackColor", q->trackColor().lighter(110));
-    onState->assignProperty(track, "trackColor", q->activeColor().lighter(110));
-
-    offState->assignProperty(thumb, "thumbColor", q->inactiveColor());
-    onState->assignProperty(thumb, "thumbColor", q->activeColor());
+    offState->assignProperty(thumb, "thumbColor", q->palette().color(QPalette::Button).darker());
+    onState->assignProperty(thumb, "thumbColor", q->palette().color(QPalette::Button));
 
     q->update();
 }
 
-/*!
- *  \class MaterialSwitch
- */
-
-MaterialSwitch::MaterialSwitch(QWidget *parent)
+MaterialSwitch::MaterialSwitch(QWidget* parent)
     : QAbstractButton(parent),
       d_ptr(new MaterialSwitchPrivate(this))
 {
@@ -147,112 +138,12 @@ MaterialSwitch::~MaterialSwitch()
 {
 }
 
-void MaterialSwitch::setUseThemeColors(bool value)
-{
-    Q_D(MaterialSwitch);
-
-    d->useThemeColors = value;
-    d->setupProperties();
-}
-
-bool MaterialSwitch::useThemeColors() const
-{
-    Q_D(const MaterialSwitch);
-
-    return d->useThemeColors;
-}
-
-void MaterialSwitch::setDisabledColor(const QColor &color)
-{
-    Q_D(MaterialSwitch);
-
-    d->disabledColor = color;
-    d->useThemeColors = false;
-
-    d->setupProperties();
-}
-
-QColor MaterialSwitch::disabledColor() const
-{
-    Q_D(const MaterialSwitch);
-
-    if (d->useThemeColors || !d->disabledColor.isValid()) {
-        return MaterialStyle::instance().themeColor("disabled");
-    } else {
-        return d->disabledColor;
-    }
-}
-
-void MaterialSwitch::setActiveColor(const QColor &color)
-{
-    Q_D(MaterialSwitch);
-
-    d->activeColor = color;
-    d->useThemeColors = false;
-
-    d->setupProperties();
-}
-
-QColor MaterialSwitch::activeColor() const
-{
-    Q_D(const MaterialSwitch);
-
-    if (d->useThemeColors || !d->activeColor.isValid()) {
-        return MaterialStyle::instance().themeColor("primary1");
-    } else {
-        return d->activeColor;
-    }
-}
-
-void MaterialSwitch::setInactiveColor(const QColor &color)
-{
-    Q_D(MaterialSwitch);
-
-    d->inactiveColor = color;
-    d->useThemeColors = false;
-
-    d->setupProperties();
-}
-
-QColor MaterialSwitch::inactiveColor() const
-{
-    Q_D(const MaterialSwitch);
-
-    if (d->useThemeColors || !d->inactiveColor.isValid()) {
-        return MaterialStyle::instance().themeColor("canvas");
-    } else {
-        return d->inactiveColor;
-    }
-}
-
-void MaterialSwitch::setTrackColor(const QColor &color)
-{
-    Q_D(MaterialSwitch);
-
-    d->trackColor = color;
-    d->useThemeColors = false;
-
-    d->setupProperties();
-}
-
-QColor MaterialSwitch::trackColor() const
-{
-    Q_D(const MaterialSwitch);
-
-    if (d->useThemeColors || !d->trackColor.isValid()) {
-        return MaterialStyle::instance().themeColor("accent3");
-    } else {
-        return d->trackColor;
-    }
-}
-
 void MaterialSwitch::setOrientation(Qt::Orientation orientation)
 {
     Q_D(MaterialSwitch);
 
-    if (d->orientation == orientation) {
+    if (d->orientation == orientation)
         return;
-    }
 
     d->orientation = orientation;
     updateGeometry();
@@ -274,7 +165,7 @@ QSize MaterialSwitch::sizeHint() const
         : QSize(48, 64);
 }
 
-bool MaterialSwitch::event(QEvent *event)
+bool MaterialSwitch::event(QEvent* event)
 {
     Q_D(MaterialSwitch);
 
@@ -282,11 +173,15 @@ bool MaterialSwitch::event(QEvent *event)
     {
     case QEvent::ParentChange:
     {
-        QWidget *widget;
-        if ((widget = parentWidget())) {
+        QWidget* widget;
+        if ((widget = parentWidget()))
             d->rippleOverlay->setParent(widget);
-        }
+
         break;
+    }
+    case QEvent::ThemeChange: {
+        material::updatePalette(this);
+        return true;
     }
     default:
         break;
@@ -294,7 +189,6 @@ bool MaterialSwitch::event(QEvent *event)
     return QAbstractButton::event(event);
 }
 
-void MaterialSwitch::paintEvent(QPaintEvent *event)
+void MaterialSwitch::paintEvent(QPaintEvent*)
 {
-    Q_UNUSED(event)
 }

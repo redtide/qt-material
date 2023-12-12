@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DrawerSettings</class>
+ <widget class="QWidget" name="DrawerSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>480</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="4" column="0">
+    <widget class="MaterialDrawer" name="drawer"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QPushButton" name="hideDrawerButton">
+     <property name="text">
+      <string>Hide drawer</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="showDrawerButton">
+     <property name="text">
+      <string>Show drawer</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QCheckBox" name="clickToCloseCheckBox">
+     <property name="text">
+      <string>Click to close</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QCheckBox" name="overlayModeCheckBox">
+     <property name="text">
+      <string>Overlay mode</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MaterialDrawer</class>
+   <extends>QWidget</extends>
+   <header location="global">QtMaterialWidgets/drawer.hpp</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

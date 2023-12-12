@@ -10,9 +10,9 @@ class MaterialIconButtonPrivate;
 class QT_MATERIAL_EXPORT MaterialIconButton : public QAbstractButton
 {
     Q_OBJECT
-//    Q_PROPERTY(bool   useThemeColors READ setUseThemeColors WRITE useThemeColors)
-//    Q_PROPERTY(QColor color          READ setColor          WRITE color)
-//    Q_PROPERTY(QColor disabledColor  READ setDisabledColor  WRITE disabledColor)
+
+    Q_DISABLE_COPY(MaterialIconButton)
+    Q_DECLARE_PRIVATE(MaterialIconButton)
 
 public:
     explicit MaterialIconButton(QWidget* parent = nullptr);
@@ -20,15 +20,6 @@ public:
     ~MaterialIconButton();
 
     QSize sizeHint() const override;
-
-    void setUseThemeColors(bool value);
-    bool useThemeColors() const;
-
-    void setColor(const QColor &color);
-    QColor color() const;
-
-    void setDisabledColor(const QColor &color);
-    QColor disabledColor() const;
 
 protected:
     MaterialIconButton(MaterialIconButtonPrivate &d, QWidget* parent = nullptr);
@@ -39,10 +30,6 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
     const QScopedPointer<MaterialIconButtonPrivate> d_ptr;
-
-private:
-    Q_DISABLE_COPY(MaterialIconButton)
-    Q_DECLARE_PRIVATE(MaterialIconButton)
 };
 
 #endif // MATERIAL_ICONBUTTON_H

@@ -1,16 +1,13 @@
 #ifndef MATERIAL_AVATAR_P_H
 #define MATERIAL_AVATAR_P_H
 
-#include <QtMaterialWidgets/defs.hpp>
+#include <QtMaterialWidgets/avatar.hpp>
 
 #include <QtGlobal>
 #include <QChar>
 #include <QColor>
 #include <QIcon>
-#include <QImage>
 #include <QPixmap>
-
-class MaterialAvatar;
 
 class MaterialAvatarPrivate
 {
@@ -18,22 +15,17 @@ class MaterialAvatarPrivate
     Q_DECLARE_PUBLIC(MaterialAvatar)
 
 public:
-    MaterialAvatarPrivate(MaterialAvatar *q);
+    MaterialAvatarPrivate(MaterialAvatar* q);
     ~MaterialAvatarPrivate();
 
     void init();
 
-    MaterialAvatar *const q_ptr;
-    int                     size;
-    Material::AvatarType    type;
-    QChar                   letter;
-    QImage                  image;
-    QIcon                   icon;
-    QPixmap                 pixmap;
-
-    bool                    useThemeColors;
-    QColor                  textColor;
-    QColor                  backgroundColor;
+    MaterialAvatar* const      q_ptr;
+    MaterialAvatar::AvatarType type;
+    int     size;
+    QChar   letter;
+    QIcon   icon;
+    QPixmap pixmap;
 };
 
 #endif // MATERIAL_AVATAR_P_H

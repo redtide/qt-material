@@ -8,85 +8,80 @@
 #include <QPropertyAnimation>
 #include <QSequentialAnimationGroup>
 
-/*!
- *  \class MaterialFlatButtonStateMachine
- *  \internal
- */
-
-MaterialFlatButtonStateMachine::MaterialFlatButtonStateMachine(MaterialFlatButton *parent)
-    : QStateMachine(parent),
-      m_button(parent),
-      m_topLevelState(new QState(QState::ParallelStates)),
-      m_configState(new QState(m_topLevelState)),
-      m_checkableState(new QState(m_topLevelState)),
-      m_checkedState(new QState(m_checkableState)),
-      m_uncheckedState(new QState(m_checkableState)),
-      m_neutralState(new QState(m_configState)),
-      m_neutralFocusedState(new QState(m_configState)),
-      m_hoveredState(new QState(m_configState)),
-      m_hoveredFocusedState(new QState(m_configState)),
-      m_pressedState(new QState(m_configState)),
-      m_haloAnimation(new QSequentialAnimationGroup(this)),
-      m_overlayOpacity(0),
-      m_checkedOverlayProgress(parent->isChecked() ? 1 : 0),
-      m_haloOpacity(0),
-      m_haloSize(0.8),
-      m_haloScaleFactor(1),
-      m_wasChecked(false)
+MaterialFlatButtonStateMachine::MaterialFlatButtonStateMachine(MaterialFlatButton* parent)
+    : QStateMachine(parent)
+    , button_(parent)
+    , topLevelState_(new QState(QState::ParallelStates))
+    , configState_(new QState(topLevelState_))
+    , checkableState_(new QState(topLevelState_))
+    , checkedState_(new QState(checkableState_))
+    , uncheckedState_(new QState(checkableState_))
+    , neutralState_(new QState(configState_))
+    , neutralFocusedState_(new QState(configState_))
+    , hoveredState_(new QState(configState_))
+    , hoveredFocusedState_(new QState(configState_))
+    , pressedState_(new QState(configState_))
+    , haloAnimation_(new QSequentialAnimationGroup(this))
+    , overlayOpacity_(0)
+    , checkedOverlayProgress_(parent->isChecked() ? 1 : 0)
+    , haloOpacity_(0)
+    , haloSize_(0.8)
+    , haloScaleFactor_(1)
+    , wasChecked_(false)
 {
     Q_ASSERT(parent);
 
     parent->installEventFilter(this);
 
-    m_configState->setInitialState(m_neutralState);
-    addState(m_topLevelState);
-    setInitialState(m_topLevelState);
+    configState_->setInitialState(neutralState_);
+    addState(topLevelState_);
+    setInitialState(topLevelState_);
 
-    m_checkableState->setInitialState(parent->isChecked() ? m_checkedState
-                                                          : m_uncheckedState);
-    MaterialStateTransition *transition;
-    QPropertyAnimation *animation;
+    checkableState_->setInitialState(parent->isChecked() ? checkedState_
+                                                          : uncheckedState_);
+    MaterialStateTransition* transition;
+    QPropertyAnimation* animation;
 
     transition = new MaterialStateTransition(FlatButtonCheckedTransition);
-    transition->setTargetState(m_checkedState);
-    m_uncheckedState->addTransition(transition);
+    transition->setTargetState(checkedState_);
+    uncheckedState_->addTransition(transition);
 
     animation = new QPropertyAnimation(this, "checkedOverlayProgress", this);
     animation->setDuration(200);
     transition->addAnimation(animation);
 
     transition = new MaterialStateTransition(FlatButtonUncheckedTransition);
-    transition->setTargetState(m_uncheckedState);
-    m_checkedState->addTransition(transition);
+    transition->setTargetState(uncheckedState_);
+    checkedState_->addTransition(transition);
 
     animation = new QPropertyAnimation(this, "checkedOverlayProgress", this);
     animation->setDuration(200);
     transition->addAnimation(animation);
 
-    addTransition(m_button, QEvent::FocusIn, m_neutralState, m_neutralFocusedState);
-    addTransition(m_button, QEvent::FocusOut, m_neutralFocusedState, m_neutralState);
-    addTransition(m_button, QEvent::Enter, m_neutralState, m_hoveredState);
-    addTransition(m_button, QEvent::Leave, m_hoveredState, m_neutralState);
-    addTransition(m_button, QEvent::Enter, m_neutralFocusedState, m_hoveredFocusedState);
-    addTransition(m_button, QEvent::Leave, m_hoveredFocusedState, m_neutralFocusedState);
-    addTransition(m_button, QEvent::FocusIn, m_hoveredState, m_hoveredFocusedState);
-    addTransition(m_button, QEvent::FocusOut, m_hoveredFocusedState, m_hoveredState);
+    addTransition(button_, QEvent::FocusIn, neutralState_, neutralFocusedState_);
+    addTransition(button_, QEvent::FocusOut, neutralFocusedState_, neutralState_);
+    addTransition(button_, QEvent::Enter, neutralState_, hoveredState_);
+    addTransition(button_, QEvent::Leave, hoveredState_, neutralState_);
+    addTransition(button_, QEvent::Enter, neutralFocusedState_, hoveredFocusedState_);
+    addTransition(button_, QEvent::Leave, hoveredFocusedState_, neutralFocusedState_);
+    addTransition(button_, QEvent::FocusIn, hoveredState_, hoveredFocusedState_);
+    addTransition(button_, QEvent::FocusOut, hoveredFocusedState_, hoveredState_);
 
     transition = new MaterialStateTransition(FlatButtonPressedTransition);
-    transition->setTargetState(m_pressedState);
-    m_hoveredState->addTransition(transition);
+    transition->setTargetState(pressedState_);
+    hoveredState_->addTransition(transition);
 
-    addTransition(m_button, QEvent::Leave, m_pressedState, m_neutralFocusedState);
-    addTransition(m_button, QEvent::FocusOut, m_pressedState, m_hoveredState);
+    addTransition(button_, QEvent::Leave, pressedState_, neutralFocusedState_);
+    addTransition(button_, QEvent::FocusOut, pressedState_, hoveredState_);
 
-    m_neutralState->assignProperty(this, "haloSize", 0);
-    m_neutralFocusedState->assignProperty(this, "haloSize", 0.7);
-    m_hoveredState->assignProperty(this, "haloSize", 0);
-    m_pressedState->assignProperty(this, "haloSize", 4);
-    m_hoveredFocusedState->assignProperty(this, "haloSize", 0.7);
+    neutralState_->assignProperty(this, "haloSize", 0);
+    neutralFocusedState_->assignProperty(this, "haloSize", 0.7);
+    hoveredState_->assignProperty(this, "haloSize", 0);
+    pressedState_->assignProperty(this, "haloSize", 4);
+    hoveredFocusedState_->assignProperty(this, "haloSize", 0.7);
 
-    QPropertyAnimation *grow = new QPropertyAnimation(this);
-    QPropertyAnimation *shrink = new QPropertyAnimation(this);
+    QPropertyAnimation* grow = new QPropertyAnimation(this);
+    QPropertyAnimation* shrink = new QPropertyAnimation(this);
 
     grow->setTargetObject(this);
     grow->setPropertyName("haloScaleFactor");
@@ -102,9 +97,9 @@ MaterialFlatButtonStateMachine::MaterialFlatButtonStateMachine(MaterialFlatButto
     shrink->setEasingCurve(QEasingCurve::InOutSine);
     shrink->setDuration(840);
 
-    m_haloAnimation->addAnimation(grow);
-    m_haloAnimation->addAnimation(shrink);
-    m_haloAnimation->setLoopCount(-1);
+    haloAnimation_->addAnimation(grow);
+    haloAnimation_->addAnimation(shrink);
+    haloAnimation_->setLoopCount(-1);
 }
 
 MaterialFlatButtonStateMachine::~MaterialFlatButtonStateMachine()
@@ -113,86 +108,77 @@ MaterialFlatButtonStateMachine::~MaterialFlatButtonStateMachine()
 
 void MaterialFlatButtonStateMachine::setOverlayOpacity(qreal opacity)
 {
-    m_overlayOpacity = opacity;
-    m_button->update();
+    overlayOpacity_ = opacity;
+    button_->update();
 }
 
 void MaterialFlatButtonStateMachine::setCheckedOverlayProgress(qreal progress)
 {
-    m_checkedOverlayProgress = progress;
-    m_button->update();
+    checkedOverlayProgress_ = progress;
+    button_->update();
 }
 
 void MaterialFlatButtonStateMachine::setHaloOpacity(qreal opacity)
 {
-    m_haloOpacity = opacity;
-    m_button->update();
+    haloOpacity_ = opacity;
+    button_->update();
 }
 
 void MaterialFlatButtonStateMachine::setHaloSize(qreal size)
 {
-    m_haloSize = size;
-    m_button->update();
+    haloSize_ = size;
+    button_->update();
 }
 
 void MaterialFlatButtonStateMachine::setHaloScaleFactor(qreal factor)
 {
-    m_haloScaleFactor = factor;
-    m_button->update();
+    haloScaleFactor_ = factor;
+    button_->update();
 }
 
 void MaterialFlatButtonStateMachine::startAnimations()
 {
-    m_haloAnimation->start();
+    haloAnimation_->start();
     start();
 }
 
 void MaterialFlatButtonStateMachine::setupProperties()
 {
-    QColor overlayColor;
+    const qreal baseOpacity = button_->baseOpacity();
 
-    if (Qt::TransparentMode == m_button->backgroundMode()) {
-        overlayColor = m_button->backgroundColor();
-    } else {
-        overlayColor = m_button->foregroundColor();
-    }
+    neutralState_->assignProperty(this, "overlayOpacity", 0);
+    neutralState_->assignProperty(this, "haloOpacity", 0);
+    neutralFocusedState_->assignProperty(this, "overlayOpacity", 0);
+    neutralFocusedState_->assignProperty(this, "haloOpacity", baseOpacity);
+    hoveredState_->assignProperty(this, "overlayOpacity", baseOpacity);
+    hoveredState_->assignProperty(this, "haloOpacity", 0);
+    hoveredFocusedState_->assignProperty(this, "overlayOpacity", baseOpacity);
+    hoveredFocusedState_->assignProperty(this, "haloOpacity", baseOpacity);
+    pressedState_->assignProperty(this, "overlayOpacity", baseOpacity);
+    pressedState_->assignProperty(this, "haloOpacity", 0);
+    checkedState_->assignProperty(this, "checkedOverlayProgress", 1);
+    uncheckedState_->assignProperty(this, "checkedOverlayProgress", 0);
 
-    const qreal baseOpacity = m_button->baseOpacity();
-
-    m_neutralState->assignProperty(this, "overlayOpacity", 0);
-    m_neutralState->assignProperty(this, "haloOpacity", 0);
-    m_neutralFocusedState->assignProperty(this, "overlayOpacity", 0);
-    m_neutralFocusedState->assignProperty(this, "haloOpacity", baseOpacity);
-    m_hoveredState->assignProperty(this, "overlayOpacity", baseOpacity);
-    m_hoveredState->assignProperty(this, "haloOpacity", 0);
-    m_hoveredFocusedState->assignProperty(this, "overlayOpacity", baseOpacity);
-    m_hoveredFocusedState->assignProperty(this, "haloOpacity", baseOpacity);
-    m_pressedState->assignProperty(this, "overlayOpacity", baseOpacity);
-    m_pressedState->assignProperty(this, "haloOpacity", 0);
-    m_checkedState->assignProperty(this, "checkedOverlayProgress", 1);
-    m_uncheckedState->assignProperty(this, "checkedOverlayProgress", 0);
-
-    m_button->update();
+    button_->update();
 }
 
 void MaterialFlatButtonStateMachine::updateCheckedStatus()
 {
-    const bool checked = m_button->isChecked();
-    if (m_wasChecked != checked) {
-        m_wasChecked = checked;
-        if (checked) {
+    const bool checked = button_->isChecked();
+    if (wasChecked_ != checked) {
+        wasChecked_ = checked;
+        if (checked)
             postEvent(new MaterialStateTransitionEvent(FlatButtonCheckedTransition));
-        } else {
+        else
             postEvent(new MaterialStateTransitionEvent(FlatButtonUncheckedTransition));
-        }
     }
 }
 
-bool MaterialFlatButtonStateMachine::eventFilter(QObject *watched,
-                                                   QEvent  *event)
+bool MaterialFlatButtonStateMachine::eventFilter(QObject* watched,
+                                                   QEvent*  event)
 {
     if (QEvent::FocusIn == event->type()) {
-        QFocusEvent *focusEvent = static_cast<QFocusEvent *>(event);
+        QFocusEvent* focusEvent = static_cast<QFocusEvent* >(event);
         if (focusEvent && Qt::MouseFocusReason == focusEvent->reason()) {
             postEvent(new MaterialStateTransitionEvent(FlatButtonPressedTransition));
             return true;
@@ -201,21 +187,21 @@ bool MaterialFlatButtonStateMachine::eventFilter(QObject *watched,
     return QStateMachine::eventFilter(watched, event);
 }
 
-void MaterialFlatButtonStateMachine::addTransition(QObject *object,
+void MaterialFlatButtonStateMachine::addTransition(QObject* object,
                                                      QEvent::Type eventType,
-                                                     QState *fromState,
-                                                     QState *toState)
+                                                     QState* fromState,
+                                                     QState* toState)
 {
     addTransition(new QEventTransition(object, eventType), fromState, toState);
 }
 
-void MaterialFlatButtonStateMachine::addTransition(QAbstractTransition *transition,
-                                                     QState *fromState,
-                                                     QState *toState)
+void MaterialFlatButtonStateMachine::addTransition(QAbstractTransition* transition,
+                                                     QState* fromState,
+                                                     QState* toState)
 {
     transition->setTargetState(toState);
 
-    QPropertyAnimation *animation;
+    QPropertyAnimation* animation;
 
     animation = new QPropertyAnimation(this, "overlayOpacity", this);
     animation->setDuration(150);

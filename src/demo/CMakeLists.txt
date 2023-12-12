@@ -11,72 +11,72 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(PROJECT_SOURCES
-    appbarsettingseditor.cpp
-    appbarsettingseditor.hpp
-    autocompletesettingseditor.cpp
-    autocompletesettingseditor.hpp
-    avatarsettingseditor.cpp
-    avatarsettingseditor.hpp
-    badgesettingseditor.cpp
-    badgesettingseditor.hpp
-    checkboxsettingseditor.cpp
-    checkboxsettingseditor.hpp
-    circularprogresssettingseditor.cpp
-    circularprogresssettingseditor.hpp
-    dialogsettingseditor.cpp
-    dialogsettingseditor.hpp
-    drawersettingseditor.cpp
-    drawersettingseditor.hpp
-    fabsettingseditor.cpp
-    fabsettingseditor.hpp
-    flatbuttonsettingseditor.cpp
-    flatbuttonsettingseditor.hpp
-    iconbuttonsettingseditor.cpp
-    iconbuttonsettingseditor.hpp
     main.cpp
-    demoform.cpp
-    demoform.hpp
-    mainwindow.cpp
-    mainwindow.hpp
-    progresssettingseditor.cpp
-    progresssettingseditor.hpp
-    radiobuttonsettingseditor.cpp
-    radiobuttonsettingseditor.hpp
-    raisedbuttonsettingseditor.cpp
-    raisedbuttonsettingseditor.hpp
-    scrollbarsettingseditor.cpp
-    scrollbarsettingseditor.hpp
-    slidersettingseditor.cpp
-    slidersettingseditor.hpp
-    snackbarsettingseditor.cpp
-    snackbarsettingseditor.hpp
-    switchsettingseditor.cpp
-    switchsettingseditor.hpp
-    tabssettingseditor.cpp
-    tabssettingseditor.hpp
-    textfieldsettingseditor.cpp
-    textfieldsettingseditor.hpp
+    MainWindow.cpp
+    MainWindow.hpp
+    AppBarSettings.cpp
+    AppBarSettings.hpp
+    AutoCompleteSettings.cpp
+    AutoCompleteSettings.hpp
+    AvatarSettings.cpp
+    AvatarSettings.hpp
+    BadgeSettings.cpp
+    BadgeSettings.hpp
+    CheckBoxSettings.cpp
+    CheckBoxSettings.hpp
+    CircularProgressSettings.cpp
+    CircularProgressSettings.hpp
+    DialogSettings.cpp
+    DialogSettings.hpp
+    DrawerSettings.cpp
+    DrawerSettings.hpp
+    FABSettings.cpp
+    FABSettings.hpp
+    FlatButtonSettings.cpp
+    FlatButtonSettings.hpp
+    IconButtonSettings.cpp
+    IconButtonSettings.hpp
+    ProgressSettings.cpp
+    ProgressSettings.hpp
+    RadioButtonSettings.cpp
+    RadioButtonSettings.hpp
+    RaisedButtonSettings.cpp
+    RaisedButtonSettings.hpp
+    ScrollBarSettings.cpp
+    ScrollBarSettings.hpp
+    SliderSettings.cpp
+    SliderSettings.hpp
+    SnackbarSettings.cpp
+    SnackbarSettings.hpp
+    SwitchSettings.cpp
+    SwitchSettings.hpp
+    TabsSettings.cpp
+    TabsSettings.hpp
+    TextFieldSettings.cpp
+    TextFieldSettings.hpp
 )
 set(PROJECT_UI_FILES
-    demoform.ui
-    appbarsettingsform.ui
-    avatarsettingsform.ui
-    badgesettingsform.ui
-    checkboxsettingsform.ui
-    circularprogresssettingsform.ui
-    dialogsettingsform.ui
-    drawersettingsform.ui
-    fabsettingsform.ui
-    flatbuttonsettingsform.ui
-    iconbuttonsettingsform.ui
-    progresssettingsform.ui
-    radiobuttonsettingsform.ui
-    scrollbarsettingsform.ui
-    slidersettingsform.ui
-    snackbarsettingsform.ui
-    switchsettingsform.ui
-    tabssettingsform.ui
-    textfieldsettingsform.ui
+    MainWindow.ui
+    AppBarSettings.ui
+    AutoCompleteSettings.ui
+    AvatarSettings.ui
+    BadgeSettings.ui
+    CheckBoxSettings.ui
+    CircularProgressSettings.ui
+    DialogSettings.ui
+    DrawerSettings.ui
+    FABSettings.ui
+    FlatButtonSettings.ui
+    IconButtonSettings.ui
+    ProgressSettings.ui
+    RadioButtonSettings.ui
+    RaisedButtonSettings.ui
+    ScrollBarSettings.ui
+    SliderSettings.ui
+    SnackbarSettings.ui
+    SwitchSettings.ui
+    TabsSettings.ui
+    TextFieldSettings.ui
 )
 set(PROJECT_RESOURCES resources/resources.qrc)
 
@@ -98,7 +98,14 @@ else()
     )
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    qmw::static
-    Qt::Widgets
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    OUTPUT_NAME md-demo-qt${QT_VERSION_MAJOR}
 )
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt::Widgets
+    qmw::static
+)
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(${PROJECT_NAME})
+endif()

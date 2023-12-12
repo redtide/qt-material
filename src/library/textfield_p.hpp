@@ -14,24 +14,19 @@ class MaterialTextFieldPrivate
     Q_DECLARE_PUBLIC(MaterialTextField)
 
 public:
-    MaterialTextFieldPrivate(MaterialTextField *q);
+    MaterialTextFieldPrivate(MaterialTextField* q);
     virtual ~MaterialTextFieldPrivate();
 
     void init();
 
-    MaterialTextField             *const q_ptr;
-    MaterialTextFieldStateMachine *stateMachine;
-    MaterialTextFieldLabel        *label;
-    QColor                        labelColor;
-    QColor                        inkColor;
-    QColor                        inputLineColor;
-    QString                       labelString;
-    qreal                         labelFontSize;
-    bool                          showLabel;
-    bool                          showInputLine;
+    MaterialTextField*             const q_ptr;
+    MaterialTextFieldStateMachine* stateMachine;
+    MaterialTextFieldLabel*        label;
 
-    bool                          useThemeColors;
-    QColor                        textColor;
+    QString labelString;
+    qreal   labelFontSize;
+    bool    showLabel;
+    bool    showInputLine;
 };
 
 #endif // MATERIAL_TEXTFIELD_P_H

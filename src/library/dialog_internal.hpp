@@ -46,16 +46,16 @@ protected:
 private:
     Q_DISABLE_COPY(MaterialDialogProxy)
 
-    MaterialDialogWindow *const m_source;
-    QStackedLayout       *const m_layout;
-    MaterialDialog       *const m_dialog;
-    qreal                m_opacity;
-    TransparencyMode     m_mode;
+    MaterialDialogWindow *const source_;
+    QStackedLayout       *const layout_;
+    MaterialDialog       *const dialog_;
+    qreal                opacity_;
+    TransparencyMode     mode_;
 };
 
 inline qreal MaterialDialogProxy::opacity() const
 {
-    return m_opacity;
+    return opacity_;
 }
 
 class MaterialDialogWindow : public QWidget
@@ -77,7 +77,7 @@ protected:
 private:
     Q_DISABLE_COPY(MaterialDialogWindow)
 
-    MaterialDialog *const m_dialog;
+    MaterialDialog *const dialog_;
 };
 
 #endif // MATERIAL_DIALOG_INTERNAL_H

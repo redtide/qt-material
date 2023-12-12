@@ -15,13 +15,11 @@ class MaterialTabs;
 class QT_MATERIAL_EXPORT MaterialTabLayout : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY(int                   currentIndex    READ currentIndex    WRITE setCurrentIndex)
-    Q_PROPERTY(QString               tabTitle        READ tabTitle        WRITE setTabTitle STORED false)
-    Q_PROPERTY(bool                  haloVisible     READ isHaloVisible   WRITE setHaloVisible)
-    Q_PROPERTY(Material::RippleStyle rippleStyle     READ rippleStyle     WRITE setRippleStyle)
-    Q_PROPERTY(QColor                inkColor        READ inkColor        WRITE setInkColor)
-    Q_PROPERTY(QColor                backgroundColor READ backgroundColor WRITE setBackgroundColor)
-    Q_PROPERTY(QColor                textColor       READ textColor       WRITE setTextColor)
+
+    Q_PROPERTY(int                   currentIndex  READ currentIndex  WRITE setCurrentIndex)
+    Q_PROPERTY(QString               tabTitle      READ tabTitle      WRITE setTabTitle STORED false)
+    Q_PROPERTY(bool                  isHaloVisible READ isHaloVisible WRITE setHaloVisible)
+    Q_PROPERTY(Material::RippleStyle rippleStyle   READ rippleStyle   WRITE setRippleStyle)
 
 public:
     explicit MaterialTabLayout(QWidget* parent = nullptr);
@@ -32,21 +30,15 @@ public:
     void setRippleStyle(Material::RippleStyle style);
     Material::RippleStyle rippleStyle() const;
 
-    void setInkColor(const QColor& color);
-    QColor inkColor() const;
+    int count() const;
 
-    void setBackgroundColor(const QColor& color);
-    QColor backgroundColor() const;
+    int currentIndex() const;
 
-    void setTextColor(const QColor& color);
-    QColor textColor() const;
+    QWidget* widget(int index);
+
+    QString tabTitle() const;
 
     QSize sizeHint() const override;
-
-    int count() const;
-    int currentIndex() const;
-    QWidget* widget(int index);
-    QString tabTitle() const;
 
 public Q_SLOTS:
     void addTab(QWidget* page);

@@ -1,34 +1,21 @@
 #include "checkbox_p.hpp"
 #include "checkable_internal.hpp"
+#include "palette-helper.hpp"
 
+#include <QEvent>
 #include <QPropertyAnimation>
 #include <QSignalTransition>
 #include <QState>
 
-/*!
- *  \class MaterialCheckBoxPrivate
- *  \internal
- */
-
-/*!
- *  \internal
- */
 MaterialCheckBoxPrivate::MaterialCheckBoxPrivate(MaterialCheckBox *q)
     : MaterialCheckablePrivate(q)
 {
 }
 
-/*!
- *  \internal
- */
-
 MaterialCheckBoxPrivate::~MaterialCheckBoxPrivate()
 {
 }
 
-/*!
- *  \internal
- */
 void MaterialCheckBoxPrivate::init()
 {
     Q_Q(MaterialCheckBox);
@@ -70,10 +57,6 @@ void MaterialCheckBoxPrivate::init()
     animation->setDuration(440);
     uncheckedTransition->addAnimation(animation);
 }
-
-/*!
- *  \class MaterialCheckBox
- */
 
 MaterialCheckBox::MaterialCheckBox(QWidget *parent)
     : MaterialCheckable(*new MaterialCheckBoxPrivate(this), parent)

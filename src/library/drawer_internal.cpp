@@ -8,34 +8,29 @@
 #include <QPropertyAnimation>
 #include <QtWidgets/QLayout>
 
-/*!
- *  \class MaterialDrawerStateMachine
- *  \internal
- */
-
-MaterialDrawerStateMachine::MaterialDrawerStateMachine(MaterialDrawerWidget *drawer, MaterialDrawer *parent)
-    : QStateMachine(parent),
-      m_drawer(drawer),
-      m_main(parent),
-      m_openingState(new QState),
-      m_openedState(new QState),
-      m_closingState(new QState),
-      m_closedState(new QState),
-      m_opacity(0)
+MaterialDrawerStateMachine::MaterialDrawerStateMachine(MaterialDrawerWidget* drawer, MaterialDrawer* parent)
+    : QStateMachine(parent)
+    , drawer_(drawer)
+    , main_(parent)
+    , openingState_(new QState)
+    , openedState_(new QState)
+    , closingState_(new QState)
+    , closedState_(new QState)
+    , opacity_(0)
 {
-    addState(m_openingState);
-    addState(m_openedState);
-    addState(m_closingState);
-    addState(m_closedState);
+    addState(openingState_);
+    addState(openedState_);
+    addState(closingState_);
+    addState(closedState_);
 
-    setInitialState(m_closedState);
+    setInitialState(closedState_);
 
-    QSignalTransition *transition;
-    QPropertyAnimation *animation;
+    QSignalTransition* transition;
+    QPropertyAnimation* animation;
 
     transition = new QSignalTransition(this, SIGNAL(signalOpen()));
-    transition->setTargetState(m_openingState);
-    m_closedState->addTransition(transition);
+    transition->setTargetState(openingState_);
+    closedState_->addTransition(transition);
 
     animation = new QPropertyAnimation(drawer, "offset", this);
     animation->setDuration(220);
@@ -47,12 +42,12 @@ MaterialDrawerStateMachine::MaterialDrawerStateMachine(MaterialDrawerWidget *dra
     transition->addAnimation(animation);
 
     transition = new QSignalTransition(animation, SIGNAL(finished()));
-    transition->setTargetState(m_openedState);
-    m_openingState->addTransition(transition);
+    transition->setTargetState(openedState_);
+    openingState_->addTransition(transition);
 
     transition = new QSignalTransition(this, SIGNAL(signalClose()));
-    transition->setTargetState(m_closingState);
-    m_openingState->addTransition(transition);
+    transition->setTargetState(closingState_);
+    openingState_->addTransition(transition);
 
     animation = new QPropertyAnimation(this, "opacity", this);
     animation->setDuration(220);
@@ -64,12 +59,12 @@ MaterialDrawerStateMachine::MaterialDrawerStateMachine(MaterialDrawerWidget *dra
     transition->addAnimation(animation);
 
     transition = new QSignalTransition(animation, SIGNAL(finished()));
-    transition->setTargetState(m_closedState);
-    m_closingState->addTransition(transition);
+    transition->setTargetState(closedState_);
+    closingState_->addTransition(transition);
 
     transition = new QSignalTransition(this, SIGNAL(signalClose()));
-    transition->setTargetState(m_closingState);
-    m_openedState->addTransition(transition);
+    transition->setTargetState(closingState_);
+    openedState_->addTransition(transition);
 
     animation = new QPropertyAnimation(drawer, "offset", this);
     animation->setDuration(220);
@@ -81,8 +76,8 @@ MaterialDrawerStateMachine::MaterialDrawerStateMachine(MaterialDrawerWidget *dra
     transition->addAnimation(animation);
 
     transition = new QSignalTransition(animation, SIGNAL(finished()));
-    transition->setTargetState(m_closedState);
-    m_closingState->addTransition(transition);
+    transition->setTargetState(closedState_);
+    closingState_->addTransition(transition);
 
     updatePropertyAssignments();
 }
@@ -93,37 +88,32 @@ MaterialDrawerStateMachine::~MaterialDrawerStateMachine()
 
 void MaterialDrawerStateMachine::setOpacity(qreal opacity)
 {
-    m_opacity = opacity;
-    m_main->update();
+    opacity_ = opacity;
+    main_->update();
 }
 
 bool MaterialDrawerStateMachine::isInClosedState() const
 {
-    return m_closedState->active();
+    return closedState_->active();
 }
 
 void MaterialDrawerStateMachine::updatePropertyAssignments()
 {
-    const qreal closedOffset = -(m_drawer->width()+32);
+    const qreal closedOffset = -(drawer_->width()+32);
 
-    m_closingState->assignProperty(m_drawer, "offset", closedOffset);
-    m_closedState->assignProperty(m_drawer, "offset", closedOffset);
+    closingState_->assignProperty(drawer_, "offset", closedOffset);
+    closedState_->assignProperty(drawer_, "offset", closedOffset);
 
-    m_closingState->assignProperty(this, "opacity", 0);
-    m_closedState->assignProperty(this, "opacity", 0);
+    closingState_->assignProperty(this, "opacity", 0);
+    closedState_->assignProperty(this, "opacity", 0);
 
-    m_openingState->assignProperty(m_drawer, "offset", 0);
-    m_openingState->assignProperty(this, "opacity", 0.4);
+    openingState_->assignProperty(drawer_, "offset", 0);
+    openingState_->assignProperty(this, "opacity", 0.4);
 }
 
-/*!
- *  \class MaterialDrawerWidget
- *  \internal
- */
-
-MaterialDrawerWidget::MaterialDrawerWidget(QWidget *parent)
-    : MaterialOverlayWidget(parent),
-      m_offset(0)
+MaterialDrawerWidget::MaterialDrawerWidget(QWidget* parent)
+    : MaterialOverlayWidget(parent)
+    , offset_(0)
 {
 }
 
@@ -133,21 +123,18 @@ MaterialDrawerWidget::~MaterialDrawerWidget()
 
 void MaterialDrawerWidget::setOffset(int offset)
 {
-    m_offset = offset;
+    offset_ = offset;
 
-    QWidget *widget = parentWidget();
-    if (widget) {
+    QWidget* widget = parentWidget();
+    if (widget)
         setGeometry(widget->rect().translated(offset, 0));
-    }
+
     update();
 }
 
-void MaterialDrawerWidget::paintEvent(QPaintEvent *event)
+void MaterialDrawerWidget::paintEvent(QPaintEvent*)
 {
-    Q_UNUSED(event)
-
     QPainter painter(this);
-
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::white);
@@ -167,5 +154,5 @@ void MaterialDrawerWidget::paintEvent(QPaintEvent *event)
 
 QRect MaterialDrawerWidget::overlayGeometry() const
 {
-    return MaterialOverlayWidget::overlayGeometry().translated(m_offset, 0);
+    return MaterialOverlayWidget::overlayGeometry().translated(offset_, 0);
 }

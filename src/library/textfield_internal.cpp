@@ -1,4 +1,5 @@
 #include "textfield_internal.hpp"
+#include "defaults.hpp"
 
 #include <QtMaterialWidgets/textfield.hpp>
 
@@ -6,34 +7,31 @@
 #include <QPainter>
 #include <QPropertyAnimation>
 
-/*!
- *  \class MaterialTextFieldStateMachine
- *  \internal
- */
+namespace defaults = material::defaults::global;
 
-MaterialTextFieldStateMachine::MaterialTextFieldStateMachine(MaterialTextField *parent)
+MaterialTextFieldStateMachine::MaterialTextFieldStateMachine(MaterialTextField* parent)
     : QStateMachine(parent)
-    , m_textField(parent)
-    , m_normalState(new QState)
-    , m_focusedState(new QState)
-    , m_label(0)
-    , m_offsetAnimation(0)
-    , m_colorAnimation(0)
-    , m_progress(0.0)
+    , textField_(parent)
+    , normalState_(new QState)
+    , focusedState_(new QState)
+    , label_(0)
+    , offsetAnimation_(0)
+    , colorAnimation_(0)
+    , progress_(0.0)
 {
     Q_ASSERT(parent);
 
-    addState(m_normalState);
-    addState(m_focusedState);
+    addState(normalState_);
+    addState(focusedState_);
 
-    setInitialState(m_normalState);
+    setInitialState(normalState_);
 
-    QEventTransition *transition;
-    QPropertyAnimation *animation;
+    QEventTransition*   transition;
+    QPropertyAnimation* animation;
 
     transition = new QEventTransition(parent, QEvent::FocusIn);
-    transition->setTargetState(m_focusedState);
-    m_normalState->addTransition(transition);
+    transition->setTargetState(focusedState_);
+    normalState_->addTransition(transition);
 
     animation = new QPropertyAnimation(this, "progress", this);
     animation->setEasingCurve(QEasingCurve::InCubic);
@@ -41,54 +39,53 @@ MaterialTextFieldStateMachine::MaterialTextFieldStateMachine(MaterialTextField *
     transition->addAnimation(animation);
 
     transition = new QEventTransition(parent, QEvent::FocusOut);
-    transition->setTargetState(m_normalState);
-    m_focusedState->addTransition(transition);
+    transition->setTargetState(normalState_);
+    focusedState_->addTransition(transition);
 
     animation = new QPropertyAnimation(this, "progress", this);
     animation->setEasingCurve(QEasingCurve::OutCubic);
     animation->setDuration(310);
     transition->addAnimation(animation);
 
-    m_normalState->assignProperty(this, "progress", 0);
-    m_focusedState->assignProperty(this, "progress", 1);
+    normalState_->assignProperty(this, "progress", 0);
+    focusedState_->assignProperty(this, "progress", 1);
 
     setupProperties();
 
-    connect(m_textField, SIGNAL(textChanged(QString)), this, SLOT(setupProperties()));
+    connect(textField_, SIGNAL(textChanged(QString)), this, SLOT(setupProperties()));
 }
 
 MaterialTextFieldStateMachine::~MaterialTextFieldStateMachine()
 {
 }
 
-void MaterialTextFieldStateMachine::setLabel(MaterialTextFieldLabel *label)
+void MaterialTextFieldStateMachine::setLabel(MaterialTextFieldLabel* label)
 {
-    if (m_label) {
-        delete m_label;
+    if (label_)
+        delete label_;
+
+    if (offsetAnimation_) {
+        removeDefaultAnimation(offsetAnimation_);
+        delete offsetAnimation_;
     }
 
-    if (m_offsetAnimation) {
-        removeDefaultAnimation(m_offsetAnimation);
-        delete m_offsetAnimation;
+    if (colorAnimation_) {
+        removeDefaultAnimation(colorAnimation_);
+        delete colorAnimation_;
     }
 
-    if (m_colorAnimation) {
-        removeDefaultAnimation(m_colorAnimation);
-        delete m_colorAnimation;
-    }
+    label_ = label;
 
-    m_label = label;
-
-    if (m_label)
+    if (label_)
     {
-        m_offsetAnimation = new QPropertyAnimation(m_label, "offset", this);
-        m_offsetAnimation->setDuration(210);
-        m_offsetAnimation->setEasingCurve(QEasingCurve::OutCubic);
-        addDefaultAnimation(m_offsetAnimation);
+        offsetAnimation_ = new QPropertyAnimation(label_, "offset", this);
+        offsetAnimation_->setDuration(210);
+        offsetAnimation_->setEasingCurve(QEasingCurve::OutCubic);
+        addDefaultAnimation(offsetAnimation_);
 
-        m_colorAnimation = new QPropertyAnimation(m_label, "color", this);
-        m_colorAnimation->setDuration(210);
-        addDefaultAnimation(m_colorAnimation);
+        colorAnimation_ = new QPropertyAnimation(label_, "color", this);
+        colorAnimation_->setDuration(210);
+        addDefaultAnimation(colorAnimation_);
     }
 
     setupProperties();
@@ -96,46 +93,37 @@ void MaterialTextFieldStateMachine::setLabel(MaterialTextFieldLabel *label)
 
 void MaterialTextFieldStateMachine::setupProperties()
 {
-    if (m_label)
+    if (label_)
     {
-        const int m = m_textField->textMargins().top();
+        const int m = textField_->textMargins().top();
 
-        if (m_textField->text().isEmpty()) {
-            m_normalState->assignProperty(m_label, "offset", QPointF(0, 26));
-        } else {
-            m_normalState->assignProperty(m_label, "offset", QPointF(0, 0-m));
-        }
+        if (textField_->text().isEmpty())
+            normalState_->assignProperty(label_, "offset", QPointF(0, 26));
+        else
+            normalState_->assignProperty(label_, "offset", QPointF(0, 0-m));
 
-        m_focusedState->assignProperty(m_label, "offset", QPointF(0, 0-m));
-        m_focusedState->assignProperty(m_label, "color", m_textField->inkColor());
-        m_normalState->assignProperty(m_label, "color", m_textField->labelColor());
+        focusedState_->assignProperty(label_, "offset", QPointF(0, 0-m));
+        focusedState_->assignProperty(label_, "color", textField_->palette().color(QPalette::Button));
+        normalState_->assignProperty(label_, "color", textField_->palette().color(QPalette::Button));
 
-        if (0 != m_label->offset().y() && !m_textField->text().isEmpty()) {
-            m_label->setOffset(QPointF(0, 0-m));
-        } else if (!m_textField->hasFocus() && m_label->offset().y() <= 0 && m_textField->text().isEmpty()) {
-            m_label->setOffset(QPointF(0, 26));
-        }
+        if (label_->offset().y() != 0 && !textField_->text().isEmpty())
+            label_->setOffset(QPointF(0, 0 - m));
+        else if (!textField_->hasFocus() && label_->offset().y() <= 0 && textField_->text().isEmpty())
+            label_->setOffset(QPointF(0, 26));
     }
-
-    m_textField->update();
+    textField_->update();
 }
 
-/*!
- *  \class MaterialTextFieldLabel
- *  \internal
- */
-
-MaterialTextFieldLabel::MaterialTextFieldLabel(MaterialTextField *parent)
+MaterialTextFieldLabel::MaterialTextFieldLabel(MaterialTextField* parent)
     : QWidget(parent)
-    , m_textField(parent)
-    , m_scale(1)
-    , m_posX(0)
-    , m_posY(26)
-    , m_color(parent->labelColor())
+    , textField_(parent)
+    , scale_(1)
+    , offsetX_(0)
+    , offsetY_(26)
 {
     Q_ASSERT(parent);
 
-    QFont font("Roboto", parent->labelFontSize(), QFont::Medium);
+    QFont font(defaults::font::family, parent->labelFontSize(), QFont::Medium);
     font.setLetterSpacing(QFont::PercentageSpacing, 102);
     setFont(font);
 }
@@ -144,23 +132,17 @@ MaterialTextFieldLabel::~MaterialTextFieldLabel()
 {
 }
 
-/*!
- *  \reimp
- */
-void MaterialTextFieldLabel::paintEvent(QPaintEvent *event)
+void MaterialTextFieldLabel::paintEvent(QPaintEvent*)
 {
-    Q_UNUSED(event)
-
-    if (!m_textField->hasLabel()) {
+    if (!textField_->hasLabel())
         return;
-    }
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.scale(m_scale, m_scale);
-    painter.setPen(m_color);
+    painter.scale(scale_, scale_);
+    painter.setPen(palette().color(QPalette::Button));
     painter.setOpacity(1);
 
-    QPointF pos(2+m_posX, height()-36+m_posY);
-    painter.drawText(pos.x(), pos.y(), m_textField->label());
+    QPointF pos(2 + offsetX_, height() - 36 + offsetY_);
+    painter.drawText(pos.x(), pos.y(), textField_->label());
 }

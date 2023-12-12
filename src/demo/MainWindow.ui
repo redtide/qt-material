@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="layout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetNoConstraint</enum>
+    </property>
+    <property name="leftMargin">
+     <number>6</number>
+    </property>
+    <property name="topMargin">
+     <number>6</number>
+    </property>
+    <property name="rightMargin">
+     <number>6</number>
+    </property>
+    <property name="bottomMargin">
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QListWidget" name="list">
+      <item>
+       <property name="text">
+        <string notr="true">AppBar</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">AutoComplete</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">Avatar</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">Badge</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">CheckBox</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">CircularProgress</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">Dialog</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">Drawer</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">FloatingActionButton</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">FlatButton</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">IconButton</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">Progress</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">RadioButton</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">RaisedButton</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">ScrollBar</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">Slider</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">Snackbar</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">Switch</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">Tabs</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string notr="true">TextField</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="stack"/>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

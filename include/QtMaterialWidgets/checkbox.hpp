@@ -11,13 +11,12 @@ class QT_MATERIAL_EXPORT MaterialCheckBox : public MaterialCheckable
 {
     Q_OBJECT
 
+    Q_DECLARE_PRIVATE(MaterialCheckBox)
+    Q_DISABLE_COPY(MaterialCheckBox)
+
 public:
     explicit MaterialCheckBox(QWidget *parent = nullptr);
     ~MaterialCheckBox();
-
-private:
-    Q_DECLARE_PRIVATE(MaterialCheckBox)
-    Q_DISABLE_COPY(MaterialCheckBox)
 };
 
 #endif // MATERIAL_CHECKBOX_H

@@ -1,5 +1,7 @@
 #include "autocomplete_internal.hpp"
 #include "autocomplete_p.hpp"
+#include "defaults.hpp"
+#include "palette-helper.hpp"
 
 #include <QtMaterialWidgets/autocomplete.hpp>
 #include <QtMaterialWidgets/flatbutton.hpp>
@@ -11,38 +13,27 @@
 #include <QtWidgets/QGraphicsDropShadowEffect>
 #include <QtWidgets/QVBoxLayout>
 
-/*!
- *  \class MaterialAutoCompletePrivate
- *  \internal
- */
-
-/*!
- *  \internal
- */
-MaterialAutoCompletePrivate::MaterialAutoCompletePrivate(MaterialAutoComplete *q)
+MaterialAutoCompletePrivate::MaterialAutoCompletePrivate(MaterialAutoComplete* q)
     : MaterialTextFieldPrivate(q)
 {
 }
 
-/*!
- *  \internal
- */
 MaterialAutoCompletePrivate::~MaterialAutoCompletePrivate()
 {
 }
 
-/*!
- *  \internal
- */
 void MaterialAutoCompletePrivate::init()
 {
     Q_Q(MaterialAutoComplete);
 
-    menu         = new QWidget;
     frame        = new QWidget;
-    stateMachine = new MaterialAutoCompleteStateMachine(menu);
+    menu         = new QWidget;
     menuLayout   = new QVBoxLayout;
     maxWidth     = 0;
+    stateMachine = new MaterialAutoCompleteStateMachine(menu);
+
+    material::updatePalette(frame);
+    material::updatePalette(menu, true);
 
     menu->setParent(q->parentWidget());
     frame->setParent(q->parentWidget());
@@ -50,10 +41,10 @@ void MaterialAutoCompletePrivate::init()
     menu->installEventFilter(q);
     frame->installEventFilter(q);
 
-    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
-    effect->setBlurRadius(11);
-    effect->setColor(QColor(0, 0, 0, 50));
-    effect->setOffset(0, 3);
+    QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect;
+    effect->setBlurRadius(material::defaults::global::effect::blurRadius);
+    effect->setColor(material::defaults::global::effect::color);
+    effect->setOffset(material::defaults::global::effect::offset);
 
     frame->setGraphicsEffect(effect);
     frame->setVisible(false);
@@ -61,19 +52,15 @@ void MaterialAutoCompletePrivate::init()
     menu->setLayout(menuLayout);
     menu->setVisible(false);
 
-    menuLayout->setContentsMargins(0, 0, 0, 0);
+    menuLayout->setContentsMargins(material::defaults::autocomplete::contentsMargins);
     menuLayout->setSpacing(0);
 
-    QObject::connect(q, SIGNAL(textEdited(QString)), q, SLOT(updateResults(QString)));
+    QObject::connect(q, &MaterialAutoComplete::textEdited, q, &MaterialAutoComplete::updateResults);
 
     stateMachine->start();
 }
 
-/*!
- *  \class MaterialAutoComplete
- */
-
-MaterialAutoComplete::MaterialAutoComplete(QWidget *parent)
+MaterialAutoComplete::MaterialAutoComplete(QWidget* parent)
     : MaterialTextField(*new MaterialAutoCompletePrivate(this), parent)
 {
     d_func()->init();
@@ -113,13 +100,12 @@ void MaterialAutoComplete::updateResults(QString text)
             }
         }
     }
-
     const int diff = results.length() - d->menuLayout->count();
     QFont font("Roboto", 12, QFont::Normal);
 
     if (diff > 0) {
         for (int c = 0; c < diff; c++) {
-            MaterialFlatButton *item = new MaterialFlatButton;
+            MaterialFlatButton* item = new MaterialFlatButton;
             item->setFont(font);
             item->setTextAlignment(Qt::AlignLeft);
             item->setCornerRadius(0);
@@ -131,28 +117,27 @@ void MaterialAutoComplete::updateResults(QString text)
         }
     } else if (diff < 0) {
         for (int c = 0; c < -diff; c++) {
-            QWidget *widget = d->menuLayout->itemAt(0)->widget();
+            QWidget* widget = d->menuLayout->itemAt(0)->widget();
             if (widget) {
                 d->menuLayout->removeWidget(widget);
                 delete widget;
             }
         }
     }
-
-    QFontMetrics *fm = new QFontMetrics(font);
+    QFontMetrics* fm = new QFontMetrics(font);
     d->maxWidth = 0;
 
     for (int i = 0; i < results.count(); ++i) {
-        QWidget *widget = d->menuLayout->itemAt(i)->widget();
-        MaterialFlatButton *item;
-        if ((item = static_cast<MaterialFlatButton *>(widget))) {
+        QWidget*            widget = d->menuLayout->itemAt(i)->widget();
+        MaterialFlatButton* item;
+
+        if ((item = static_cast<MaterialFlatButton*>(widget))) {
             QString text = results.at(i);
-            QRect rect = fm->boundingRect(text);
-            d->maxWidth = qMax(d->maxWidth, rect.width());
+            QRect   rect = fm->boundingRect(text);
+            d->maxWidth  = qMax(d->maxWidth, rect.width());
             item->setText(text);
         }
     }
-
     if (!results.count()) {
         Q_EMIT d->stateMachine->shouldClose();
     } else {
@@ -164,7 +149,7 @@ void MaterialAutoComplete::updateResults(QString text)
     d->menu->update();
 }
 
-bool MaterialAutoComplete::event(QEvent *event)
+bool MaterialAutoComplete::event(QEvent* event)
 {
     Q_D(MaterialAutoComplete);
 
@@ -176,12 +161,17 @@ bool MaterialAutoComplete::event(QEvent *event)
         break;
     }
     case QEvent::ParentChange: {
-        QWidget *widget = static_cast<QWidget *>(parent());
+        QWidget* widget = static_cast<QWidget* >(parent());
         if (widget) {
             d->menu->setParent(widget);
             d->frame->setParent(widget);
         }
         break;
+    }
+    case QEvent::ThemeChange: {
+        material::updatePalette(d->frame);
+        material::updatePalette(d->menu, true);
+        return true;
     }
     default:
         break;
@@ -189,7 +179,7 @@ bool MaterialAutoComplete::event(QEvent *event)
     return MaterialTextField::event(event);
 }
 
-bool MaterialAutoComplete::eventFilter(QObject *watched, QEvent *event)
+bool MaterialAutoComplete::eventFilter(QObject* watched, QEvent* event)
 {
     Q_D(MaterialAutoComplete);
 
@@ -199,15 +189,13 @@ bool MaterialAutoComplete::eventFilter(QObject *watched, QEvent *event)
         {
         case QEvent::Paint: {
             QPainter painter(d->frame);
-            painter.fillRect(d->frame->rect(), Qt::white);
+            painter.fillRect(d->frame->rect(), d->frame->palette().color(QPalette::Window));
             break;
         }
         default:
             break;
         }
-    }
-    else if (d->menu == watched)
-    {
+    } else if (d->menu == watched) {
         switch (event->type())
         {
         case QEvent::Resize:
@@ -227,15 +215,13 @@ bool MaterialAutoComplete::eventFilter(QObject *watched, QEvent *event)
         default:
             break;
         }
-    }
-    else
-    {
+    } else {
         switch (event->type())
         {
         case QEvent::MouseButtonPress: {
             Q_EMIT d->stateMachine->shouldFade();
-            MaterialFlatButton *widget;
-            if ((widget = static_cast<MaterialFlatButton *>(watched))) {
+            MaterialFlatButton* widget;
+            if ((widget = static_cast<MaterialFlatButton* >(watched))) {
                 QString text(widget->text());
                 setText(text);
                 Q_EMIT itemSelected(text);

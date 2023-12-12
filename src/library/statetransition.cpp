@@ -1,19 +1,21 @@
 #include "statetransition.hpp"
 
 MaterialStateTransition::MaterialStateTransition(MaterialStateTransitionType type)
-    : m_type(type)
+    : type_(type)
 {
 }
 
-bool MaterialStateTransition::eventTest(QEvent *event)
+bool MaterialStateTransition::eventTest(QEvent* event)
 {
-    if (event->type() != QEvent::Type(QEvent::User + 1)) {
+    if (event->type() != QEvent::Type(QEvent::User + 1))
         return false;
-    }
-    MaterialStateTransitionEvent *transition = static_cast<MaterialStateTransitionEvent *>(event);
-    return (m_type == transition->type);
+
+    MaterialStateTransitionEvent* transition =
+        static_cast<MaterialStateTransitionEvent* >(event);
+
+    return (type_ == transition->type);
 }
 
-void MaterialStateTransition::onTransition(QEvent *)
+void MaterialStateTransition::onTransition(QEvent*)
 {
 }

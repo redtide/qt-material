@@ -1,5 +1,6 @@
 #include "drawer_internal.hpp"
 #include "drawer_p.hpp"
+#include "palette-helper.hpp"
 
 #include <QtMaterialWidgets/drawer.hpp>
 
@@ -11,32 +12,20 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QVBoxLayout>
 
-/*!
- *  \class MaterialDrawerPrivate
- *  \internal
- */
-
-/*!
- *  \internal
- */
-MaterialDrawerPrivate::MaterialDrawerPrivate(MaterialDrawer *q)
+MaterialDrawerPrivate::MaterialDrawerPrivate(MaterialDrawer* q)
     : q_ptr(q)
 {
 }
 
-/*!
- *  \internal
- */
 MaterialDrawerPrivate::~MaterialDrawerPrivate()
 {
 }
 
-/*!
- *  \internal
- */
 void MaterialDrawerPrivate::init()
 {
     Q_Q(MaterialDrawer);
+
+    material::updatePalette(q);
 
     widget       = new MaterialDrawerWidget;
     stateMachine = new MaterialDrawerStateMachine(widget, q);
@@ -47,7 +36,7 @@ void MaterialDrawerPrivate::init()
     closed       = true;
     overlay      = false;
 
-    QVBoxLayout *layout = new QVBoxLayout;
+    QVBoxLayout* layout = new QVBoxLayout;
     layout->addWidget(window);
 
     widget->setLayout(layout);
@@ -59,13 +48,9 @@ void MaterialDrawerPrivate::init()
     QCoreApplication::processEvents();
 }
 
-/*!
- *  \class MaterialDrawer
- */
-
-MaterialDrawer::MaterialDrawer(QWidget *parent)
-    : MaterialOverlayWidget(parent),
-      d_ptr(new MaterialDrawerPrivate(this))
+MaterialDrawer::MaterialDrawer(QWidget* parent)
+    : MaterialOverlayWidget(parent)
+    , d_ptr(new MaterialDrawerPrivate(this))
 {
     d_func()->init();
 }
@@ -90,14 +75,14 @@ int MaterialDrawer::drawerWidth() const
     return d->width;
 }
 
-void MaterialDrawer::setDrawerLayout(QLayout *layout)
+void MaterialDrawer::setDrawerLayout(QLayout* layout)
 {
     Q_D(MaterialDrawer);
 
     d->window->setLayout(layout);
 }
 
-QLayout *MaterialDrawer::drawerLayout() const
+QLayout* MaterialDrawer::drawerLayout() const
 {
     Q_D(const MaterialDrawer);
 
@@ -172,7 +157,7 @@ void MaterialDrawer::closeDrawer()
     }
 }
 
-bool MaterialDrawer::event(QEvent *event)
+bool MaterialDrawer::event(QEvent* event)
 {
     Q_D(MaterialDrawer);
 
@@ -180,9 +165,8 @@ bool MaterialDrawer::event(QEvent *event)
     {
     case QEvent::Move:
     case QEvent::Resize:
-        if (!d->overlay) {
+        if (!d->overlay)
             setMask(QRegion(d->widget->rect()));
-        }
         break;
     default:
         break;
@@ -190,29 +174,31 @@ bool MaterialDrawer::event(QEvent *event)
     return MaterialOverlayWidget::event(event);
 }
 
-bool MaterialDrawer::eventFilter(QObject *obj, QEvent *event)
+bool MaterialDrawer::eventFilter(QObject* obj, QEvent* event)
 {
     Q_D(MaterialDrawer);
 
     switch (event->type())
     {
     case QEvent::MouseButtonPress: {
-        QMouseEvent *mouseEvent;
-        if ((mouseEvent = static_cast<QMouseEvent *>(event))) {
+        QMouseEvent* mouseEvent;
+        if ((mouseEvent = static_cast<QMouseEvent* >(event))) {
             const bool canClose = d->clickToClose || d->overlay;
-            if (!d->widget->geometry().contains(mouseEvent->pos()) && canClose) {
+            if (!d->widget->geometry().contains(mouseEvent->pos()) && canClose)
                 closeDrawer();
-            }
         }
         break;
     }
     case QEvent::Move:
     case QEvent::Resize: {
-        QLayout *lw = d->widget->layout();
-        if (lw && 16 != lw->contentsMargins().right()) {
+        QLayout* lw = d->widget->layout();
+        if (lw && 16 != lw->contentsMargins().right())
             lw->setContentsMargins(0, 0, 16, 0);
-        }
         break;
+    }
+    case QEvent::ThemeChange: {
+        material::updatePalette(this);
+        return true;
     }
     default:
         break;
@@ -220,15 +206,13 @@ bool MaterialDrawer::eventFilter(QObject *obj, QEvent *event)
     return MaterialOverlayWidget::eventFilter(obj, event);
 }
 
-void MaterialDrawer::paintEvent(QPaintEvent *event)
+void MaterialDrawer::paintEvent(QPaintEvent*)
 {
-    Q_UNUSED(event)
-
     Q_D(MaterialDrawer);
 
-    if (!d->overlay || d->stateMachine->isInClosedState()) {
+    if (!d->overlay || d->stateMachine->isInClosedState())
         return;
-    }
+
     QPainter painter(this);
     painter.setOpacity(d->stateMachine->opacity());
     painter.fillRect(rect(), Qt::SolidPattern);

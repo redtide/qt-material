@@ -2,31 +2,22 @@
 
 #include <QEvent>
 
-/*!
- *  \class MaterialOverlayWidget
- *  \internal
- */
-
-MaterialOverlayWidget::MaterialOverlayWidget(QWidget *parent)
+MaterialOverlayWidget::MaterialOverlayWidget(QWidget* parent)
     : QWidget(parent)
 {
-    if (parent) {
+    if (parent)
         parent->installEventFilter(this);
-    }
 }
 
 MaterialOverlayWidget::~MaterialOverlayWidget()
 {
 }
 
-/*!
- *  \reimp
- */
-bool MaterialOverlayWidget::event(QEvent *event)
+bool MaterialOverlayWidget::event(QEvent* event)
 {
-    if (!parent()) {
+    if (!parent())
         return QWidget::event(event);
-    }
+
     switch (event->type())
     {
     case QEvent::ParentChange:
@@ -46,10 +37,7 @@ bool MaterialOverlayWidget::event(QEvent *event)
     return QWidget::event(event);
 }
 
-/*!
- *  \reimp
- */
-bool MaterialOverlayWidget::eventFilter(QObject *obj, QEvent *event)
+bool MaterialOverlayWidget::eventFilter(QObject* obj, QEvent* event)
 {
     switch (event->type())
     {
@@ -65,9 +53,9 @@ bool MaterialOverlayWidget::eventFilter(QObject *obj, QEvent *event)
 
 QRect MaterialOverlayWidget::overlayGeometry() const
 {
-    QWidget *widget = parentWidget();
-    if (!widget) {
+    QWidget* widget = parentWidget();
+    if (!widget)
         return QRect();
-    }
+
     return widget->rect();
 }

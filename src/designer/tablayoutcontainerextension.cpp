@@ -34,3 +34,13 @@ QWidget* QMWTabLayoutContainerExtension::widget(int index) const
 {
     return tablayout_->widget(index);
 }
+#if QT_VERSION >= 0x060000
+bool QMWTabLayoutContainerExtension::canAddWidget() const
+{
+    return true;
+}
+bool QMWTabLayoutContainerExtension::canRemove(int) const
+{
+    return true;
+}
+#endif

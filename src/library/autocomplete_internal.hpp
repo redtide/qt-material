@@ -9,8 +9,10 @@ class MaterialAutoCompleteStateMachine : public QStateMachine
 {
     Q_OBJECT
 
+    Q_DISABLE_COPY(MaterialAutoCompleteStateMachine)
+
 public:
-    explicit MaterialAutoCompleteStateMachine(QWidget *menu);
+    explicit MaterialAutoCompleteStateMachine(QWidget* menu);
     ~MaterialAutoCompleteStateMachine();
 
 Q_SIGNALS:
@@ -19,12 +21,9 @@ Q_SIGNALS:
     void shouldFade();
 
 private:
-    Q_DISABLE_COPY(MaterialAutoCompleteStateMachine)
-
-    QWidget *const m_menu;
-    QState  *const m_closedState;
-    QState  *const m_openState;
-    QState  *const m_closingState;
+    QState*  const closedState_;
+    QState*  const openState_;
+    QState*  const closingState_;
 };
 
 #endif // MATERIAL_AUTOCOMPLETESTATEMACHINE_H

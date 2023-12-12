@@ -19,10 +19,10 @@ class MaterialTextFieldStateMachine : public QStateMachine
     Q_PROPERTY(qreal progress WRITE setProgress READ progress)
 
 public:
-    MaterialTextFieldStateMachine(MaterialTextField *parent);
+    MaterialTextFieldStateMachine(MaterialTextField* parent);
     ~MaterialTextFieldStateMachine();
 
-    void setLabel(MaterialTextFieldLabel *label);
+    void setLabel(MaterialTextFieldLabel* label);
 
     inline void setProgress(qreal progress);
     inline qreal progress() const;
@@ -33,92 +33,76 @@ public Q_SLOTS:
 private:
     Q_DISABLE_COPY(MaterialTextFieldStateMachine)
 
-    MaterialTextField      *const m_textField;
-    QState                 *const m_normalState;
-    QState                 *const m_focusedState;
-    MaterialTextFieldLabel *m_label;
-    QPropertyAnimation     *m_offsetAnimation;
-    QPropertyAnimation     *m_colorAnimation;
-    qreal                   m_progress;
+    MaterialTextField*      const textField_;
+    QState*                 const normalState_;
+    QState*                 const focusedState_;
+    MaterialTextFieldLabel* label_;
+    QPropertyAnimation*     offsetAnimation_;
+    QPropertyAnimation*     colorAnimation_;
+    qreal                   progress_;
 };
 
 inline void MaterialTextFieldStateMachine::setProgress(qreal progress)
 {
-    m_progress = progress;
-    m_textField->update();
+    progress_ = progress;
+    textField_->update();
 }
 
 inline qreal MaterialTextFieldStateMachine::progress() const
 {
-    return m_progress;
+    return progress_;
 }
 
 class MaterialTextFieldLabel : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(qreal scale WRITE setScale READ scale)
-    Q_PROPERTY(QPointF offset WRITE setOffset READ offset)
-    Q_PROPERTY(QColor color WRITE setColor READ color)
+    Q_PROPERTY(qreal   scale  READ scale  WRITE setScale)
+    Q_PROPERTY(QPointF offset READ offset WRITE setOffset)
 
 public:
-    MaterialTextFieldLabel(MaterialTextField *parent);
+    MaterialTextFieldLabel(MaterialTextField* parent);
     ~MaterialTextFieldLabel();
 
     inline void setScale(qreal scale);
     inline qreal scale() const;
 
-    inline void setOffset(const QPointF &pos);
+    inline void setOffset(const QPointF& offset);
     inline QPointF offset() const;
 
-    inline void setColor(const QColor &color);
-    inline QColor color() const;
-
 protected:
-    void paintEvent(QPaintEvent *event) override;
+    void paintEvent(QPaintEvent* event) override;
 
 private:
     Q_DISABLE_COPY(MaterialTextFieldLabel)
 
-    MaterialTextField *const m_textField;
-    qreal             m_scale;
-    qreal             m_posX;
-    qreal             m_posY;
-    QColor            m_color;
+    MaterialTextField* const textField_;
+    qreal  scale_;
+    qreal  offsetX_;
+    qreal  offsetY_;
 };
 
 inline void MaterialTextFieldLabel::setScale(qreal scale)
 {
-    m_scale = scale;
+    scale_ = scale;
     update();
 }
 
 inline qreal MaterialTextFieldLabel::scale() const
 {
-    return m_scale;
+    return scale_;
 }
 
-inline void MaterialTextFieldLabel::setOffset(const QPointF &pos)
+inline void MaterialTextFieldLabel::setOffset(const QPointF& offset)
 {
-    m_posX = pos.x();
-    m_posY = pos.y();
+    offsetX_ = offset.x();
+    offsetY_ = offset.y();
     update();
 }
 
 inline QPointF MaterialTextFieldLabel::offset() const
 {
-    return QPointF(m_posX, m_posY);
-}
-
-inline void MaterialTextFieldLabel::setColor(const QColor &color)
-{
-    m_color = color;
-    update();
-}
-
-inline QColor MaterialTextFieldLabel::color() const
-{
-    return m_color;
+    return QPointF(offsetX_, offsetY_);
 }
 
 #endif // MATERIAL_TEXTFIELD_INTERNAL_H

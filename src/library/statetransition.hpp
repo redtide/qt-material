@@ -17,7 +17,7 @@ protected:
     virtual void onTransition(QEvent *);
 
 private:
-    MaterialStateTransitionType m_type;
+    MaterialStateTransitionType type_;
 };
 
 #endif // MATERIAL_STATETRANSITION_H

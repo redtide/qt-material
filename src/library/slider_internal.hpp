@@ -24,19 +24,19 @@ public:
 private:
     Q_DISABLE_COPY(MaterialSliderStateMachine)
 
-    MaterialSlider      *const m_slider;
-    MaterialSliderThumb *const m_thumb;
-    MaterialSliderTrack *const m_track;
-    QState              *const m_topState;
-    QState              *const m_fstState;
-    QState              *const m_sndState;
-    QState              *const m_inactiveState;
-    QState              *const m_focusState;
-    QState              *const m_slidingState;
-    QState              *const m_pulseOutState;
-    QState              *const m_pulseInState;
-    QState              *const m_minState;
-    QState              *const m_normalState;
+    MaterialSlider      *const slider_;
+    MaterialSliderThumb *const thumb_;
+    MaterialSliderTrack *const track_;
+    QState              *const topState_;
+    QState              *const fstState_;
+    QState              *const sndState_;
+    QState              *const inactiveState_;
+    QState              *const focusState_;
+    QState              *const slidingState_;
+    QState              *const pulseOutState_;
+    QState              *const pulseInState_;
+    QState              *const minState_;
+    QState              *const normalState_;
 };
 
 class MaterialSliderThumb : public MaterialOverlayWidget
@@ -82,92 +82,91 @@ protected:
 private:
     Q_DISABLE_COPY(MaterialSliderThumb)
 
-    const MaterialSlider *const m_slider;
-    QColor               m_borderColor;
-    QColor               m_fillColor;
-    qreal                m_diameter;
-    qreal                m_borderWidth;
-    int                  m_offset;
-
-    QColor               m_haloColor;
-    qreal                m_haloSize;
+    const MaterialSlider *const slider_;
+    QColor               borderColor_;
+    QColor               fillColor_;
+    QColor               haloColor_;
+    qreal                borderWidth_;
+    qreal                diameter_;
+    qreal                haloSize_;
+    int                  offset_;
 };
 
 inline void MaterialSliderThumb::setDiameter(qreal diameter)
 {
-    m_diameter = diameter;
+    diameter_ = diameter;
     update();
 }
 
 inline qreal MaterialSliderThumb::diameter() const
 {
-    return m_diameter;
+    return diameter_;
 }
 
 inline void MaterialSliderThumb::setBorderWidth(qreal width)
 {
-    m_borderWidth = width;
+    borderWidth_ = width;
     update();
 }
 
 inline qreal MaterialSliderThumb::borderWidth() const
 {
-    return m_borderWidth;
+    return borderWidth_;
 }
 
 inline void MaterialSliderThumb::setBorderColor(const QColor &color)
 {
-    m_borderColor = color;
+    borderColor_ = color;
     update();
 }
 
 inline QColor MaterialSliderThumb::borderColor() const
 {
-    return m_borderColor;
+    return borderColor_;
 }
 
 inline void MaterialSliderThumb::setFillColor(const QColor &color)
 {
-    m_fillColor = color;
+    fillColor_ = color;
     update();
 }
 
 inline QColor MaterialSliderThumb::fillColor() const
 {
-    return m_fillColor;
+    return fillColor_;
 }
 
 inline void MaterialSliderThumb::setHaloSize(qreal size)
 {
-    m_haloSize = size;
+    haloSize_ = size;
     update();
 }
 
 inline qreal MaterialSliderThumb::haloSize() const
 {
-    return m_haloSize;
+    return haloSize_;
 }
 
 inline void MaterialSliderThumb::setHaloColor(const QColor &color)
 {
-    m_haloColor = color;
+    haloColor_ = color;
     update();
 }
 
 inline QColor MaterialSliderThumb::haloColor() const
 {
-    return m_haloColor;
+    return haloColor_;
 }
 
 inline void MaterialSliderThumb::setOffset(int offset)
 {
-    m_offset = offset;
+    offset_ = offset;
     update();
 }
 
 inline int MaterialSliderThumb::offset() const
 {
-    return m_offset;
+    return offset_;
 }
 
 class MaterialSliderTrack : public MaterialOverlayWidget
@@ -193,21 +192,21 @@ protected:
 private:
     Q_DISABLE_COPY(MaterialSliderTrack)
 
-    const MaterialSlider *const m_slider;
-    MaterialSliderThumb  *const m_thumb;
-    QColor                        m_fillColor;
+    const MaterialSlider *const slider_;
+    MaterialSliderThumb  *const thumb_;
+    QColor                        fillColor_;
     int                           m_trackWidth;
 };
 
 inline void MaterialSliderTrack::setFillColor(const QColor &color)
 {
-    m_fillColor = color;
+    fillColor_ = color;
     update();
 }
 
 inline QColor MaterialSliderTrack::fillColor() const
 {
-    return m_fillColor;
+    return fillColor_;
 }
 
 void MaterialSliderTrack::setTrackWidth(int width)
@@ -220,5 +219,7 @@ int MaterialSliderTrack::trackWidth() const
 {
     return m_trackWidth;
 }
+
+static constexpr int SliderMargin { 10 };
 
 #endif // MATERIAL_SLIDER_INTERNAL_H

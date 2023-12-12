@@ -4,6 +4,8 @@
 #include "dlimpexp.hpp"
 
 #include <QtWidgets/QAbstractButton>
+#include <QColor>
+#include <QIcon>
 #include <QScopedPointer>
 
 QT_BEGIN_NAMESPACE
@@ -16,14 +18,13 @@ class MaterialCheckablePrivate;
 class QT_MATERIAL_EXPORT MaterialCheckable : public QAbstractButton
 {
     Q_OBJECT
-//    Q_PROPERTY(LabelPosition labelPosition  READ setLabelPosition  WRITE labelPosition)
-//    Q_PROPERTY(bool          useThemeColors READ setUseThemeColors WRITE useThemeColors)
-//    Q_PROPERTY(QColor        checkedColor   READ setCheckedColor   WRITE checkedColor)
-//    Q_PROPERTY(QColor        uncheckedColor READ setUncheckedColor WRITE uncheckedColor)
-//    Q_PROPERTY(QColor        textColor      READ setTextColor      WRITE textColor)
-//    Q_PROPERTY(QColor        disabledColor  READ setDisabledColor  WRITE disabledColor)
-//    Q_PROPERTY(QIcon         checkedIcon    READ setCheckedIcon    WRITE checkedIcon)
-//    Q_PROPERTY(QIcon         uncheckedIcon  READ setUncheckedIcon  WRITE uncheckedIcon)
+
+    Q_DECLARE_PRIVATE(MaterialCheckable)
+    Q_DISABLE_COPY(MaterialCheckable)
+
+    Q_PROPERTY(LabelPosition labelPosition READ labelPosition WRITE setLabelPosition)
+    Q_PROPERTY(QIcon         checkedIcon   READ checkedIcon   WRITE setCheckedIcon)
+    Q_PROPERTY(QIcon         uncheckedIcon READ uncheckedIcon WRITE setUncheckedIcon)
 
 public:
     enum LabelPosition {
@@ -38,44 +39,25 @@ public:
     void setLabelPosition(LabelPosition placement);
     LabelPosition labelPosition() const;
 
-    void setUseThemeColors(bool value);
-    bool useThemeColors() const;
-
-    void setCheckedColor(const QColor &color);
-    QColor checkedColor() const;
-
-    void setUncheckedColor(const QColor &color);
-    QColor uncheckedColor() const;
-
-    void setTextColor(const QColor &color);
-    QColor textColor() const;
-
-    void setDisabledColor(const QColor &color);
-    QColor disabledColor() const;
-
-    void setCheckedIcon(const QIcon &icon);
+    void setCheckedIcon(const QIcon& icon);
     QIcon checkedIcon() const;
 
-    void setUncheckedIcon(const QIcon &icon);
+    void setUncheckedIcon(const QIcon& icon);
     QIcon uncheckedIcon() const;
 
     QSize sizeHint() const override;
 
 protected:
-    MaterialCheckable(MaterialCheckablePrivate &d, QWidget* parent = nullptr);
+    MaterialCheckable(MaterialCheckablePrivate& d, QWidget* parent = nullptr);
 
-    bool event(QEvent *event) override;
-    bool eventFilter(QObject *obj, QEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void paintEvent(QPaintEvent *event) override;
+    bool event(QEvent* event) override;
+    bool eventFilter(QObject* obj, QEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void paintEvent(QPaintEvent* event) override;
 
     virtual void setupProperties();
 
     const QScopedPointer<MaterialCheckablePrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(MaterialCheckable)
-    Q_DISABLE_COPY(MaterialCheckable)
 };
 
 #endif // MATERIAL_CHECKABLE_H

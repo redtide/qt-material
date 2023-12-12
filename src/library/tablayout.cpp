@@ -20,6 +20,11 @@ MaterialTabLayout::MaterialTabLayout(QWidget* parent)
     layout->addWidget(stack);
 }
 
+QSize MaterialTabLayout::sizeHint() const
+{
+    return QSize(128, 128);
+}
+
 void MaterialTabLayout::setHaloVisible(bool value)
 {
     tabs->setHaloVisible(value);
@@ -38,41 +43,6 @@ void MaterialTabLayout::setRippleStyle(Material::RippleStyle style)
 Material::RippleStyle MaterialTabLayout::rippleStyle() const
 {
     return tabs->rippleStyle();
-}
-
-void MaterialTabLayout::setInkColor(const QColor& color)
-{
-    tabs->setInkColor(color);
-}
-
-QColor MaterialTabLayout::inkColor() const
-{
-    return tabs->inkColor();
-}
-
-void MaterialTabLayout::setBackgroundColor(const QColor& color)
-{
-    tabs->setBackgroundColor(color);
-}
-
-QColor MaterialTabLayout::backgroundColor() const
-{
-    return tabs->backgroundColor();
-}
-
-void MaterialTabLayout::setTextColor(const QColor& color)
-{
-    tabs->setTextColor(color);
-}
-
-QColor MaterialTabLayout::textColor() const
-{
-    return tabs->textColor();
-}
-
-QSize MaterialTabLayout::sizeHint() const
-{
-    return QSize(128, 128);
 }
 
 void MaterialTabLayout::addTab(QWidget* page)
@@ -110,6 +80,7 @@ void MaterialTabLayout::insertTab(int index, QWidget* page)
     }
     connect(page, &QWidget::windowTitleChanged,
             this, &MaterialTabLayout::tabWindowTitleChanged);
+
     tabs->insertTab(index, title);
 }
 

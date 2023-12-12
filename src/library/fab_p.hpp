@@ -36,19 +36,19 @@ public:
     inline int iconSize() const;
 
     Qt::Corner corner;
-    bool       mini;
+    bool       isMini;
     int        offsX;
     int        offsY;
 };
 
 inline int MaterialFloatingActionButtonPrivate::diameter() const
 {
-    return mini ? MiniDiameter : DefaultDiameter;
+    return isMini ? MiniDiameter : DefaultDiameter;
 }
 
 inline int MaterialFloatingActionButtonPrivate::iconSize() const
 {
-    return mini ? MiniIconSize : DefaultIconSize;
+    return isMini ? MiniIconSize : DefaultIconSize;
 }
 
 #endif // MATERIAL_FAB_P_H

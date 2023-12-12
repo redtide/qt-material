@@ -14,22 +14,18 @@ class MaterialBadgePrivate
     Q_DECLARE_PUBLIC(MaterialBadge)
 
 public:
-    MaterialBadgePrivate(MaterialBadge *q);
+    MaterialBadgePrivate(MaterialBadge* q);
     ~MaterialBadgePrivate();
 
     void init();
 
-    MaterialBadge *const q_ptr;
-    QString                text;
-    QSize                  size;
-    QIcon                  icon;
-    qreal                  x;
-    qreal                  y;
-    int                    padding;
-
-    bool                   useThemeColors;
-    QColor                 textColor;
-    QColor                 backgroundColor;
+    MaterialBadge* const q_ptr;
+    QString        text;
+    QSize          size;
+    QIcon          icon;
+    qreal          x;
+    qreal          y;
+    int            padding;
 };
 
 #endif // MATERIAL_BADGE_P_H

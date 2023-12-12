@@ -22,20 +22,20 @@ private:
     Q_DISABLE_COPY(MaterialScrollBarStateMachine)
 
     MaterialScrollBar *const m_scrollBar;
-    QState            *const m_focusState;
+    QState            *const focusState_;
     QState            *const m_blurState;
-    qreal             m_opacity;
+    qreal             opacity_;
 };
 
 inline void MaterialScrollBarStateMachine::setOpacity(qreal opacity)
 {
-    m_opacity = opacity;
+    opacity_ = opacity;
     m_scrollBar->update();
 }
 
 inline qreal MaterialScrollBarStateMachine::opacity() const
 {
-    return m_opacity;
+    return opacity_;
 }
 
 #endif // MATERIAL_SCROLLBAR_INTERNAL_H

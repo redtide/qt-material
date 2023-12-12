@@ -33,18 +33,18 @@ Q_SIGNALS:
 private:
     Q_DISABLE_COPY(MaterialDrawerStateMachine)
 
-    MaterialDrawerWidget *const m_drawer;
-    MaterialDrawer       *const m_main;
-    QState                 *const m_openingState;
-    QState                 *const m_openedState;
-    QState                 *const m_closingState;
-    QState                 *const m_closedState;
-    qreal                         m_opacity;
+    MaterialDrawerWidget *const drawer_;
+    MaterialDrawer       *const main_;
+    QState                 *const openingState_;
+    QState                 *const openedState_;
+    QState                 *const closingState_;
+    QState                 *const closedState_;
+    qreal                         opacity_;
 };
 
 inline qreal MaterialDrawerStateMachine::opacity() const
 {
-    return m_opacity;
+    return opacity_;
 }
 
 class MaterialDrawerWidget : public MaterialOverlayWidget
@@ -66,12 +66,12 @@ protected:
     QRect overlayGeometry() const override;
 
 private:
-    int  m_offset;
+    int  offset_;
 };
 
 inline int MaterialDrawerWidget::offset() const
 {
-    return m_offset;
+    return offset_;
 }
 
 #endif // DRAWER_INTERNAL_H

@@ -13,51 +13,35 @@ class QT_MATERIAL_EXPORT MaterialFlatButton : public QPushButton
 {
     Q_OBJECT
 
-    Q_PROPERTY(QColor                        foregroundColor         WRITE setForegroundColor         READ foregroundColor)
-    Q_PROPERTY(QColor                        backgroundColor         WRITE setBackgroundColor         READ backgroundColor)
-    Q_PROPERTY(QColor                        overlayColor            WRITE setOverlayColor            READ overlayColor)
-    Q_PROPERTY(QColor                        disabledForegroundColor WRITE setDisabledForegroundColor READ disabledForegroundColor)
-    Q_PROPERTY(QColor                        disabledBackgroundColor WRITE setDisabledBackgroundColor READ disabledBackgroundColor)
-    Q_PROPERTY(qreal                         fontSize                WRITE setFontSize                READ fontSize)
-    Q_PROPERTY(bool                          useThemeColors          WRITE setUseThemeColors          READ useThemeColors)
-    Q_PROPERTY(bool                          haloVisible             WRITE setHaloVisible             READ isHaloVisible)
-    Q_PROPERTY(Material::Role                role                    WRITE setRole                    READ role)
-    Q_PROPERTY(Material::OverlayStyle        overlayStyle            WRITE setOverlayStyle            READ overlayStyle)
-    Q_PROPERTY(Material::RippleStyle         rippleStyle             WRITE setRippleStyle             READ rippleStyle)
-    Q_PROPERTY(Material::ButtonIconPlacement iconPlacement           WRITE setIconPlacement           READ iconPlacement)
-    Q_PROPERTY(qreal                         cornerRadius            WRITE setCornerRadius            READ cornerRadius)
-    Q_PROPERTY(Qt::BGMode                    backgroundMode          WRITE setBackgroundMode          READ backgroundMode)
-    Q_PROPERTY(qreal                         baseOpacity             WRITE setBaseOpacity             READ baseOpacity)
-//  Q_PROPERTY(bool                          checkable               WRITE setCheckable               READ checkable)
+    Q_DISABLE_COPY(MaterialFlatButton)
+    Q_DECLARE_PRIVATE(MaterialFlatButton)
+
+    Q_PROPERTY(bool                          isHaloVisible  READ isHaloVisible  WRITE setHaloVisible)
+    Q_PROPERTY(qreal                         baseOpacity    READ baseOpacity    WRITE setBaseOpacity)
+    Q_PROPERTY(qreal                         cornerRadius   READ cornerRadius   WRITE setCornerRadius)
+    Q_PROPERTY(qreal                         fontSize       READ fontSize       WRITE setFontSize)
+    Q_PROPERTY(Qt::BGMode                    backgroundMode READ backgroundMode WRITE setBackgroundMode)
+    Q_PROPERTY(Material::Role                role           READ role           WRITE setRole)
+    Q_PROPERTY(Material::OverlayStyle        overlayStyle   READ overlayStyle   WRITE setOverlayStyle)
+    Q_PROPERTY(Material::RippleStyle         rippleStyle    READ rippleStyle    WRITE setRippleStyle)
+    Q_PROPERTY(Material::ButtonIconPlacement iconPlacement  READ iconPlacement  WRITE setIconPlacement)
 
 public:
-    explicit MaterialFlatButton(QWidget* parent = nullptr, Material::ButtonPreset preset = Material::FlatPreset);
-    explicit MaterialFlatButton(const QString &text, QWidget* parent = nullptr, Material::ButtonPreset preset = Material::FlatPreset);
-    MaterialFlatButton(const QString &text, Material::Role role, QWidget* parent = nullptr, Material::ButtonPreset preset = Material::FlatPreset);
+    explicit MaterialFlatButton(QWidget* parent = nullptr,
+                                Material::ButtonPreset preset = Material::FlatPreset);
+    explicit MaterialFlatButton(const QString& text,
+                                QWidget* parent = nullptr,
+                                Material::ButtonPreset preset = Material::FlatPreset);
+    MaterialFlatButton(const QString& text,
+                       Material::Role role,
+                       QWidget* parent = nullptr,
+                       Material::ButtonPreset preset = Material::FlatPreset);
     ~MaterialFlatButton();
 
     void applyPreset(Material::ButtonPreset preset);
 
-    void setUseThemeColors(bool value);
-    bool useThemeColors() const;
-
     void setRole(Material::Role role);
     Material::Role role() const;
-
-    void setForegroundColor(const QColor &color);
-    QColor foregroundColor() const;
-
-    void setBackgroundColor(const QColor &color);
-    QColor backgroundColor() const;
-
-    void setOverlayColor(const QColor &color);
-    QColor overlayColor() const;
-
-    void setDisabledForegroundColor(const QColor &color);
-    QColor disabledForegroundColor() const;
-
-    void setDisabledBackgroundColor(const QColor &color);
-    QColor disabledBackgroundColor() const;
 
     void setFontSize(qreal size);
     qreal fontSize() const;
@@ -96,29 +80,24 @@ public:
     QSize sizeHint() const override;
 
 protected:
-    enum {
-        IconPadding = 12
-    };
-
-    MaterialFlatButton(MaterialFlatButtonPrivate &d, QWidget* parent = nullptr, Material::ButtonPreset preset = Material::FlatPreset);
+    MaterialFlatButton(MaterialFlatButtonPrivate& d,
+                       QWidget* parent = nullptr,
+                       Material::ButtonPreset preset = Material::FlatPreset);
 
     void checkStateSet() override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
-    void resizeEvent(QResizeEvent *event) override;
-    void paintEvent(QPaintEvent *event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
+    void paintEvent(QPaintEvent* event) override;
+    bool event(QEvent* event) override;
 
-    virtual void paintBackground(QPainter *painter);
-    virtual void paintHalo(QPainter *painter);
-    virtual void paintForeground(QPainter *painter);
+    virtual void paintBackground(QPainter* painter);
+    virtual void paintHalo(QPainter* painter);
+    virtual void paintForeground(QPainter* painter);
 
     virtual void updateClipPath();
 
     const QScopedPointer<MaterialFlatButtonPrivate> d_ptr;
-
-private:
-    Q_DISABLE_COPY(MaterialFlatButton)
-    Q_DECLARE_PRIVATE(MaterialFlatButton)
 };
 
 #endif // MATERIAL_FLATBUTTON_H

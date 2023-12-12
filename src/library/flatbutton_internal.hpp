@@ -57,50 +57,50 @@ private:
     void addTransition(QObject *object, QEvent::Type eventType, QState *fromState, QState *toState);
     void addTransition(QAbstractTransition *transition, QState *fromState, QState *toState);
 
-    MaterialFlatButton *const m_button;
-    QState               *const m_topLevelState;
-    QState               *const m_configState;
-    QState               *const m_checkableState;
-    QState               *const m_checkedState;
-    QState               *const m_uncheckedState;
-    QState               *const m_neutralState;
-    QState               *const m_neutralFocusedState;
-    QState               *const m_hoveredState;
-    QState               *const m_hoveredFocusedState;
-    QState               *const m_pressedState;
+    MaterialFlatButton *const button_;
+    QState               *const topLevelState_;
+    QState               *const configState_;
+    QState               *const checkableState_;
+    QState               *const checkedState_;
+    QState               *const uncheckedState_;
+    QState               *const neutralState_;
+    QState               *const neutralFocusedState_;
+    QState               *const hoveredState_;
+    QState               *const hoveredFocusedState_;
+    QState               *const pressedState_;
     QSequentialAnimationGroup
-                         *const m_haloAnimation;
-    qreal                       m_overlayOpacity;
-    qreal                       m_checkedOverlayProgress;
-    qreal                       m_haloOpacity;
-    qreal                       m_haloSize;
-    qreal                       m_haloScaleFactor;
-    bool                        m_wasChecked;
+                         *const haloAnimation_;
+    qreal                       overlayOpacity_;
+    qreal                       checkedOverlayProgress_;
+    qreal                       haloOpacity_;
+    qreal                       haloSize_;
+    qreal                       haloScaleFactor_;
+    bool                        wasChecked_;
 };
 
 inline qreal MaterialFlatButtonStateMachine::overlayOpacity() const
 {
-    return m_overlayOpacity;
+    return overlayOpacity_;
 }
 
 inline qreal MaterialFlatButtonStateMachine::checkedOverlayProgress() const
 {
-    return m_checkedOverlayProgress;
+    return checkedOverlayProgress_;
 }
 
 inline qreal MaterialFlatButtonStateMachine::haloOpacity() const
 {
-    return m_haloOpacity;
+    return haloOpacity_;
 }
 
 inline qreal MaterialFlatButtonStateMachine::haloSize() const
 {
-    return m_haloSize;
+    return haloSize_;
 }
 
 inline qreal MaterialFlatButtonStateMachine::haloScaleFactor() const
 {
-    return m_haloScaleFactor;
+    return haloScaleFactor_;
 }
 
 #endif // MATERIAL_FLATBUTTON_INTERNAL_H

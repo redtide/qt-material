@@ -19,19 +19,19 @@ public:
 private:
     Q_DISABLE_COPY(MaterialProgressDelegate)
 
-    MaterialProgress *const m_progress;
-    qreal                     m_offset;
+    MaterialProgress *const progress_;
+    qreal                     offset_;
 };
 
 inline void MaterialProgressDelegate::setOffset(qreal offset)
 {
-    m_offset = offset;
-    m_progress->update();
+    offset_ = offset;
+    progress_->update();
 }
 
 inline qreal MaterialProgressDelegate::offset() const
 {
-    return m_offset;
+    return offset_;
 }
 
 #endif // MATERIAL_PROGRESS_INTERNAL_H

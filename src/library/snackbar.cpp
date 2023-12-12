@@ -1,20 +1,16 @@
 #include "snackbar_internal.hpp"
 #include "snackbar_p.hpp"
 #include "statetransition.hpp"
+#include "defaults.hpp"
 
 #include <QtMaterialWidgets/snackbar.hpp>
-#include <QtMaterialWidgets/style.hpp>
+#include "palette-helper.hpp"
 
 #include <QDebug>
 #include <QPainter>
 #include <QtWidgets/QApplication>
 
-/*!
- *  \class MaterialSnackbarPrivate
- *  \internal
- */
-
-MaterialSnackbarPrivate::MaterialSnackbarPrivate(MaterialSnackbar *q)
+MaterialSnackbarPrivate::MaterialSnackbarPrivate(MaterialSnackbar* q)
     : q_ptr(q)
 {
 }
@@ -27,30 +23,29 @@ void MaterialSnackbarPrivate::init()
 {
     Q_Q(MaterialSnackbar);
 
-    stateMachine   = new MaterialSnackbarStateMachine(q);
-    bgOpacity      = 0.9;
-    duration       = 3000;
-    boxWidth       = 300;
-    clickDismiss   = false;
-    useThemeColors = true;
+    material::updatePalette(q);
+
+    stateMachine     = new MaterialSnackbarStateMachine(q);
+    bgOpacity        = 0.9;
+    autoHideDuration = material::defaults::snackbar::autoHideDuration;
+    boxWidth         = 300;
+    clickDismiss     = false;
 
     q->setAttribute(Qt::WA_TransparentForMouseEvents);
 
-    QFont font("Roboto", 10, QFont::Medium);
-    font.setCapitalization(QFont::AllUppercase);
+    QFont font(material::defaults::global::font::family);
+    font.setPointSizeF(material::defaults::global::font::pointSizeF);
+    font.setWeight(material::defaults::global::font::weight);
+    font.setCapitalization(material::defaults::global::font::capitalization);
     q->setFont(font);
 
     stateMachine->start();
     QCoreApplication::processEvents();
 }
 
-/*!
- *  \class MaterialSnackbar
- */
-
-MaterialSnackbar::MaterialSnackbar(QWidget *parent)
-    : MaterialOverlayWidget(parent),
-      d_ptr(new MaterialSnackbarPrivate(this))
+MaterialSnackbar::MaterialSnackbar(QWidget* parent)
+    : MaterialOverlayWidget(parent)
+    , d_ptr(new MaterialSnackbarPrivate(this))
 {
     d_func()->init();
 }
@@ -63,54 +58,14 @@ void MaterialSnackbar::setAutoHideDuration(int duration)
 {
     Q_D(MaterialSnackbar);
 
-    d->duration = duration;
+    d->autoHideDuration = duration;
 }
 
 int MaterialSnackbar::autoHideDuration() const
 {
     Q_D(const MaterialSnackbar);
 
-    return d->duration;
-}
-
-void MaterialSnackbar::setUseThemeColors(bool value)
-{
-    Q_D(MaterialSnackbar);
-
-    if (d->useThemeColors == value) {
-        return;
-    }
-
-    d->useThemeColors = value;
-    update();
-}
-
-bool MaterialSnackbar::useThemeColors() const
-{
-    Q_D(const MaterialSnackbar);
-
-    return d->useThemeColors;
-}
-
-void MaterialSnackbar::setBackgroundColor(const QColor &color)
-{
-    Q_D(MaterialSnackbar);
-
-    d->backgroundColor = color;
-    d->useThemeColors = false;
-
-    update();
-}
-
-QColor MaterialSnackbar::backgroundColor() const
-{
-    Q_D(const MaterialSnackbar);
-
-    if (d->useThemeColors || !d->backgroundColor.isValid()) {
-        return MaterialStyle::instance().themeColor("text");
-    } else {
-        return d->backgroundColor;
-    }
+    return d->autoHideDuration;
 }
 
 void MaterialSnackbar::setBackgroundOpacity(qreal opacity)
@@ -126,27 +81,6 @@ qreal MaterialSnackbar::backgroundOpacity() const
     Q_D(const MaterialSnackbar);
 
     return d->bgOpacity;
-}
-
-void MaterialSnackbar::setTextColor(const QColor &color)
-{
-    Q_D(MaterialSnackbar);
-
-    d->textColor = color;
-    d->useThemeColors = false;
-
-    update();
-}
-
-QColor MaterialSnackbar::textColor() const
-{
-    Q_D(const MaterialSnackbar);
-
-    if (d->useThemeColors || !d->textColor.isValid()) {
-        return MaterialStyle::instance().themeColor("canvas");
-    } else {
-        return d->textColor;
-    }
 }
 
 void MaterialSnackbar::setFontSize(qreal size)
@@ -192,7 +126,7 @@ bool MaterialSnackbar::clickToDismissMode() const
     return d->clickDismiss;
 }
 
-void MaterialSnackbar::addMessage(const QString &message)
+void MaterialSnackbar::addMessage(const QString& message)
 {
     Q_D(MaterialSnackbar);
 
@@ -205,11 +139,10 @@ void MaterialSnackbar::addInstantMessage(const QString &message)
 {
     Q_D(MaterialSnackbar);
 
-    if (d->messages.isEmpty()) {
+    if (d->messages.isEmpty())
         d->messages.push_back(message);
-    } else {
-        d->messages.insert(1, message);
-    }
+
+    d->messages.insert(1, message);
 
     d->stateMachine->progress();
 }
@@ -218,26 +151,32 @@ void MaterialSnackbar::dequeue()
 {
     Q_D(MaterialSnackbar);
 
-    if (d->messages.isEmpty()) {
+    if (d->messages.isEmpty())
         return;
-    }
 
     d->messages.removeFirst();
 
-    if (!d->messages.isEmpty()) {
+    if (!d->messages.isEmpty())
         d->stateMachine->postEvent(new MaterialStateTransitionEvent(SnackbarNextTransition));
-    } else {
-        d->stateMachine->postEvent(new MaterialStateTransitionEvent(SnackbarWaitTransition));
+
+    d->stateMachine->postEvent(new MaterialStateTransitionEvent(SnackbarWaitTransition));
+}
+
+bool MaterialSnackbar::event(QEvent* event)
+{
+    if (event->type() == QEvent::ThemeChange) {
+        material::updatePalette(this);
+        return true;
     }
+    return MaterialOverlayWidget::event(event);
 }
 
 void MaterialSnackbar::paintEvent(QPaintEvent*)
 {
     Q_D(MaterialSnackbar);
 
-    if (d->messages.isEmpty()) {
+    if (d->messages.isEmpty())
         return;
-    }
 
     QString message = d->messages.first();
 
@@ -246,7 +185,7 @@ void MaterialSnackbar::paintEvent(QPaintEvent*)
 
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
-    brush.setColor(backgroundColor());
+    brush.setColor(palette().color(QPalette::Button));
     painter.setBrush(brush);
     painter.setOpacity(d->bgOpacity);
 
@@ -265,6 +204,6 @@ void MaterialSnackbar::paintEvent(QPaintEvent*)
 
     br.moveCenter(r.center());
     painter.drawRoundedRect(r.adjusted(0, 0, 0, 3), 3, 3);
-    painter.setPen(textColor());
+    painter.setPen(palette().color(QPalette::ButtonText));
     painter.drawText(br, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, message);
 }

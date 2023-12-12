@@ -22,13 +22,13 @@ public:
     MaterialSnackbarStateMachine *stateMachine;
     qreal                        bgOpacity;
     QList<QString>               messages;
-    int                          duration;
+    int                          autoHideDuration;
     int                          boxWidth;
     bool                         clickDismiss;
 
     bool                         useThemeColors;
     QColor                       backgroundColor;
-    QColor                       textColor;
+    QColor                       foregroundColor;
 };
 
 #endif // MATERIAL_SNACKBAR_P_H

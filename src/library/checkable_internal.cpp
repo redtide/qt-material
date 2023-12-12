@@ -1,4 +1,5 @@
 #include "checkable_internal.hpp"
+#include "defaults.hpp"
 
 #include <QtMaterialWidgets/checkable.hpp>
 
@@ -6,18 +7,14 @@
 #include <QPainter>
 #include <QTransform>
 
-/*!
- *  \class MaterialCheckableIcon
- *  \internal
- */
+namespace md = material::defaults::checkable;
 
-MaterialCheckableIcon::MaterialCheckableIcon(const QIcon &icon, MaterialCheckable *parent)
-    : QWidget(parent),
-      m_checkable(parent),
-      m_color(Qt::black),
-      m_icon(icon),
-      m_iconSize(24),
-      m_opacity(1.0)
+MaterialCheckableIcon::MaterialCheckableIcon(const QIcon& icon, MaterialCheckable* parent)
+    : QWidget(parent)
+    , checkable_(parent)
+    , icon_(icon)
+    , iconSize_(md::iconSize)
+    , opacity_(md::opacity)
 {
     Q_ASSERT(parent);
 
@@ -30,27 +27,25 @@ MaterialCheckableIcon::~MaterialCheckableIcon()
 
 QSize MaterialCheckableIcon::sizeHint() const
 {
-    return QSize(m_iconSize, m_iconSize);
+    return QSize(iconSize_, iconSize_);
 }
 
-void MaterialCheckableIcon::paintEvent(QPaintEvent *event)
+void MaterialCheckableIcon::paintEvent(QPaintEvent*)
 {
-    Q_UNUSED(event)
-
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.setOpacity(m_opacity);
+    painter.setOpacity(opacity_);
 
-    QPixmap pixmap = icon().pixmap(24, 24);
+    QPixmap pixmap = icon().pixmap(md::iconSize, md::iconSize);
 
     if (!pixmap.isNull())
     {
-        const qreal p = static_cast<qreal>((height())-m_iconSize)/2;
-        const qreal z = m_iconSize/24;
+        const qreal p = static_cast<qreal>((height()) - iconSize_) / 2;
+        const qreal z = iconSize_ / md::iconSize;
 
         QTransform t;
-        if (MaterialCheckable::LabelPositionLeft == m_checkable->labelPosition()) {
-            t.translate(p+width()-42, p);
+        if (checkable_->labelPosition() == MaterialCheckable::LabelPositionLeft) {
+            t.translate(p + width() - 42, p);
         } else {
             t.translate(p, p);
         }
@@ -59,7 +54,7 @@ void MaterialCheckableIcon::paintEvent(QPaintEvent *event)
 
         QPainter icon(&pixmap);
         icon.setCompositionMode(QPainter::CompositionMode_SourceIn);
-        icon.fillRect(pixmap.rect(), color());
+        icon.fillRect(pixmap.rect(), palette().color(QPalette::Button));
         painter.drawPixmap(0, 0, pixmap);
     }
 }

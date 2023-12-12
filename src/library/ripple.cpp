@@ -1,33 +1,28 @@
 #include <QtMaterialWidgets/ripple.hpp>
 #include <QtMaterialWidgets/rippleoverlay.hpp>
 
-/*!
- *  \class MaterialRipple
- *  \internal
- */
-
-MaterialRipple::MaterialRipple(const QPoint &center, QObject *parent)
-    : QParallelAnimationGroup(parent),
-      m_overlay(0),
-      m_radiusAnimation(animate("radius")),
-      m_opacityAnimation(animate("opacity")),
-      m_radius(0),
-      m_opacity(0),
-      m_center(center)
+MaterialRipple::MaterialRipple(const QPoint& center, QObject* parent)
+    : QParallelAnimationGroup(parent)
+    , overlay_(0)
+    , radiusAnimation_(animate("radius"))
+    , opacityAnimation_(animate("opacity"))
+    , radius_(0)
+    , opacity_(0)
+    , center_(center)
 {
     init();
 }
 
-MaterialRipple::MaterialRipple(const QPoint &center,
-                               MaterialRippleOverlay *overlay,
-                               QObject *parent)
-    : QParallelAnimationGroup(parent),
-      m_overlay(overlay),
-      m_radiusAnimation(animate("radius")),
-      m_opacityAnimation(animate("opacity")),
-      m_radius(0),
-      m_opacity(0),
-      m_center(center)
+MaterialRipple::MaterialRipple(const QPoint& center,
+                               MaterialRippleOverlay* overlay,
+                               QObject* parent)
+    : QParallelAnimationGroup(parent)
+    , overlay_(overlay)
+    , radiusAnimation_(animate("radius"))
+    , opacityAnimation_(animate("opacity"))
+    , radius_(0)
+    , opacity_(0)
+    , center_(center)
 {
     init();
 }
@@ -38,62 +33,57 @@ MaterialRipple::~MaterialRipple()
 
 void MaterialRipple::setRadius(qreal radius)
 {
-    Q_ASSERT(m_overlay);
+    Q_ASSERT(overlay_);
 
-    if (m_radius == radius) {
+    if (radius_ == radius)
         return;
-    }
-    m_radius = radius;
-    m_overlay->update();
+
+    radius_ = radius;
+    overlay_->update();
 }
 
 void MaterialRipple::setOpacity(qreal opacity)
 {
-    Q_ASSERT(m_overlay);
+    Q_ASSERT(overlay_);
 
-    if (m_opacity == opacity) {
+    if (opacity_ == opacity)
         return;
-    }
-    m_opacity = opacity;
-    m_overlay->update();
+
+    opacity_ = opacity;
+    overlay_->update();
 }
 
-void MaterialRipple::setColor(const QColor &color)
+void MaterialRipple::setColor(const QColor& color)
 {
-    if (m_brush.color() == color) {
+    if (brush_.color() == color)
         return;
-    }
-    m_brush.setColor(color);
 
-    if (m_overlay) {
-        m_overlay->update();
-    }
+    brush_.setColor(color);
+
+    if (overlay_)
+        overlay_->update();
 }
 
-void MaterialRipple::setBrush(const QBrush &brush)
+void MaterialRipple::setBrush(const QBrush& brush)
 {
-    m_brush = brush;
+    brush_ = brush;
 
-    if (m_overlay) {
-        m_overlay->update();
-    }
+    if (overlay_)
+        overlay_->update();
 }
 
 void MaterialRipple::destroy()
 {
-    Q_ASSERT(m_overlay);
+    Q_ASSERT(overlay_);
 
-    m_overlay->removeRipple(this);
+    overlay_->removeRipple(this);
 }
 
-/*!
- *  \internal
- */
-QPropertyAnimation *MaterialRipple::animate(const QByteArray &property,
-                                            const QEasingCurve &easing,
+QPropertyAnimation* MaterialRipple::animate(const QByteArray& property,
+                                            const QEasingCurve& easing,
                                             int duration)
 {
-    QPropertyAnimation *animation = new QPropertyAnimation;
+    QPropertyAnimation* animation = new QPropertyAnimation;
     animation->setTargetObject(this);
     animation->setPropertyName(property);
     animation->setEasingCurve(easing);
@@ -102,9 +92,6 @@ QPropertyAnimation *MaterialRipple::animate(const QByteArray &property,
     return animation;
 }
 
-/*!
- *  \internal
- */
 void MaterialRipple::init()
 {
     setOpacityStartValue(0.5);
@@ -112,8 +99,8 @@ void MaterialRipple::init()
     setRadiusStartValue(0);
     setRadiusEndValue(300);
 
-    m_brush.setColor(Qt::black);
-    m_brush.setStyle(Qt::SolidPattern);
+    brush_.setColor(Qt::black);
+    brush_.setStyle(Qt::SolidPattern);
 
     connect(this, SIGNAL(finished()), this, SLOT(destroy()));
 }

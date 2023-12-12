@@ -11,7 +11,7 @@ class QHBoxLayout;
 QT_END_NAMESPACE
 
 class MaterialTabs;
-class MaterialTabsInkBar;
+class MaterialTabsIndicatorBar;
 
 class MaterialTabsPrivate
 {
@@ -24,18 +24,12 @@ public:
 
     void init();
 
-    MaterialTabs         *const q_ptr;
-    MaterialTabsInkBar   *inkBar;
-    QHBoxLayout          *tabLayout;
-    Material::RippleStyle rippleStyle;
-    QColor                inkColor;
-    int                   currentIndex;
-
-    bool                  showHalo;
-
-    bool                  useThemeColors;
-    QColor                backgroundColor;
-    QColor                textColor;
+    MaterialTabs*             const q_ptr;
+    MaterialTabsIndicatorBar* indicator;
+    QHBoxLayout*              tabLayout;
+    Material::RippleStyle     rippleStyle;
+    int                       currentIndex;
+    bool                      isHaloVisible;
 };
 
 #endif // MATERIAL_TABS_P_H

@@ -15,15 +15,17 @@ class QT_MATERIAL_EXPORT MaterialRipple : public QParallelAnimationGroup
 {
     Q_OBJECT
 
-    Q_PROPERTY(qreal radius WRITE setRadius READ radius)
-    Q_PROPERTY(qreal opacity WRITE setOpacity READ opacity)
+    Q_DISABLE_COPY(MaterialRipple)
+
+    Q_PROPERTY(qreal radius  READ radius  WRITE setRadius)
+    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
 
 public:
-    explicit MaterialRipple(const QPoint &center, QObject* parent = nullptr);
-    MaterialRipple(const QPoint &center, MaterialRippleOverlay *overlay, QObject* parent = nullptr);
+    explicit MaterialRipple(const QPoint& center, QObject* parent = nullptr);
+    MaterialRipple(const QPoint& center, MaterialRippleOverlay* overlay, QObject* parent = nullptr);
     ~MaterialRipple();
 
-    inline void setOverlay(MaterialRippleOverlay *overlay);
+    inline void setOverlay(MaterialRippleOverlay* overlay);
 
     void setRadius(qreal radius);
     inline qreal radius() const;
@@ -31,16 +33,16 @@ public:
     void setOpacity(qreal opacity);
     inline qreal opacity() const;
 
-    void setColor(const QColor &color);
+    void setColor(const QColor& color);
     inline QColor color() const;
 
-    void setBrush(const QBrush &brush);
+    void setBrush(const QBrush& brush);
     inline QBrush brush() const;
 
     inline QPoint center() const;
 
-    inline QPropertyAnimation *radiusAnimation() const;
-    inline QPropertyAnimation *opacityAnimation() const;
+    inline QPropertyAnimation* radiusAnimation() const;
+    inline QPropertyAnimation* opacityAnimation() const;
 
     inline void setOpacityStartValue(qreal value);
     inline void setOpacityEndValue(qreal value);
@@ -52,87 +54,84 @@ protected Q_SLOTS:
     void destroy();
 
 private:
-    Q_DISABLE_COPY(MaterialRipple)
-
-    QPropertyAnimation *animate(const QByteArray &property,
-                                const QEasingCurve &easing = QEasingCurve::OutQuad,
+    QPropertyAnimation* animate(const QByteArray& property,
+                                const QEasingCurve& easing = QEasingCurve::OutQuad,
                                 int duration = 800);
-
     void init();
 
-    MaterialRippleOverlay  *m_overlay;
-    QPropertyAnimation *const m_radiusAnimation;
-    QPropertyAnimation *const m_opacityAnimation;
-    qreal                     m_radius;
-    qreal                     m_opacity;
-    QPoint                    m_center;
-    QBrush                    m_brush;
+    MaterialRippleOverlay* overlay_;
+    QPropertyAnimation* const radiusAnimation_;
+    QPropertyAnimation* const opacityAnimation_;
+    qreal                     radius_;
+    qreal                     opacity_;
+    QPoint                    center_;
+    QBrush                    brush_;
 };
 
-inline void MaterialRipple::setOverlay(MaterialRippleOverlay *overlay)
+inline void MaterialRipple::setOverlay(MaterialRippleOverlay* overlay)
 {
-    m_overlay = overlay;
+    overlay_ = overlay;
 }
 
 inline qreal MaterialRipple::radius() const
 {
-    return m_radius;
+    return radius_;
 }
 
 inline qreal MaterialRipple::opacity() const
 {
-    return m_opacity;
+    return opacity_;
 }
 
 inline QColor MaterialRipple::color() const
 {
-    return m_brush.color();
+    return brush_.color();
 }
 
 inline QBrush MaterialRipple::brush() const
 {
-    return m_brush;
+    return brush_;
 }
 
 inline QPoint MaterialRipple::center() const
 {
-    return m_center;
+    return center_;
 }
 
-inline QPropertyAnimation *MaterialRipple::radiusAnimation() const
+inline QPropertyAnimation* MaterialRipple::radiusAnimation() const
 {
-    return m_radiusAnimation;
+    return radiusAnimation_;
 }
 
-inline QPropertyAnimation *MaterialRipple::opacityAnimation() const
+inline QPropertyAnimation* MaterialRipple::opacityAnimation() const
 {
-    return m_opacityAnimation;
+    return opacityAnimation_;
 }
 
 inline void MaterialRipple::setOpacityStartValue(qreal value)
 {
-    m_opacityAnimation->setStartValue(value);
+    opacityAnimation_->setStartValue(value);
 }
 
 inline void MaterialRipple::setOpacityEndValue(qreal value)
 {
-    m_opacityAnimation->setEndValue(value);
+    opacityAnimation_->setEndValue(value);
 }
 
 inline void MaterialRipple::setRadiusStartValue(qreal value)
 {
-    m_radiusAnimation->setStartValue(value);
+    radiusAnimation_->setStartValue(value);
 }
 
 inline void MaterialRipple::setRadiusEndValue(qreal value)
 {
-    m_radiusAnimation->setEndValue(value);
+    radiusAnimation_->setEndValue(value);
 }
 
 inline void MaterialRipple::setDuration(int msecs)
 {
-    m_radiusAnimation->setDuration(msecs);
-    m_opacityAnimation->setDuration(msecs);
+    radiusAnimation_->setDuration(msecs);
+    opacityAnimation_->setDuration(msecs);
 }
 
 #endif // MATERIAL_RIPPLE_H

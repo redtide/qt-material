@@ -3,50 +3,36 @@
 #include <QEventTransition>
 #include <QPropertyAnimation>
 
-/*!
- *  \class MaterialScrollBarStateMachine
- *  \internal
- */
-
-/*!
- *  \internal
- */
-MaterialScrollBarStateMachine::MaterialScrollBarStateMachine(MaterialScrollBar *parent)
-    : QStateMachine(parent),
-      m_scrollBar(parent),
-      m_focusState(new QState),
-      m_blurState(new QState),
-      m_opacity(0)
+MaterialScrollBarStateMachine::MaterialScrollBarStateMachine(MaterialScrollBar* parent)
+    : QStateMachine(parent)
+    , m_scrollBar(parent)
+    , focusState_(new QState)
+    , m_blurState(new QState)
+    , opacity_(0)
 {
     Q_ASSERT(parent);
 
-    addState(m_focusState);
+    addState(focusState_);
     addState(m_blurState);
     setInitialState(m_blurState);
 
-    QEventTransition *transition;
-
+    QEventTransition* transition;
     transition = new QEventTransition(parent, QEvent::Enter);
-    transition->setTargetState(m_focusState);
+    transition->setTargetState(focusState_);
     m_blurState->addTransition(transition);
 
     transition = new QEventTransition(parent, QEvent::Leave);
     transition->setTargetState(m_blurState);
-    m_focusState->addTransition(transition);
-
-    m_focusState->assignProperty(this, "opacity", 1);
+    focusState_->addTransition(transition);
+    focusState_->assignProperty(this, "opacity", 1);
     m_blurState->assignProperty(this, "opacity", 0);
 
-    QPropertyAnimation *animation;
-
+    QPropertyAnimation* animation;
     animation = new QPropertyAnimation(this, "opacity", this);
     animation->setDuration(340);
     addDefaultAnimation(animation);
 }
 
-/*!
- *  \internal
- */
 MaterialScrollBarStateMachine::~MaterialScrollBarStateMachine()
 {
 }

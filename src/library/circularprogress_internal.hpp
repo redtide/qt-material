@@ -27,43 +27,43 @@ public:
 private:
     Q_DISABLE_COPY(MaterialCircularProgressDelegate)
 
-    MaterialCircularProgress *const m_progress;
-    qreal                             m_dashOffset;
-    qreal                             m_dashLength;
-    int                               m_angle;
+    MaterialCircularProgress *const progress_;
+    qreal                             dashOffset_;
+    qreal                             dashLength_;
+    int                               angle_;
 };
 
 inline void MaterialCircularProgressDelegate::setDashOffset(qreal offset)
 {
-    m_dashOffset = offset;
-    m_progress->update();
+    dashOffset_ = offset;
+    progress_->update();
 }
 
 inline qreal MaterialCircularProgressDelegate::dashOffset() const
 {
-    return m_dashOffset;
+    return dashOffset_;
 }
 
 inline void MaterialCircularProgressDelegate::setDashLength(qreal length)
 {
-    m_dashLength = length;
-    m_progress->update();
+    dashLength_ = length;
+    progress_->update();
 }
 
 inline qreal MaterialCircularProgressDelegate::dashLength() const
 {
-    return m_dashLength;
+    return dashLength_;
 }
 
 inline void MaterialCircularProgressDelegate::setAngle(int angle)
 {
-    m_angle = angle;
-    m_progress->update();
+    angle_ = angle;
+    progress_->update();
 }
 
 inline int MaterialCircularProgressDelegate::angle() const
 {
-    return m_angle;
+    return angle_;
 }
 
 #endif // MATERIAL_CIRCULARPROGRESS_INTERNAL_H

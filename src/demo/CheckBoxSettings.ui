@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CheckBoxSettings</class>
+ <widget class="QWidget" name="CheckBoxSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0">
+    <widget class="QLabel" name="lblLabelPosition">
+     <property name="text">
+      <string>Label position</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="lblLabelText">
+     <property name="text">
+      <string>Label text</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLineEdit" name="txtLabelText"/>
+   </item>
+   <item row="7" column="0" colspan="4">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0">
+    <widget class="QCheckBox" name="chkChecked">
+     <property name="text">
+      <string>Checked</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QComboBox" name="cbxLabelPosition">
+     <item>
+      <property name="text">
+       <string>Left</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Right</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="4">
+    <widget class="MaterialCheckBox" name="checkBox">
+     <property name="text">
+      <string>Extra cheese</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+     <property name="labelPosition">
+      <enum>MaterialCheckable::LabelPositionRight</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QCheckBox" name="chkDisabled">
+     <property name="text">
+      <string>Disabled</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MaterialCheckBox</class>
+   <extends>QAbstractButton</extends>
+   <header location="global">QtMaterialWidgets/checkbox.hpp</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

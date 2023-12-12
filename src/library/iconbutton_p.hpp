@@ -13,7 +13,7 @@ class MaterialIconButtonPrivate
     Q_DECLARE_PUBLIC(MaterialIconButton)
 
 public:
-    MaterialIconButtonPrivate(MaterialIconButton *q);
+    MaterialIconButtonPrivate(MaterialIconButton* q);
     virtual ~MaterialIconButtonPrivate();
 
     void init();
@@ -21,10 +21,6 @@ public:
 
     MaterialIconButton    *const q_ptr;
     MaterialRippleOverlay *rippleOverlay;
-    QColor                disabledColor;
-
-    bool                  useThemeColors;
-    QColor                color;
 };
 
 #endif // MATERIAL_ICONBUTTON_P_H

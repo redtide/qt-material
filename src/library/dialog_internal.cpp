@@ -7,22 +7,17 @@
 #include <QPixmap>
 #include <QtWidgets/QStackedLayout>
 
-/*!
- *  \class MaterialDialogProxy
- *  \internal
- */
-
 MaterialDialogProxy::MaterialDialogProxy(
-        MaterialDialogWindow *source,
-        QStackedLayout         *layout,
-        MaterialDialog       *dialog,
-        QWidget                *parent)
-    : QWidget(parent),
-      m_source(source),
-      m_layout(layout),
-      m_dialog(dialog),
-      m_opacity(0),
-      m_mode(Transparent)
+        MaterialDialogWindow* source,
+        QStackedLayout*       layout,
+        MaterialDialog*       dialog,
+        QWidget*              parent)
+    : QWidget(parent)
+    , source_(source)
+    , layout_(layout)
+    , dialog_(dialog)
+    , opacity_(0)
+    , mode_(Transparent)
 {
 }
 
@@ -32,41 +27,41 @@ MaterialDialogProxy::~MaterialDialogProxy()
 
 void MaterialDialogProxy::setOpacity(qreal opacity)
 {
-    m_opacity = opacity;
-    m_mode = SemiTransparent;
+    opacity_ = opacity;
+    mode_    = SemiTransparent;
     update();
-    m_dialog->update();
+    dialog_->update();
 }
 
 
 void MaterialDialogProxy::makeOpaque()
 {
-    m_dialog->setAttribute(Qt::WA_TransparentForMouseEvents, false);
-    m_layout->setCurrentIndex(0);
-    m_opacity = 1.0;
-    m_mode = Opaque;
+    dialog_->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    layout_->setCurrentIndex(0);
+    opacity_ = 1.0;
+    mode_    = Opaque;
     update();
 }
 
 void MaterialDialogProxy::makeTransparent()
 {
-    m_opacity = 0.0;
-    m_mode = Transparent;
+    opacity_ = 0.0;
+    mode_    = Transparent;
     update();
 }
 
 QSize MaterialDialogProxy::sizeHint() const
 {
-    return m_source->sizeHint();
+    return source_->sizeHint();
 }
 
 bool MaterialDialogProxy::event(QEvent *event)
 {
     const QEvent::Type type = event->type();
 
-    if (QEvent::Move == type || QEvent::Resize == type) {
-        m_source->setGeometry(geometry());
-    }
+    if (QEvent::Move == type || QEvent::Resize == type)
+        source_->setGeometry(geometry());
+
     return QWidget::event(event);
 }
 
@@ -76,25 +71,19 @@ void MaterialDialogProxy::paintEvent(QPaintEvent *event)
 
     QPainter painter(this);
 
-    if (Transparent == m_mode) {
+    if (Transparent == mode_) {
         return;
-    } else if (Opaque != m_mode) {
-        painter.setOpacity(m_opacity);
+    } else if (Opaque != mode_) {
+        painter.setOpacity(opacity_);
     }
-    QPixmap pm = m_source->grab(m_source->rect());
+    QPixmap pm = source_->grab(source_->rect());
     painter.drawPixmap(0, 0, pm);
 }
 
-/*!
- *  \class MaterialDialogWindow
- *  \internal
- */
-
-MaterialDialogWindow::MaterialDialogWindow(
-        MaterialDialog *dialog,
-        QWidget          *parent)
-    : QWidget(parent),
-      m_dialog(dialog)
+MaterialDialogWindow::MaterialDialogWindow(MaterialDialog *dialog,
+                                           QWidget        *parent)
+    : QWidget(parent)
+    , dialog_(dialog)
 {
 }
 
@@ -104,22 +93,19 @@ MaterialDialogWindow::~MaterialDialogWindow()
 
 void MaterialDialogWindow::setOffset(int offset)
 {
-    QMargins margins = m_dialog->layout()->contentsMargins();
+    QMargins margins = dialog_->layout()->contentsMargins();
     margins.setBottom(offset);
-    m_dialog->layout()->setContentsMargins(margins);
+    dialog_->layout()->setContentsMargins(margins);
 }
 
 int MaterialDialogWindow::offset() const
 {
-    return m_dialog->layout()->contentsMargins().bottom();
+    return dialog_->layout()->contentsMargins().bottom();
 }
 
-void MaterialDialogWindow::paintEvent(QPaintEvent *event)
+void MaterialDialogWindow::paintEvent(QPaintEvent*)
 {
-    Q_UNUSED(event)
-
     QPainter painter(this);
-
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::white);

@@ -1,41 +1,29 @@
 #include "avatar_p.hpp"
 
 #include <QtMaterialWidgets/avatar.hpp>
-#include <QtMaterialWidgets/style.hpp>
+#include "palette-helper.hpp"
 
+#include <QEvent>
 #include <QPainter>
 #include <QPainterPath>
 
-/*!
- *  \class MaterialAvatarPrivate
- *  \internal
- */
-
-/*!
- *  \internal
- */
-MaterialAvatarPrivate::MaterialAvatarPrivate(MaterialAvatar *q)
+MaterialAvatarPrivate::MaterialAvatarPrivate(MaterialAvatar* q)
     : q_ptr(q)
 {
 }
 
-/*!
- *  \internal
- */
 MaterialAvatarPrivate::~MaterialAvatarPrivate()
 {
 }
 
-/*!
- *  \internal
- */
 void MaterialAvatarPrivate::init()
 {
     Q_Q(MaterialAvatar);
 
-    size           = 40;
-    type           = Material::LetterAvatar;
-    useThemeColors = true;
+    material::updatePalette(q);
+
+    size = 40;
+    type = MaterialAvatar::AvatarLetter;
 
     QFont font(q->font());
     font.setPointSizeF(16);
@@ -46,117 +34,49 @@ void MaterialAvatarPrivate::init()
     q->setSizePolicy(policy);
 }
 
-/*!
- *  \class MaterialAvatar
- */
-
-MaterialAvatar::MaterialAvatar(QWidget *parent)
-    : QWidget(parent),
-      d_ptr(new MaterialAvatarPrivate(this))
+MaterialAvatar::MaterialAvatar(QWidget* parent)
+    : QWidget(parent)
+    , d_ptr(new MaterialAvatarPrivate(this))
 {
     d_func()->init();
 }
 
-MaterialAvatar::MaterialAvatar(const QIcon &icon, QWidget *parent)
-    : QWidget(parent),
-      d_ptr(new MaterialAvatarPrivate(this))
+MaterialAvatar::MaterialAvatar(const QIcon& icon, QWidget* parent)
+    : QWidget(parent)
+    , d_ptr(new MaterialAvatarPrivate(this))
 {
     d_func()->init();
 
     setIcon(icon);
 }
 
-MaterialAvatar::MaterialAvatar(const QChar &letter, QWidget *parent)
-    : QWidget(parent),
-      d_ptr(new MaterialAvatarPrivate(this))
+MaterialAvatar::MaterialAvatar(const QChar& letter, QWidget* parent)
+    : QWidget(parent)
+    , d_ptr(new MaterialAvatarPrivate(this))
 {
     d_func()->init();
 
     setLetter(letter);
 }
 
-MaterialAvatar::MaterialAvatar(const QImage &image, QWidget *parent)
-    : QWidget(parent),
-      d_ptr(new MaterialAvatarPrivate(this))
+MaterialAvatar::MaterialAvatar(const QPixmap& pixmap, QWidget* parent)
+    : QWidget(parent)
+    , d_ptr(new MaterialAvatarPrivate(this))
 {
     d_func()->init();
 
-    setImage(image);
+    setPixmap(pixmap);
 }
 
 MaterialAvatar::~MaterialAvatar()
 {
 }
 
-void MaterialAvatar::setUseThemeColors(bool value)
-{
-    Q_D(MaterialAvatar);
-
-    if (d->useThemeColors == value) {
-        return;
-    }
-
-    d->useThemeColors = value;
-    update();
-}
-
-bool MaterialAvatar::useThemeColors() const
-{
-    Q_D(const MaterialAvatar);
-
-    return d->useThemeColors;
-}
-
-void MaterialAvatar::setTextColor(const QColor &color)
-{
-    Q_D(MaterialAvatar);
-
-    d->textColor = color;
-    d->useThemeColors = false;
-
-    update();
-}
-
-QColor MaterialAvatar::textColor() const
-{
-    Q_D(const MaterialAvatar);
-
-    if (d->useThemeColors || !d->textColor.isValid()) {
-        return MaterialStyle::instance().themeColor("canvas");
-    } else {
-        return d->textColor;
-    }
-}
-
-void MaterialAvatar::setBackgroundColor(const QColor &color)
-{
-    Q_D(MaterialAvatar);
-
-    d->backgroundColor = color;
-    d->useThemeColors = false;
-
-    update();
-}
-
-QColor MaterialAvatar::backgroundColor() const
-{
-    Q_D(const MaterialAvatar);
-
-    if (d->useThemeColors || !d->backgroundColor.isValid()) {
-        return MaterialStyle::instance().themeColor("primary1");
-    } else {
-        return d->backgroundColor;
-    }
-}
-
-/*!
- *  \reimp
- */
 QSize MaterialAvatar::sizeHint() const
 {
     Q_D(const MaterialAvatar);
 
-    return QSize(d->size+2, d->size+2);
+    return QSize(d->size + 2, d->size + 2);
 }
 
 void MaterialAvatar::setSize(int size)
@@ -165,12 +85,11 @@ void MaterialAvatar::setSize(int size)
 
     d->size = size;
 
-    if (!d->image.isNull()) {
-        d->pixmap = QPixmap::fromImage(d->image.scaled(d->size, d->size,
-                                                       Qt::IgnoreAspectRatio,
-                                                       Qt::SmoothTransformation));
+    if (!d->pixmap.isNull()) {
+        d->pixmap.scaled(d->size, d->size,
+                         Qt::IgnoreAspectRatio,
+                         Qt::SmoothTransformation);
     }
-
     QFont f(font());
     f.setPointSizeF(size*16/40);
     setFont(f);
@@ -185,12 +104,12 @@ int MaterialAvatar::size() const
     return d->size;
 }
 
-void MaterialAvatar::setLetter(const QChar &letter)
+void MaterialAvatar::setLetter(const QChar& letter)
 {
     Q_D(MaterialAvatar);
 
     d->letter = letter;
-    d->type = Material::LetterAvatar;
+    d->type = AvatarType::AvatarLetter;
     update();
 }
 
@@ -200,31 +119,31 @@ QChar MaterialAvatar::letter() const
     return d->letter;
 }
 
-void MaterialAvatar::setImage(const QImage &image)
+void MaterialAvatar::setPixmap(const QPixmap& pixmap)
 {
     Q_D(MaterialAvatar);
 
-    d->image = image;
-    d->type = Material::ImageAvatar;
+    d->pixmap = pixmap;
+    d->type = AvatarType::AvatarPixmap;
 
-    d->pixmap = QPixmap::fromImage(image.scaled(d->size, d->size,
-                                                Qt::IgnoreAspectRatio,
-                                                Qt::SmoothTransformation));
+    d->pixmap.scaled(d->size, d->size,
+                     Qt::IgnoreAspectRatio,
+                     Qt::SmoothTransformation);
     update();
 }
 
-QImage MaterialAvatar::image() const
+QPixmap MaterialAvatar::pixmap() const
 {
     Q_D(const MaterialAvatar);
-    return d->image;
+    return d->pixmap;
 }
 
-void MaterialAvatar::setIcon(const QIcon &icon)
+void MaterialAvatar::setIcon(const QIcon& icon)
 {
     Q_D(MaterialAvatar);
 
     d->icon = icon;
-    d->type = Material::IconAvatar;
+    d->type = AvatarType::AvatarIcon;
     update();
 }
 
@@ -234,76 +153,81 @@ QIcon MaterialAvatar::icon() const
     return d->icon;
 }
 
-Material::AvatarType MaterialAvatar::type() const
+MaterialAvatar::AvatarType MaterialAvatar::type() const
 {
     Q_D(const MaterialAvatar);
 
     return d->type;
 }
 
-/*!
- *  \reimp
- */
-void MaterialAvatar::paintEvent(QPaintEvent *event)
+bool MaterialAvatar::event(QEvent* event)
 {
-    Q_UNUSED(event)
+    if (event->type() == QEvent::ThemeChange) {
+        material::updatePalette(this);
+        return true;
+    }
+    return QWidget::event(event);
+}
 
+void MaterialAvatar::paintEvent(QPaintEvent*)
+{
     Q_D(MaterialAvatar);
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
     QRect r = rect();
-    const qreal hs = d->size/2;
+    const qreal hs = d->size / 2;
 
     if (!isEnabled())
     {
         QBrush brush;
         brush.setStyle(Qt::SolidPattern);
-        brush.setColor(MaterialStyle::instance().themeColor("disabled"));
+        brush.setColor(palette().color(QPalette::Disabled, QPalette::Button));
+
         painter.setPen(Qt::NoPen);
         painter.setBrush(brush);
-        painter.drawEllipse(QRectF((width()-d->size)/2, (height()-d->size)/2,
+        painter.drawEllipse(QRectF((width()-d->size)  / 2,
+                                   (height()-d->size) / 2,
                                    d->size, d->size));
         return;
     }
 
-    if (Material::ImageAvatar != d->type)
+    if (AvatarType::AvatarPixmap != d->type)
     {
         QBrush brush;
         brush.setStyle(Qt::SolidPattern);
-        brush.setColor(backgroundColor());
+        brush.setColor(palette().color(QPalette::Normal, QPalette::Button));
+
         painter.setPen(Qt::NoPen);
         painter.setBrush(brush);
-        painter.drawEllipse(QRectF((width()-d->size)/2, (height()-d->size)/2,
+        painter.drawEllipse(QRectF((width()-d->size)  / 2,
+                                   (height()-d->size) / 2,
                                    d->size, d->size));
     }
-
     switch (d->type)
     {
-    case Material::ImageAvatar:
+    case AvatarType::AvatarPixmap:
     {
         QPainterPath path;
         path.addEllipse(width()/2-hs, height()/2-hs, d->size, d->size);
         painter.setClipPath(path);
-
-        painter.drawPixmap(QRect(width()/2-hs, height()/2-hs, d->size, d->size),
-                           d->pixmap);
+        painter.drawPixmap(QRect(width()/2-hs, height()/2-hs, d->size, d->size), d->pixmap);
         break;
     }
-    case Material::IconAvatar:
+    case AvatarType::AvatarIcon:
     {
         QRect iconGeometry((width()-hs)/2, (height()-hs)/2, hs, hs);
         QPixmap pixmap = d->icon.pixmap(hs, hs);
         QPainter icon(&pixmap);
         icon.setCompositionMode(QPainter::CompositionMode_SourceIn);
-        icon.fillRect(pixmap.rect(), textColor());
+        icon.fillRect(pixmap.rect(), palette().color(QPalette::Normal, QPalette::ButtonText));
         painter.drawPixmap(iconGeometry, pixmap);
         break;
     }
-    case Material::LetterAvatar:
+    case AvatarType::AvatarLetter:
     {
-        painter.setPen(textColor());
+        painter.setPen(palette().color(QPalette::Normal, QPalette::ButtonText));
         painter.setBrush(Qt::NoBrush);
         painter.drawText(r, Qt::AlignCenter, QString(d->letter));
         break;

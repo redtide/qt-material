@@ -1,58 +1,44 @@
 #include "appbar_p.hpp"
 
-#include <QtMaterialWidgets/style.hpp>
 #include <QtMaterialWidgets/appbar.hpp>
+#include "defaults.hpp"
+#include "palette-helper.hpp"
 
+#include <QEvent>
+#include <QHBoxLayout>
 #include <QPainter>
+#include <QPixmapCache>
+#include <QStyleOption>
 #include <QtWidgets/QGraphicsDropShadowEffect>
 
-/*!
- *  \class MaterialAppBarPrivate
- *  \internal
- */
-
-/*!
- *  \internal
- */
-MaterialAppBarPrivate::MaterialAppBarPrivate(MaterialAppBar *q)
+MaterialAppBarPrivate::MaterialAppBarPrivate(MaterialAppBar* q)
     : q_ptr(q)
 {
 }
 
-/*!
- *  \internal
- */
 MaterialAppBarPrivate::~MaterialAppBarPrivate()
 {
 }
 
-/*!
- *  \internal
- */
 void MaterialAppBarPrivate::init()
 {
     Q_Q(MaterialAppBar);
 
-    useThemeColors = true;
+    material::updatePalette(q);
 
-    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
-    effect->setBlurRadius(11);
-    effect->setColor(QColor(0, 0, 0, 50));
-    effect->setOffset(0, 3);
-
+    QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect;
+    effect->setBlurRadius(material::defaults::global::effect::blurRadius);
+    effect->setColor(material::defaults::global::effect::color);
+    effect->setOffset(material::defaults::global::effect::offset);
     q->setGraphicsEffect(effect);
 
-    QHBoxLayout *layout = new QHBoxLayout;
+    QHBoxLayout* layout = new QHBoxLayout;
     q->setLayout(layout);
 }
 
-/*!
- *  \class MaterialAppBar
- */
-
-MaterialAppBar::MaterialAppBar(QWidget *parent)
-    : QWidget(parent),
-      d_ptr(new MaterialAppBarPrivate(this))
+MaterialAppBar::MaterialAppBar(QWidget* parent)
+    : QWidget(parent)
+    , d_ptr(new MaterialAppBarPrivate(this))
 {
     d_func()->init();
 }
@@ -63,79 +49,20 @@ MaterialAppBar::~MaterialAppBar()
 
 QSize MaterialAppBar::sizeHint() const
 {
-    return QSize(-1, 64);
+    return material::defaults::appbar::sizeHint;
 }
 
-void MaterialAppBar::paintEvent(QPaintEvent *event)
+bool MaterialAppBar::event(QEvent* event)
 {
-    Q_UNUSED(event)
+    if (event->type() == QEvent::ThemeChange) {
+        material::updatePalette(this);
+        return true;
+    }
+    return QWidget::event(event);
+}
 
+void MaterialAppBar::paintEvent(QPaintEvent*)
+{
     QPainter painter(this);
-
-    painter.fillRect(rect(), backgroundColor());
-}
-
-void MaterialAppBar::setUseThemeColors(bool value)
-{
-    Q_D(MaterialAppBar);
-
-    if (d->useThemeColors == value) {
-        return;
-    }
-
-    d->useThemeColors = value;
-    update();
-}
-
-bool MaterialAppBar::useThemeColors() const
-{
-    Q_D(const MaterialAppBar);
-
-    return d->useThemeColors;
-}
-
-void MaterialAppBar::setForegroundColor(const QColor &color)
-{
-    Q_D(MaterialAppBar);
-
-    d->foregroundColor = color;
-
-    if (d->useThemeColors == true) {
-        d->useThemeColors = false;
-    }
-    update();
-}
-
-QColor MaterialAppBar::foregroundColor() const
-{
-    Q_D(const MaterialAppBar);
-
-    if (d->useThemeColors || !d->foregroundColor.isValid()) {
-        return MaterialStyle::instance().themeColor("primary1");
-    } else {
-        return d->foregroundColor;
-    }
-}
-
-void MaterialAppBar::setBackgroundColor(const QColor &color)
-{
-    Q_D(MaterialAppBar);
-
-    d->backgroundColor = color;
-
-    if (d->useThemeColors == true) {
-        d->useThemeColors = false;
-    }
-    update();
-}
-
-QColor MaterialAppBar::backgroundColor() const
-{
-    Q_D(const MaterialAppBar);
-
-    if (d->useThemeColors || !d->backgroundColor.isValid()) {
-        return MaterialStyle::instance().themeColor("primary1");
-    } else {
-        return d->backgroundColor;
-    }
+    painter.fillRect(rect(), palette().color(QPalette::Button));
 }

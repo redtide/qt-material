@@ -7,29 +7,15 @@
 #include <QStateMachine>
 #include <QtWidgets/QGraphicsDropShadowEffect>
 
-/*!
- *  \class MaterialRaisedButtonPrivate
- *  \internal
- */
-
-/*!
- *  \internal
- */
-MaterialRaisedButtonPrivate::MaterialRaisedButtonPrivate(MaterialRaisedButton *q)
+MaterialRaisedButtonPrivate::MaterialRaisedButtonPrivate(MaterialRaisedButton* q)
     : MaterialFlatButtonPrivate(q)
 {
 }
 
-/*!
- *  \internal
- */
 MaterialRaisedButtonPrivate::~MaterialRaisedButtonPrivate()
 {
 }
 
-/*!
- *  \internal
- */
 void MaterialRaisedButtonPrivate::init()
 {
     Q_Q(MaterialRaisedButton);
@@ -80,14 +66,9 @@ void MaterialRaisedButtonPrivate::init()
     animation = new QPropertyAnimation(effect, "blurRadius", q);
     animation->setDuration(100);
     shadowStateMachine->addDefaultAnimation(animation);
-
     shadowStateMachine->setInitialState(normalState);
     shadowStateMachine->start();
 }
-
-/*!
- *  \class MaterialRaisedButton
- */
 
 MaterialRaisedButton::MaterialRaisedButton(QWidget* parent)
     : MaterialFlatButton(*new MaterialRaisedButtonPrivate(this), parent)

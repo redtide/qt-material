@@ -11,21 +11,18 @@ class MaterialCheckableIcon : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(QColor color READ color WRITE setColor)
-    Q_PROPERTY(qreal iconSize READ iconSize WRITE setIconSize)
-    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
+    Q_PROPERTY(QColor color    READ color    WRITE setColor)
+    Q_PROPERTY(qreal  iconSize READ iconSize WRITE setIconSize)
+    Q_PROPERTY(qreal  opacity  READ opacity  WRITE setOpacity)
 
 public:
-    MaterialCheckableIcon(const QIcon &icon, MaterialCheckable *parent);
+    MaterialCheckableIcon(const QIcon& icon, MaterialCheckable* parent);
     ~MaterialCheckableIcon();
 
     QSize sizeHint() const override;
 
-    inline void setIcon(const QIcon &icon);
+    inline void setIcon(const QIcon& icon);
     inline QIcon icon() const;
-
-    inline void setColor(const QColor &color);
-    inline QColor color() const;
 
     inline void setIconSize(qreal size);
     inline qreal iconSize() const;
@@ -33,61 +30,64 @@ public:
     inline void setOpacity(qreal opacity);
     inline qreal opacity() const;
 
+    inline void setColor(const QColor& color);
+    inline QColor color() const;
+
 protected:
-    void paintEvent(QPaintEvent *event) override;
+    void paintEvent(QPaintEvent* event) override;
 
 private:
     Q_DISABLE_COPY(MaterialCheckableIcon)
 
-    MaterialCheckable *const m_checkable;
-    QColor                     m_color;
-    QIcon                      m_icon;
-    qreal                      m_iconSize;
-    qreal                      m_opacity;
+    MaterialCheckable* const checkable_;
+    QColor color_;
+    QIcon  icon_;
+    qreal  iconSize_;
+    qreal  opacity_;
 };
 
-inline void MaterialCheckableIcon::setIcon(const QIcon &icon)
+inline void MaterialCheckableIcon::setIcon(const QIcon& icon)
 {
-    m_icon = icon;
+    icon_ = icon;
     update();
 }
 
 inline QIcon MaterialCheckableIcon::icon() const
 {
-    return m_icon;
-}
-
-inline void MaterialCheckableIcon::setColor(const QColor &color)
-{
-    m_color = color;
-    update();
-}
-
-inline QColor MaterialCheckableIcon::color() const
-{
-    return m_color;
+    return icon_;
 }
 
 inline void MaterialCheckableIcon::setIconSize(qreal size)
 {
-    m_iconSize = size;
+    iconSize_ = size;
     update();
 }
 
 inline qreal MaterialCheckableIcon::iconSize() const
 {
-    return m_iconSize;
+    return iconSize_;
 }
 
 inline void MaterialCheckableIcon::setOpacity(qreal opacity)
 {
-    m_opacity = opacity;
+    opacity_ = opacity;
     update();
 }
 
 inline qreal MaterialCheckableIcon::opacity() const
 {
-    return m_opacity;
+    return opacity_;
+}
+
+inline void MaterialCheckableIcon::setColor(const QColor& color)
+{
+    color_ = color;
+    update();
+}
+
+inline QColor MaterialCheckableIcon::color() const
+{
+    return color_;
 }
 
 #endif // MATERIAL_CHECKABLE_INTERNAL_H

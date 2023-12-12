@@ -10,16 +10,15 @@ class MaterialRadioButton : public MaterialCheckable
 {
     Q_OBJECT
 
+    Q_DECLARE_PRIVATE(MaterialRadioButton)
+    Q_DISABLE_COPY(MaterialRadioButton)
+
 public:
-    explicit MaterialRadioButton(QWidget *parent = nullptr);
+    explicit MaterialRadioButton(QWidget* parent = nullptr);
     ~MaterialRadioButton();
 
 protected:
     void setupProperties();
-
-private:
-    Q_DECLARE_PRIVATE(MaterialRadioButton)
-    Q_DISABLE_COPY(MaterialRadioButton)
 };
 
 #endif // MATERIAL_RADIOBUTTON_H

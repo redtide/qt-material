@@ -29,9 +29,9 @@ protected:
 private:
     Q_DISABLE_COPY(MaterialSwitchRippleOverlay)
 
-    MaterialSwitch      *const m_toggle;
-    MaterialSwitchThumb *const m_thumb;
-    MaterialSwitchTrack *const m_track;
+    MaterialSwitch      *const toggle_;
+    MaterialSwitchThumb *const thumb_;
+    MaterialSwitchTrack *const track_;
 };
 
 class MaterialSwitchThumb : public QWidget
@@ -62,31 +62,31 @@ private:
 
     void updateOffset();
 
-    MaterialSwitch *const m_toggle;
-    QColor         m_thumbColor;
-    qreal          m_shift;
-    qreal          m_offset;
+    MaterialSwitch *const toggle_;
+    QColor         thumbColor_;
+    qreal          shift_;
+    qreal          offset_;
 };
 
 inline qreal MaterialSwitchThumb::shift() const
 {
-    return m_shift;
+    return shift_;
 }
 
 inline qreal MaterialSwitchThumb::offset() const
 {
-    return m_offset;
+    return offset_;
 }
 
 inline void MaterialSwitchThumb::setThumbColor(const QColor &color)
 {
-    m_thumbColor = color;
+    thumbColor_ = color;
     update();
 }
 
 inline QColor MaterialSwitchThumb::thumbColor() const
 {
-    return m_thumbColor;
+    return thumbColor_;
 }
 
 class MaterialSwitchTrack : public QWidget
@@ -109,13 +109,13 @@ protected:
 private:
     Q_DISABLE_COPY(MaterialSwitchTrack)
 
-    MaterialSwitch *const m_toggle;
-    QColor         m_trackColor;
+    MaterialSwitch *const toggle_;
+    QColor         trackColor_;
 };
 
 inline QColor MaterialSwitchTrack::trackColor() const
 {
-    return m_trackColor;
+    return trackColor_;
 }
 
 #endif // MATERIAL_TOGGLE_INTERNAL_H

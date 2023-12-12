@@ -40,9 +40,6 @@ public:
     QColor                            checkedColor;
     QColor                            uncheckedColor;
     QColor                            disabledColor;
-
-    bool                              useThemeColors;
-    QColor                            textColor;
 };
 
 #endif // MATERIAL_CHECKABLE_P_H

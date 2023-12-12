@@ -1,4 +1,5 @@
 #include "fab_p.hpp"
+#include "palette-helper.hpp"
 
 #include <QtMaterialWidgets/fab.hpp>
 #include <QtMaterialWidgets/rippleoverlay.hpp>
@@ -8,35 +9,23 @@
 #include <QState>
 #include <QtWidgets/QGraphicsDropShadowEffect>
 
-/*!
- *  \class MaterialFloatingActionButtonPrivate
- *  \internal
- */
-
-/*!
- *  \internal
- */
-MaterialFloatingActionButtonPrivate::MaterialFloatingActionButtonPrivate(MaterialFloatingActionButton *q)
+MaterialFloatingActionButtonPrivate::MaterialFloatingActionButtonPrivate(MaterialFloatingActionButton* q)
     : MaterialRaisedButtonPrivate(q)
 {
 }
 
-/*!
- *  \internal
- */
 MaterialFloatingActionButtonPrivate::~MaterialFloatingActionButtonPrivate()
 {
 }
 
-/*!
- *  \internal
- */
 void MaterialFloatingActionButtonPrivate::init()
 {
     Q_Q(MaterialFloatingActionButton);
 
+    material::updatePalette(q);
+
     corner = Qt::BottomRightCorner;
-    mini   = false;
+    isMini = false;
     offsX  = 34;
     offsY  = 36;
 
@@ -46,26 +35,21 @@ void MaterialFloatingActionButtonPrivate::init()
 
     setupProperties();
 
-    if (q->parentWidget()) {
+    if (q->parentWidget())
         q->parentWidget()->installEventFilter(q);
-    }
 
     q->setFixedRippleRadius(50);
 }
 
-/*!
- *  \internal
- */
 QRect MaterialFloatingActionButtonPrivate::fabGeometry() const
 {
     Q_Q(const MaterialFloatingActionButton);
 
-    QWidget *parent = q->parentWidget();
-    if (!parent) {
+    QWidget* parent = q->parentWidget();
+    if (!parent)
         return QRect();
-    }
 
-    const int s = mini ? MiniDiameter : DefaultDiameter;
+    const int s = isMini ? MiniDiameter : DefaultDiameter;
 
     switch (corner)
     {
@@ -82,29 +66,22 @@ QRect MaterialFloatingActionButtonPrivate::fabGeometry() const
     return QRect(parent->width()-(offsX+s), parent->height()-(offsY+s), s, s);
 }
 
-/*!
- *  \internal
- */
 void MaterialFloatingActionButtonPrivate::setupProperties()
 {
-    if (mini) {
+    if (isMini) {
         effect->setColor(QColor(0, 0, 0, 80));
         normalState->assignProperty(effect, "offset", QPointF(0, 3));
         normalState->assignProperty(effect, "blurRadius", 13);
         pressedState->assignProperty(effect, "offset", QPointF(0, 7));
         pressedState->assignProperty(effect, "blurRadius", 20);
-    } else {
-        effect->setColor(QColor(0, 0, 0, 105));
-        normalState->assignProperty(effect, "offset", QPointF(0, 6));
-        normalState->assignProperty(effect, "blurRadius", 16);
-        pressedState->assignProperty(effect, "offset", QPointF(0, 11));
-        pressedState->assignProperty(effect, "blurRadius", 28);
+        return;
     }
+    effect->setColor(QColor(0, 0, 0, 105));
+    normalState->assignProperty(effect, "offset", QPointF(0, 6));
+    normalState->assignProperty(effect, "blurRadius", 16);
+    pressedState->assignProperty(effect, "offset", QPointF(0, 11));
+    pressedState->assignProperty(effect, "blurRadius", 28);
 }
-
-/*!
- *  \class MaterialFloatingActionButton
- */
 
 MaterialFloatingActionButton::MaterialFloatingActionButton(QWidget* parent)
     : MaterialRaisedButton(*new MaterialFloatingActionButtonPrivate(this), parent)
@@ -124,31 +101,26 @@ MaterialFloatingActionButton::~MaterialFloatingActionButton()
 {
 }
 
-/*!
- *  \reimp
- */
 QSize MaterialFloatingActionButton::sizeHint() const
 {
     Q_D(const MaterialFloatingActionButton);
 
-    if (d->mini) {
+    if (d->isMini)
         return QSize(MaterialFloatingActionButtonPrivate::MiniDiameter,
                      MaterialFloatingActionButtonPrivate::MiniDiameter);
-    } else {
-        return QSize(MaterialFloatingActionButtonPrivate::DefaultDiameter,
-                     MaterialFloatingActionButtonPrivate::DefaultDiameter);
-    }
+
+    return QSize(MaterialFloatingActionButtonPrivate::DefaultDiameter,
+                 MaterialFloatingActionButtonPrivate::DefaultDiameter);
 }
 
 void MaterialFloatingActionButton::setMini(bool state)
 {
     Q_D(MaterialFloatingActionButton);
 
-    if (d->mini == state) {
+    if (state == d->isMini)
         return;
-    }
 
-    d->mini = state;
+    d->isMini = state;
 
     setFixedSize(d->diameter(), d->diameter());
     setFixedRippleRadius(state ? 30 : 50);
@@ -163,16 +135,15 @@ bool MaterialFloatingActionButton::isMini() const
 {
     Q_D(const MaterialFloatingActionButton);
 
-    return d->mini;
+    return d->isMini;
 }
 
 void MaterialFloatingActionButton::setCorner(Qt::Corner corner)
 {
     Q_D(MaterialFloatingActionButton);
 
-    if (d->corner == corner) {
+    if (corner == d->corner)
         return;
-    }
 
     d->corner = corner;
     setGeometry(d->fabGeometry());
@@ -235,16 +206,13 @@ int MaterialFloatingActionButton::yOffset() const
     return d->offsY;
 }
 
-/*!
- *  \reimp
- */
-bool MaterialFloatingActionButton::event(QEvent *event)
+bool MaterialFloatingActionButton::event(QEvent* event)
 {
     Q_D(MaterialFloatingActionButton);
 
-    if (!parent()) {
+    if (!parent())
         return MaterialRaisedButton::event(event);
-    }
+
     switch (event->type())
     {
     case QEvent::ParentChange:
@@ -258,35 +226,29 @@ bool MaterialFloatingActionButton::event(QEvent *event)
         parent()->removeEventFilter(this);
         break;
     }
+    case QEvent::ThemeChange: {
+        material::updatePalette(this);
+        return true;
+    }
     default:
         break;
     }
     return MaterialRaisedButton::event(event);
 }
 
-/*!
- *  \reimp
- */
-bool MaterialFloatingActionButton::eventFilter(QObject *obj, QEvent *event)
+bool MaterialFloatingActionButton::eventFilter(QObject* obj, QEvent* event)
 {
     const QEvent::Type type = event->type();
 
-    if (QEvent::Move == type || QEvent::Resize == type)
-    {
+    if (QEvent::Move == type || QEvent::Resize == type) {
         Q_D(MaterialFloatingActionButton);
         setGeometry(d->fabGeometry());
     }
-
     return MaterialRaisedButton::eventFilter(obj, event);
 }
 
-/*!
- *  \reimp
- */
-void MaterialFloatingActionButton::paintEvent(QPaintEvent *event)
+void MaterialFloatingActionButton::paintEvent(QPaintEvent*)
 {
-    Q_UNUSED(event)
-
     Q_D(MaterialFloatingActionButton);
 
     QRect square = QRect(0, 0, d->diameter(), d->diameter());
@@ -298,11 +260,10 @@ void MaterialFloatingActionButton::paintEvent(QPaintEvent *event)
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
 
-    if (isEnabled()) {
-        brush.setColor(backgroundColor());
-    } else {
-        brush.setColor(disabledBackgroundColor());
-    }
+    if (isEnabled())
+        brush.setColor(palette().color(QPalette::Button));
+    else
+        brush.setColor(palette().color(QPalette::Disabled, QPalette::Button));
 
     painter.setBrush(brush);
     painter.setPen(Qt::NoPen);
@@ -314,8 +275,10 @@ void MaterialFloatingActionButton::paintEvent(QPaintEvent *event)
     QPixmap pixmap = icon().pixmap(QSize(d->iconSize(), d->iconSize()));
     QPainter icon(&pixmap);
     icon.setCompositionMode(QPainter::CompositionMode_SourceIn);
-    icon.fillRect(pixmap.rect(), isEnabled() ? foregroundColor()
-                                             : disabledForegroundColor());
+    icon.fillRect(pixmap.rect(),
+        isEnabled()
+            ? palette().color(QPalette::ButtonText)
+            : palette().color(QPalette::Disabled, QPalette::ButtonText));
     painter.drawPixmap(iconGeometry, pixmap);
 }
 

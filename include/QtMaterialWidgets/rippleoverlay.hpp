@@ -12,14 +12,16 @@ class QT_MATERIAL_EXPORT MaterialRippleOverlay : public MaterialOverlayWidget
 {
     Q_OBJECT
 
+    Q_DISABLE_COPY(MaterialRippleOverlay)
+
 public:
     explicit MaterialRippleOverlay(QWidget* parent = nullptr);
     ~MaterialRippleOverlay();
 
-    void addRipple(MaterialRipple *ripple);
-    void addRipple(const QPoint &position, qreal radius = 300);
+    void addRipple(MaterialRipple* ripple);
+    void addRipple(const QPoint& position, qreal radius = 300);
 
-    void removeRipple(MaterialRipple *ripple);
+    void removeRipple(MaterialRipple* ripple);
 
     inline void setClipping(bool enable);
     inline bool hasClipping() const;
@@ -27,40 +29,38 @@ public:
     inline void setClipPath(const QPainterPath &path);
 
 protected:
-    void paintEvent(QPaintEvent *event) override;
+    void paintEvent(QPaintEvent* event) override;
 
-    inline QList<MaterialRipple *> ripples() const;
+    inline QList<MaterialRipple* > ripples() const;
 
 private:
-    Q_DISABLE_COPY(MaterialRippleOverlay)
+    void paintRipple(QPainter* painter, MaterialRipple* ripple);
 
-    void paintRipple(QPainter *painter, MaterialRipple *ripple);
-
-    QList<MaterialRipple *> m_ripples;
-    QPainterPath              m_clipPath;
-    bool                      m_useClip;
+    QList<MaterialRipple*> ripples_;
+    QPainterPath clipPath_;
+    bool         useClip_;
 };
 
 inline void MaterialRippleOverlay::setClipping(bool enable)
 {
-    m_useClip = enable;
+    useClip_ = enable;
     update();
 }
 
 inline bool MaterialRippleOverlay::hasClipping() const
 {
-    return m_useClip;
+    return useClip_;
 }
 
 inline void MaterialRippleOverlay::setClipPath(const QPainterPath &path)
 {
-    m_clipPath = path;
+    clipPath_ = path;
     update();
 }
 
-inline QList<MaterialRipple *> MaterialRippleOverlay::ripples() const
+inline QList<MaterialRipple*> MaterialRippleOverlay::ripples() const
 {
-    return m_ripples;
+    return ripples_;
 }
 
 #endif // MATERIAL_RIPPLEOVERLAY_H

@@ -2,17 +2,12 @@
 
 #include <QtMaterialWidgets/iconbutton.hpp>
 #include <QtMaterialWidgets/rippleoverlay.hpp>
-#include <QtMaterialWidgets/style.hpp>
+#include "palette-helper.hpp"
 
 #include <QEvent>
 #include <QPainter>
 
-/*!
- *  \class MaterialIconButtonPrivate
- *  \internal
- */
-
-MaterialIconButtonPrivate::MaterialIconButtonPrivate(MaterialIconButton *q)
+MaterialIconButtonPrivate::MaterialIconButtonPrivate(MaterialIconButton* q)
     : q_ptr(q)
 {
 }
@@ -25,12 +20,10 @@ void MaterialIconButtonPrivate::init()
 {
     Q_Q(MaterialIconButton);
 
+    material::updatePalette(q, true);
+
     rippleOverlay  = new MaterialRippleOverlay(q->parentWidget());
-    useThemeColors = true;
-
     rippleOverlay->installEventFilter(q);
-
-    q->setStyle(&MaterialStyle::instance());
 
     QSizePolicy policy;
     policy.setWidthForHeight(true);
@@ -46,10 +39,6 @@ void MaterialIconButtonPrivate::updateRipple()
     r.moveCenter(q->geometry().center());
     rippleOverlay->setGeometry(r);
 }
-
-/*!
- *  \class MaterialIconButton
- */
 
 MaterialIconButton::MaterialIconButton(QWidget* parent)
     : QAbstractButton(parent)
@@ -71,71 +60,9 @@ MaterialIconButton::~MaterialIconButton()
 {
 }
 
-/*!
- *  \reimp
- */
 QSize MaterialIconButton::sizeHint() const
 {
     return iconSize();
-}
-
-void MaterialIconButton::setUseThemeColors(bool value)
-{
-    Q_D(MaterialIconButton);
-
-    if (d->useThemeColors == value) {
-        return;
-    }
-
-    d->useThemeColors = value;
-    update();
-}
-
-bool MaterialIconButton::useThemeColors() const
-{
-    Q_D(const MaterialIconButton);
-
-    return d->useThemeColors;
-}
-
-void MaterialIconButton::setColor(const QColor &color)
-{
-    Q_D(MaterialIconButton);
-
-    d->color = color;
-    d->useThemeColors = false;
-
-    update();
-}
-
-QColor MaterialIconButton::color() const
-{
-    Q_D(const MaterialIconButton);
-
-    if (d->useThemeColors || !d->color.isValid()) {
-        return MaterialStyle::instance().themeColor("text");
-    }
-    return d->color;
-}
-
-void MaterialIconButton::setDisabledColor(const QColor &color)
-{
-    Q_D(MaterialIconButton);
-
-    d->disabledColor = color;
-    d->useThemeColors = false;
-
-    update();
-}
-
-QColor MaterialIconButton::disabledColor() const
-{
-    Q_D(const MaterialIconButton);
-
-    if (d->useThemeColors || !d->disabledColor.isValid()) {
-        return MaterialStyle::instance().themeColor("disabled");
-    }
-    return d->disabledColor;
 }
 
 MaterialIconButton::MaterialIconButton(MaterialIconButtonPrivate& d, QWidget* parent)
@@ -145,9 +72,6 @@ MaterialIconButton::MaterialIconButton(MaterialIconButtonPrivate& d, QWidget* pa
     d_func()->init();
 }
 
-/*!
- *  \reimp
- */
 bool MaterialIconButton::event(QEvent *event)
 {
     Q_D(MaterialIconButton);
@@ -165,15 +89,16 @@ bool MaterialIconButton::event(QEvent *event)
         }
         break;
     }
+    case QEvent::ThemeChange: {
+        material::updatePalette(this, true);
+        return true;
+    }
     default:
         break;
     }
     return QAbstractButton::event(event);
 }
 
-/*!
- *  \reimp
- */
 bool MaterialIconButton::eventFilter(QObject *obj, QEvent *event)
 {
     if (QEvent::Resize == event->type())
@@ -185,37 +110,30 @@ bool MaterialIconButton::eventFilter(QObject *obj, QEvent *event)
     return QAbstractButton::eventFilter(obj, event);
 }
 
-/*!
- *  \reimp
- */
 void MaterialIconButton::mousePressEvent(QMouseEvent *event)
 {
     Q_D(MaterialIconButton);
 
     d->rippleOverlay->addRipple(QPoint(d->rippleOverlay->width(),
-                                       d->rippleOverlay->height())/2,
+                                       d->rippleOverlay->height()) / 2,
                                 iconSize().width());
     Q_EMIT clicked();
 
     QAbstractButton::mousePressEvent(event);
 }
 
-/*!
- *  \reimp
- */
-void MaterialIconButton::paintEvent(QPaintEvent *event)
+void MaterialIconButton::paintEvent(QPaintEvent*)
 {
-    Q_UNUSED(event)
-
     QPainter painter(this);
-
     QPixmap pixmap = icon().pixmap(iconSize());
     QPainter icon(&pixmap);
     icon.setCompositionMode(QPainter::CompositionMode_SourceIn);
-    icon.fillRect(pixmap.rect(), isEnabled() ? color() : disabledColor());
+    icon.fillRect(pixmap.rect(), isEnabled()
+        ? palette().color(QPalette::ButtonText)
+        : palette().color(QPalette::Disabled, QPalette::ButtonText));
 
     QRect r(rect());
     const qreal w = pixmap.width();
     const qreal h = pixmap.height();
-    painter.drawPixmap(QRect((r.width()-w)/2, (r.height()-h)/2, w, h), pixmap);
+    painter.drawPixmap(QRect((r.width() - w) /2, (r.height() - h) / 2, w, h), pixmap);
 }

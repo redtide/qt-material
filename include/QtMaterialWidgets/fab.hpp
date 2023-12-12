@@ -9,17 +9,19 @@ class MaterialFloatingActionButtonPrivate;
 class QT_MATERIAL_EXPORT MaterialFloatingActionButton : public MaterialRaisedButton
 {
     Q_OBJECT
-    Q_PROPERTY(bool       mini    WRITE setMini    READ isMini)
-    Q_PROPERTY(Qt::Corner corner  WRITE setCorner  READ corner)
-    Q_PROPERTY(int        xOffset WRITE setXOffset READ xOffset)
-    Q_PROPERTY(int        yOffset WRITE setYOffset READ yOffset)
+
+    Q_DISABLE_COPY(MaterialFloatingActionButton)
+    Q_DECLARE_PRIVATE(MaterialFloatingActionButton)
+
+    Q_PROPERTY(bool       isMini  READ isMini  WRITE setMini)
+    Q_PROPERTY(Qt::Corner corner  READ corner  WRITE setCorner)
+    Q_PROPERTY(int        xOffset READ xOffset WRITE setXOffset)
+    Q_PROPERTY(int        yOffset READ yOffset WRITE setYOffset)
 
 public:
     explicit MaterialFloatingActionButton(QWidget* parent = nullptr);
-    explicit MaterialFloatingActionButton(const QIcon &icon, QWidget* parent = nullptr);
+    explicit MaterialFloatingActionButton(const QIcon& icon, QWidget* parent = nullptr);
     ~MaterialFloatingActionButton();
-
-    QSize sizeHint() const override;
 
     void setMini(bool state);
     bool isMini() const;
@@ -36,16 +38,14 @@ public:
     void setYOffset(int y);
     int yOffset() const;
 
+    QSize sizeHint() const override;
+
 protected:
-    bool event(QEvent *event) override;
-    bool eventFilter(QObject *obj, QEvent *event) override;
-    void paintEvent(QPaintEvent *event) override;
+    bool event(QEvent* event) override;
+    bool eventFilter(QObject* obj, QEvent* event) override;
+    void paintEvent(QPaintEvent* event) override;
 
     void updateClipPath() override;
-
-private:
-    Q_DISABLE_COPY(MaterialFloatingActionButton)
-    Q_DECLARE_PRIVATE(MaterialFloatingActionButton)
 };
 
 #endif // MATERIAL_FAB_H

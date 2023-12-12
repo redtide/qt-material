@@ -30,6 +30,7 @@
 #include <QtMaterialWidgets/switch.hpp>
 #include <QtMaterialWidgets/tablayout.hpp>
 #include <QtMaterialWidgets/textfield.hpp>
+#include <QtMaterialWidgets/resources.hpp>
 
 #include "plugin.hpp"
 #include "tablayoutcontainerextension.hpp"
@@ -60,7 +61,8 @@ QMWAppBarInterface::QMWAppBarInterface()
 }
 QWidget* QMWAppBarInterface::createWidget(QWidget* parent)
 {
-    return new MaterialAppBar(parent);
+    MaterialAppBar* widget = new MaterialAppBar(parent);
+    return widget;
 }
 //======================================================================================================
 // AutoComplete
@@ -87,7 +89,8 @@ QMWAutoCompleteInterface::QMWAutoCompleteInterface()
 }
 QWidget* QMWAutoCompleteInterface::createWidget(QWidget* parent)
 {
-    return new MaterialAutoComplete(parent);
+    MaterialAutoComplete* widget = new MaterialAutoComplete(parent);
+    return widget;
 }
 //======================================================================================================
 // Avatar
@@ -114,7 +117,8 @@ QMWAvatarInterface::QMWAvatarInterface()
 }
 QWidget* QMWAvatarInterface::createWidget(QWidget* parent)
 {
-    return new MaterialAvatar(parent);
+    MaterialAvatar* widget = new MaterialAvatar(parent);
+    return widget;
 }
 //======================================================================================================
 // Badge
@@ -141,7 +145,8 @@ QMWBadgeInterface::QMWBadgeInterface()
 }
 QWidget* QMWBadgeInterface::createWidget(QWidget* parent)
 {
-    return new MaterialBadge(parent);
+    MaterialBadge* widget = new MaterialBadge(parent);
+    return widget;
 }
 //======================================================================================================
 // CheckBox
@@ -168,7 +173,8 @@ QMWCheckBoxInterface::QMWCheckBoxInterface()
 }
 QWidget* QMWCheckBoxInterface::createWidget(QWidget* parent)
 {
-    return new MaterialCheckBox(parent);
+    MaterialCheckBox* widget = new MaterialCheckBox(parent);
+    return widget;
 }
 //======================================================================================================
 // CircularProgress
@@ -195,7 +201,8 @@ QMWCircularProgressInterface::QMWCircularProgressInterface()
 }
 QWidget* QMWCircularProgressInterface::createWidget(QWidget* parent)
 {
-    return new MaterialCircularProgress(parent);
+    MaterialCircularProgress* widget = new MaterialCircularProgress(parent);
+    return widget;
 }
 //======================================================================================================
 // Dialog
@@ -222,7 +229,8 @@ QMWDialogInterface::QMWDialogInterface()
 }
 QWidget* QMWDialogInterface::createWidget(QWidget* parent)
 {
-    return new MaterialDialog(parent);
+    MaterialDialog* widget = new MaterialDialog(parent);
+    return widget;
 }
 //======================================================================================================
 // Drawer
@@ -249,7 +257,8 @@ QMWDrawerInterface::QMWDrawerInterface()
 }
 QWidget* QMWDrawerInterface::createWidget(QWidget* parent)
 {
-    return new MaterialDrawer(parent);
+    MaterialDrawer* widget = new MaterialDrawer(parent);
+    return widget;
 }
 //======================================================================================================
 // FloatingActionButton
@@ -276,7 +285,8 @@ QMWFabInterface::QMWFabInterface()
 }
 QWidget* QMWFabInterface::createWidget(QWidget* parent)
 {
-    return new MaterialFloatingActionButton(QIcon(), parent);
+    MaterialFloatingActionButton* widget = new MaterialFloatingActionButton(QIcon(), parent);
+    return widget;
 }
 //======================================================================================================
 // FlatButton
@@ -303,7 +313,8 @@ QMWFlatButtonInterface::QMWFlatButtonInterface()
 }
 QWidget* QMWFlatButtonInterface::createWidget(QWidget* parent)
 {
-    return new MaterialFlatButton(parent);
+    MaterialFlatButton* widget = new MaterialFlatButton(parent);
+    return widget;
 }
 //======================================================================================================
 // IconButton
@@ -330,7 +341,8 @@ QMWIconButtonInterface::QMWIconButtonInterface()
 }
 QWidget* QMWIconButtonInterface::createWidget(QWidget* parent)
 {
-    return new MaterialIconButton(QIcon(), parent);
+    MaterialIconButton* widget = new MaterialIconButton(QIcon(), parent);
+    return widget;
 }
 //======================================================================================================
 // Progress
@@ -357,7 +369,8 @@ QMWProgressInterface::QMWProgressInterface()
 }
 QWidget* QMWProgressInterface::createWidget(QWidget* parent)
 {
-    return new MaterialProgress(parent);
+    MaterialProgress* widget = new MaterialProgress(parent);
+    return widget;
 }
 //======================================================================================================
 // RadioButton
@@ -384,7 +397,8 @@ QMWRadioButtonInterface::QMWRadioButtonInterface()
 }
 QWidget* QMWRadioButtonInterface::createWidget(QWidget* parent)
 {
-    return new MaterialRadioButton(parent);
+    MaterialRadioButton* widget = new MaterialRadioButton(parent);
+    return widget;
 }
 //======================================================================================================
 // RaisedButton
@@ -411,7 +425,8 @@ QMWRaisedButtonInterface::QMWRaisedButtonInterface()
 }
 QWidget* QMWRaisedButtonInterface::createWidget(QWidget* parent)
 {
-    return new MaterialRaisedButton(parent);
+    MaterialRaisedButton* widget = new MaterialRaisedButton(parent);
+    return widget;
 }
 //======================================================================================================
 // ScrollBar
@@ -439,7 +454,8 @@ QMWScrollBarInterface::QMWScrollBarInterface()
 }
 QWidget* QMWScrollBarInterface::createWidget(QWidget* parent)
 {
-    return new MaterialScrollBar(parent);
+    MaterialScrollBar* widget = new MaterialScrollBar(parent);
+    return widget;
 }
 #endif
 //======================================================================================================
@@ -467,7 +483,8 @@ QMWSliderInterface::QMWSliderInterface()
 }
 QWidget* QMWSliderInterface::createWidget(QWidget* parent)
 {
-    return new MaterialSlider(parent);
+    MaterialSlider* widget = new MaterialSlider(parent);
+    return widget;
 }
 //======================================================================================================
 // Snackbar
@@ -494,7 +511,8 @@ QMWSnackbarInterface::QMWSnackbarInterface()
 }
 QWidget* QMWSnackbarInterface::createWidget(QWidget* parent)
 {
-    return new MaterialSnackbar(parent);
+    MaterialSnackbar* widget = new MaterialSnackbar(parent);
+    return widget;
 }
 //======================================================================================================
 // Switch
@@ -585,10 +603,12 @@ QMWTabLayoutInterface::QMWTabLayoutInterface(QObject *parent)
 QWidget* QMWTabLayoutInterface::createWidget(QWidget* parent)
 {
     MaterialTabLayout* widget = new MaterialTabLayout(parent);
+
     connect(widget, &MaterialTabLayout::currentIndexChanged,
             this, &QMWTabLayoutInterface::currentIndexChanged);
     connect(widget, &MaterialTabLayout::tabTitleChanged,
             this, &QMWTabLayoutInterface::currentTabTitleChanged);
+
     return widget;
 }
 
@@ -633,4 +653,41 @@ void QMWTabLayoutInterface::currentTabTitleChanged(const QString&)
             sheet->setChanged(propertyIndex, true);
         }
     }
+}
+//======================================================================================================
+// All
+//======================================================================================================
+QMWCustomWidgetCollectionInterface::QMWCustomWidgetCollectionInterface(QObject* parent)
+    : QObject(parent)
+{
+    material::resources::init();
+
+    plugins_ += new QMWAppBarInterface();
+    plugins_ += new QMWAutoCompleteInterface();
+    plugins_ += new QMWAvatarInterface();
+    plugins_ += new QMWBadgeInterface();
+    plugins_ += new QMWCheckBoxInterface();
+    plugins_ += new QMWCircularProgressInterface();
+    plugins_ += new QMWDialogInterface();
+    plugins_ += new QMWDrawerInterface();
+    plugins_ += new QMWFabInterface();
+    plugins_ += new QMWFlatButtonInterface();
+    plugins_ += new QMWIconButtonInterface();
+    plugins_ += new QMWProgressInterface();
+    plugins_ += new QMWRadioButtonInterface();
+    plugins_ += new QMWRaisedButtonInterface();
+//  plugins_ += new QMWScrollBarInterface();
+    plugins_ += new QMWSliderInterface();
+    plugins_ += new QMWSnackbarInterface();
+    plugins_ += new QMWSwitchInterface();
+    plugins_ += new QMWTextFieldInterface();
+    plugins_ += new QMWTabLayoutInterface();
+}
+QMWCustomWidgetCollectionInterface::~QMWCustomWidgetCollectionInterface()
+{
+    qDeleteAll(plugins_);
+}
+QList<QDesignerCustomWidgetInterface *> QMWCustomWidgetCollectionInterface::customWidgets() const
+{
+    return plugins_;
 }

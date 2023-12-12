@@ -9,7 +9,11 @@ class MaterialAutoCompletePrivate;
 class QT_MATERIAL_EXPORT MaterialAutoComplete : public MaterialTextField
 {
     Q_OBJECT
-    Q_PROPERTY(QStringList dataSource WRITE setDataSource READ dataSource)
+
+    Q_DISABLE_COPY(MaterialAutoComplete)
+    Q_DECLARE_PRIVATE(MaterialAutoComplete)
+
+    Q_PROPERTY(QStringList dataSource READ dataSource WRITE setDataSource)
 
 public:
     explicit MaterialAutoComplete(QWidget* parent = nullptr);
@@ -27,10 +31,6 @@ protected Q_SLOTS:
 protected:
     bool event(QEvent *event) override;
     bool eventFilter(QObject *watched, QEvent *event) override;
-
-private:
-    Q_DISABLE_COPY(MaterialAutoComplete)
-    Q_DECLARE_PRIVATE(MaterialAutoComplete)
 };
 
 #endif // MATERIAL_AUTOCOMPLETE_H

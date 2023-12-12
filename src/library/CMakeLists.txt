@@ -11,7 +11,11 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(QT NAMES Qt${QT_MATERIAL_WIDGETS_QT_VERSION})
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED LinguistTools Widgets)
+if(QT_VERSION_MAJOR EQUAL 6)
+    find_package(Qt6 REQUIRED LinguistTools Widgets StateMachine)
+else()
+    find_package(Qt5 REQUIRED LinguistTools Widgets)
+endif()
 
 set(PROJECT_HEADERS
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/appbar.hpp
@@ -29,10 +33,10 @@ set(PROJECT_HEADERS
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/flatbutton.hpp
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/iconbutton.hpp
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/overlaywidget.hpp
-    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/private/style_p.hpp # FIXME
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/progress.hpp
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/radiobutton.hpp
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/raisedbutton.hpp
+    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/resources.hpp
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/ripple.hpp
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/rippleoverlay.hpp
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/scrollbar.hpp
@@ -43,7 +47,6 @@ set(PROJECT_HEADERS
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/tablayout.hpp
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/tabs.hpp
     ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/textfield.hpp
-    ${CMAKE_SOURCE_DIR}/include/QtMaterialWidgets/theme.hpp
 )
 set(PROJECT_SOURCES
     appbar.cpp
@@ -66,6 +69,7 @@ set(PROJECT_SOURCES
     circularprogress_internal.cpp
     circularprogress_internal.hpp
     circularprogress_p.hpp
+    defaults.hpp
     dialog.cpp
     dialog_internal.cpp
     dialog_internal.hpp
@@ -83,6 +87,9 @@ set(PROJECT_SOURCES
     iconbutton.cpp
     iconbutton_p.hpp
     overlaywidget.cpp
+    palette-helper.hpp
+    palette-reference.hpp
+    palette-system.hpp
     progress.cpp
     progress_internal.cpp
     progress_internal.hpp
@@ -122,13 +129,12 @@ set(PROJECT_SOURCES
     textfield_internal.cpp
     textfield_internal.hpp
     textfield_p.hpp
-    theme.cpp
-    theme_p.hpp
 )
 set(PROJECT_RESOURCES
     ${CMAKE_SOURCE_DIR}/resources/library/qtmaterialwidgets.qrc
 )
-if(false) # TODO: as system library
+# TODO: as reminder for a system library
+if(false)
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(QT_MATERIAL_WIDGETS "qtmaterialwidgets" REQUIRED)
     add_library(qmw_system INTERFACE)
@@ -154,13 +160,25 @@ if(QT_MATERIAL_WIDGETS_BUILD_SHARED)
     )
 else()
     set(PROJECT_LIBRARY qmw_static)
-    add_library(${PROJECT_LIBRARY} STATIC ${PROJECT_HEADERS} ${PROJECT_SOURCES} ${PROJECT_RESOURCES})
+    add_library(${PROJECT_LIBRARY} STATIC
+        ${PROJECT_HEADERS}
+        ${PROJECT_SOURCES}
+        ${PROJECT_RESOURCES}
+    )
     add_library(qmw::static ALIAS ${PROJECT_LIBRARY})
 endif()
 
 set_target_properties(${PROJECT_LIBRARY} PROPERTIES
-    OUTPUT_NAME qt-material-widgets
+    OUTPUT_NAME qt${QT_VERSION_MAJOR}-material-widgets
 )
-target_compile_definitions(${PROJECT_LIBRARY} PUBLIC QT_MATERIAL_LIBRARY)
-target_include_directories(${PROJECT_LIBRARY} PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_compile_definitions(${PROJECT_LIBRARY} PUBLIC
+    QT_MATERIAL_LIBRARY
+    QT_MATERIAL_EXPERIMENTAL=${QT_MATERIAL_WIDGETS_EXPERIMENTAL}
+)
+target_include_directories(${PROJECT_LIBRARY} PUBLIC
+    ${CMAKE_SOURCE_DIR}/include
+)
 target_link_libraries(${PROJECT_LIBRARY} PRIVATE Qt::Widgets)
+if(QT_VERSION_MAJOR EQUAL 6)
+    target_link_libraries(${PROJECT_LIBRARY} PRIVATE Qt6::StateMachine)
+endif()

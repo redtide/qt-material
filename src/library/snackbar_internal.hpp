@@ -31,14 +31,14 @@ protected:
 private:
     Q_DISABLE_COPY(MaterialSnackbarStateMachine)
 
-    MaterialSnackbar *const m_snackbar;
+    MaterialSnackbar *const snackbar_;
     QTimer           m_timer;
-    qreal            m_offset;
+    qreal            offset_;
 };
 
 inline qreal MaterialSnackbarStateMachine::offset() const
 {
-    return m_offset;
+    return offset_;
 }
 
 #endif // MATERIAL_SNACKBAR_INTERNAL_H

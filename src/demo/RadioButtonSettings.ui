@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RadioButtonSettings</class>
+ <widget class="QWidget" name="RadioButtonSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="txtLabelText"/>
+   </item>
+   <item row="0" column="0">
+    <widget class="QCheckBox" name="chkDisabled">
+     <property name="text">
+      <string>Disabled</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="lblLabelPosition">
+     <property name="text">
+      <string>Label position</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QComboBox" name="cbxLabelPosition">
+     <item>
+      <property name="text">
+       <string>Left</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Right</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="lblLabelText">
+     <property name="text">
+      <string>Label text</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="MaterialRadioButton" name="radioBtn2">
+       <property name="text">
+        <string>Coffee</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="MaterialRadioButton" name="radioBtn3">
+       <property name="text">
+        <string>Tea</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="MaterialRadioButton" name="radioBtn1">
+       <property name="text">
+        <string>Algebraic Topology</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MaterialRadioButton</class>
+   <extends>QAbstractButton</extends>
+   <header location="global">QtMaterialWidgets/radiobutton.hpp</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
