@@ -1,0 +1,71 @@
+name: Build
+on:
+  push:
+    branches:
+    - '*'
+    tags:
+    - '[0-9]*'
+  pull_request:
+    branches:
+    - '*'
+  workflow_dispatch:
+    branches:
+    - '*'
+defaults:
+  run:
+    shell: bash
+env:
+  build_type: Release
+jobs:
+  linux:
+    name: Linux
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config:
+        - { name: "Qt5" }
+        - { name: "Qt6" }
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+#     with:
+#       submodules: recursive
+
+    - name: Update Packages
+      run: sudo apt-get update
+
+    - name: Install Dependencies
+      run: |
+        if [[ ${{ matrix.config.name }} == 'Qt6' ]]; then
+          packages=(
+            qt6-scxml-dev
+            qtbase6-dev
+            qttools6-dev
+          )
+        else
+          packages=(
+            qtbase5-dev
+            qttools5-dev
+          )
+        fi
+        sudo apt-get install ${packages[@]}
+
+    - name: Configure
+      run: |
+        options=(
+          -D CMAKE_INSTALL_PREFIX="/usr"
+          -D CMAKE_BUILD_TYPE=${{ env.build_type }}
+          -D QT_MATERIAL_WIDGETS_BUILD_DEMO=ON
+          -D QT_MATERIAL_WIDGETS_BUILD_PLUGIN=ON
+          -B build
+        )
+        if [[ ${{ matrix.config.name }} == 'Qt6' ]]; then
+          options=(
+            ${options[@]}
+            -D QT_MATERIAL_WIDGETS_QT_VERSION=6
+          )
+        fi
+        cmake ${options[@]}
+
+    - name: Build
+      run: cmake --build build --config ${{ env.build_type }}
