@@ -1,4 +1,4 @@
-project(qt-material-widgets-plugin
+project(qt-material-plugin
     VERSION ${CMAKE_PROJECT_VERSION}
     LANGUAGES CXX
 )

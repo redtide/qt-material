@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.19)
-project(qt-material-widgets
+project(qt-material
     VERSION 0.2.0 LANGUAGES CXX
-    DESCRIPTION "Qt custom widgets library for audio and mobile applications"
+    DESCRIPTION "Qt custom widgets library for desktop and mobile applications"
 )
 set(PROJECT_ORGANIZATION_NAME "qtilities")
 set(PROJECT_ORGANIZATION_URL "${PROJECT_ORGANIZATION_NAME}.github.io")

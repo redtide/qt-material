@@ -147,9 +147,9 @@ source_group("" FILES ${PROJECT_SOURCES})
 
 if(QT_MATERIAL_WIDGETS_BUILD_SHARED)
     set(PROJECT_LIBRARY qmw_shared)
-    add_library(qmw::shared ALIAS ${PROJECT_LIBRARY})
     add_library(${PROJECT_LIBRARY} SHARED ${PROJECT_HEADERS} ${PROJECT_SOURCES} ${PROJECT_RESOURCES})
-    set_target_properties(PROJECT_LIBRARY PROPERTIES
+    add_library(qmw::shared ALIAS ${PROJECT_LIBRARY})
+    set_target_properties(${PROJECT_LIBRARY} PROPERTIES
         VERSION   "${PROJECT_VERSION}"
         SOVERSION "${PROJECT_VERSION_MAJOR}"
         PUBLIC_HEADER "${CMAKE_INSTALL_INCLUDEDIR}/QtMaterialWidgets"
